@@ -14,9 +14,17 @@ public enum Color{
     FUCHSIA,
     CORAL_BLUE_NO_5,
     EGG_SHELL,
-    NAVY_BLUE,
+    NAVY,
     MAJENTA,
-    GRAY,
+    GREY,
     CYAN,
-    ORANGE
+    ORANGE,
+    RAINBOW,
+    SILVER,
+    GOLD,
+    SLATE,
+    COBALT,
+    STEEL,
+    GRAPHITE,
+    CRIMSON
 }

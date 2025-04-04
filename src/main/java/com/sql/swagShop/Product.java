@@ -1,5 +1,7 @@
 package com.sql.swagShop;
 
+import java.util.LinkedList;
+
 import com.enums.Color;
 import com.enums.Material;
 import com.enums.Size;
@@ -13,9 +15,9 @@ public class Product {
     private int categoryID;
     private int ID;
     private double basePrice;
-    //private subProduct[] sProds;
+    private LinkedList<Variant> variants = new LinkedList<Variant>();
 
-    public void setProduct(int id, String Name, int BrandID, int CategoryID, Color CL[], Material MT[], Size SZ[], double Price) {
+    Product(int id, String Name, int BrandID, int CategoryID, Color CL[], Material MT[], Size SZ[], double Price) {
         this.ID = id;
         this.name = Name;
         this.brandID = BrandID;
@@ -24,5 +26,20 @@ public class Product {
         this.mt = MT;
         this.sz = SZ;
         this.basePrice = Price;
+    }
+
+    Product(int id, String Name, int BrandID, int CategoryID){
+        this.ID = id;
+        this.name = Name;
+        this.brandID = BrandID;
+        this.categoryID = CategoryID;
+    }
+
+    public void getVariants(){
+        MasterQuery.getVariants(ID, variants);
+    }
+
+    public void print(){
+        System.out.println("id= "+ID+" name= "+name+" ");
     }
 }
