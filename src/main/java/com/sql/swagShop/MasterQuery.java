@@ -29,19 +29,14 @@ public class MasterQuery {
     }
 }
 
-
+    //main takes a while so get a cup of tea to watch it do it's thing
     public static void main(String[] args) throws Exception{
-        Color CL[] = {Color.BLUE, Color.GREEN, Color.RED};
-        Material MT[] = {Material.COTTON, Material.FLEECE};
-        Size SZ[] = {Size.L, Size.M};
-        String name = "Garbage";
-        double price = 0.56;
-        Product product = InitializeProduct(name, 1, 1, CL, MT , SZ, price );
+        LinkedList<Product> products = new LinkedList<Product>();
+        getProducts(products);
     }
 
     // -----------------------------------PRODUCT INSERTION BLOCK START---------------------------------------------
-    public static Product InitializeProduct(String Name, int BrandID, int CategoryID, Color CL[], Material MT[], Size SZ[], double Price){
-        Product product = new Product();
+    public static void InitializeProduct(String Name, int BrandID, int CategoryID, Color CL[], Material MT[], Size SZ[], double Price, Product product) throws SQLException{
         int productID;
         String sql = "INSERT INTO product (product_name, brand_id, category_id) VALUES (?, ?, ?)";
 
@@ -59,7 +54,7 @@ public class MasterQuery {
                     ResultSet generatedID = pstm.getGeneratedKeys();
                     if (generatedID.next()) {
                         productID = generatedID.getInt(1);
-                        product.setProduct(productID, Name, BrandID, CategoryID, CL, MT, SZ, Price);
+                        product = new Product(productID, Name, BrandID, CategoryID, CL, MT, SZ, Price);
         
                         InsertCMS(productID, CL, 'c', connection);
                         InsertCMS(productID, MT, 'm', connection);
@@ -83,7 +78,6 @@ public class MasterQuery {
                     } else {
                         System.out.println("Insert failed.");
                         connection.rollback(); // Rollback in case of failure
-                        return null;
                     }
                 }
             } catch (SQLException e) {
@@ -94,9 +88,7 @@ public class MasterQuery {
             }
         }catch (SQLException e){
             e.printStackTrace();
-        }       
-
-        return product;
+        }
     }
 
     public static <T> void InsertCMS(int product_id, T cms[], char type, Connection conn) throws SQLException{
@@ -147,7 +139,80 @@ public class MasterQuery {
     }
     // ----------------------------------------------END------------------------------------------------------------ 
 
-    public static void UpdateStock(int prodID, Color cl, Size sz, Material mt, int change, Connection conn){
+    public static void UpdateStock(int prodID, Color cl, Size sz, Material mt, int stock, int change, Connection conn) throws SQLException{
+        String Update = "UPDATE product_price_stock SET product_stock = ? WHERE product_id = ? AND product_color = ? AND product_size = ? AND product_material = ?";
+        int upStock;
 
+        if (stock > 0 && (0-change) <= stock){ // so wen using the method you can use a positive change to signify adding to the stock
+            upStock = stock + change;
+        }else if (stock > 0){
+            upStock = 0;
+            throw new SQLException("There isn't enough stock, only " + stock + " is/are available");
+        }else{
+            throw new SQLException("The stock is 0");
+        }
+
+        try (PreparedStatement pstm = conn.prepareStatement(Update, Statement.RETURN_GENERATED_KEYS);){
+            pstm.setInt(1, upStock);
+            pstm.setInt(2, prodID);
+            pstm.setString(3, cl.toString());
+            pstm.setString(4, sz.toString());
+            pstm.setString(5, mt.toString());
+            pstm.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    // populates the product objects
+    public static void getProducts(LinkedList<Product> products){
+        String sql = "SELECT * FROM product";
+
+        try (Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties);
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        ResultSet rt = pstm.executeQuery();){
+            int count = 0;
+            
+            while (rt.next()){ //reads the returned table from the query
+                int id = rt.getInt("product_id");
+                String name = rt.getString("product_name");
+                int brandId = rt.getInt("brand_id");
+                int categoryId = rt.getInt("category_id");
+
+                products.add(new Product(id,name,brandId,categoryId));
+                products.get(count).print(); //visualizes the testing
+                products.get(count).getVariants(); //automatically populates the variants
+                count++;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    // populates the varient objects
+    public static void getVariants(int prodID, LinkedList<Variant> variants){
+        String sql = "SELECT * FROM product_price_stock";
+
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
+        PreparedStatement pstm = conn.prepareStatement(sql);
+        ResultSet rt = pstm.executeQuery()){
+            int count = 0;
+
+            while(rt.next()){
+                Color cl = Color.valueOf(rt.getString("color").toUpperCase());
+                Material mt = Material.valueOf(rt.getString("material").toUpperCase());
+                Size sz = Size.valueOf(rt.getString("prod_size").toUpperCase());
+                int stock = rt.getInt("product_stock");
+                double price = rt.getDouble("product_price");
+
+                variants.add(new Variant(prodID, cl, mt, sz, stock, price));
+                variants.get(count).print();
+                count++;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }
+
+
