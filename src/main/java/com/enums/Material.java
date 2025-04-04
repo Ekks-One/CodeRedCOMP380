@@ -3,7 +3,7 @@ package com.enums;
 public enum Material {
     LEATHER,
     COTTON,
-    LINNEN,
+    LINEN,
     POLYESTER,
     SILK,
     SUADE,
@@ -19,5 +19,7 @@ public enum Material {
     FLEECE,
     DENIM,
     CANVAS,
-    VELVET
+    VELVET,
+    WOOL,
+    FLANNEL
 }
