@@ -48,7 +48,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="650.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="650.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PrimaryController">
   <children>
       <AnchorPane prefHeight="72.0" prefWidth="1014.0">
          <children>
@@ -96,12 +96,13 @@
                   <Font name="Unispace-Bold" size="30.0" />
                </font>
             </Text>
-            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="706.0" layoutY="15.0" prefHeight="30.0" prefWidth="201.0" promptText="Search" AnchorPane.rightAnchor="14.799999999999955">
+            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="739.0" layoutY="14.0" prefHeight="30.0" prefWidth="201.0" promptText="Search" AnchorPane.rightAnchor="73.79999999999995">
                <font>
                   <Font name="Calibri Light Italic" size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="checkoutButton" layoutX="588.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="99.0" text="Checkout" AnchorPane.rightAnchor="235.2" />
+            <Button fx:id="checkoutButton" layoutX="609.0" layoutY="16.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="99.0" text="Checkout" AnchorPane.rightAnchor="306.19999999999993" />
+            <Button fx:id="searchButton" layoutX="948.0" layoutY="17.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="52.0" text="Search" AnchorPane.rightAnchor="14.399999999999977" />
          </children>
       </AnchorPane>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="558.0" prefWidth="1014.0" VBox.vgrow="ALWAYS">

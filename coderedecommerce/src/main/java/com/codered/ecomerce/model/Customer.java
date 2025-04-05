@@ -16,8 +16,7 @@ public class Customer
     private LocalDateTime createdAt;
 
     //constructor to initialize customer with the appropriate details.
-    public Customer(String customerName, int customerID, String shippingAddress, String emailAddress,
-                    String phoneNumber, LocalDateTime createdAt)
+    public Customer(String customerName, int customerID, String shippingAddress, String emailAddress, String phoneNumber, LocalDateTime createdAt)
     {
         this.customerName = customerName;
         this.customerID = customerID;
@@ -27,11 +26,73 @@ public class Customer
         this.createdAt = createdAt;
     }
 
+    //getters
+    public String getCustomerName()
+    {
+        return customerName;
+    }
+
+    public int getCustoemrID()
+    {
+        return customerID;
+    }
+
+    public String getShippingAddress()
+    [
+        return shippingAddress;
+    ]
+
+    public String getCustomerEmail()
+    {
+        return emailAddress;
+    }
+
+    public String getCustomerPhoneNumber()
+    {
+        return phoneNumber;
+    }
+
+    public LocalDateTime getCreatedAt()
+    {
+        return createdAt;
+    }
+
+    //setters
+    public void setCustomerName(String customerName)
+    {
+        this.customerName = customerName;
+    }
+
+    public void setCustomerID(int customerID)
+    {
+        this.customerID = customerID;
+    }
+
+    public void setShippingAddress(String shippingAddress)
+    {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public void setCustomerEmail(String emailAddress)
+    {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setPhoneNumber(String phoneNumber)
+    {
+        this.phoneNumber = phoneNumber;
+    }
+
     public void updateInfo(String newShippingAddress, String newEmailAddress, String newPhoneNumber)
     {
-        this.shippingAddress = newShippingAddress;
-        this.emailAddress = newEmailAddress;
-        this.phoneNumber = newPhoneNumber;
+        setShippingAddress(newShippingAddress);
+        setCustomerEmail(newEmailAddress);
+        setPhoneNumber(newPhoneNumber);
+    }
+
+    public void addCustomer(String customerName, int customerID, String shippingAddress, String emailAddress,String phoneNumber, LocalDateTime createdAt)
+    {
+        Customer newCustomer = new Customer(customerName, customerID, shippingAddress, emailAddress, phoneNumber, createdAt);
     }
 
     public void browseProducts()
