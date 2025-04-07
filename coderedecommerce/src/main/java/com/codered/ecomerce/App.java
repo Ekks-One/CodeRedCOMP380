@@ -1,13 +1,13 @@
 package com.codered.ecomerce;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.image.Image;
-
-import java.io.IOException;
+import javafx.stage.Stage;
 
 /**
  * JavaFX App

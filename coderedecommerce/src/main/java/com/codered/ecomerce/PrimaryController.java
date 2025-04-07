@@ -1,10 +1,10 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.event.ActionEvent;
 
 public class PrimaryController {
 
@@ -29,5 +29,11 @@ public class PrimaryController {
         searchItem = searchTextBox.getText();
         //test
         System.out.println("Searching for: " + searchItem);
+    }
+
+    public void itemView() throws IOException
+    {
+        //Linked to Checkout Button, but can change once we add something
+        App.setRoot("itemView");
     }
 }
