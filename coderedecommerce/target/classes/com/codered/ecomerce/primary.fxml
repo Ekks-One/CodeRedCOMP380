@@ -40,13 +40,14 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="650.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PrimaryController">
   <children>
@@ -91,17 +92,17 @@
                   <ColorAdjust brightness="-0.02" contrast="0.26" saturation="1.0" />
                </effect>
             </TextField>
-            <Text fx:id="homeTitleCard" layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CODE RED (Draft Home Page)" wrappingWidth="614.3999633789062" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="385.2000366210938">
-               <font>
-                  <Font name="Unispace-Bold" size="30.0" />
-               </font>
-            </Text>
             <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="739.0" layoutY="14.0" prefHeight="30.0" prefWidth="201.0" promptText="Search" AnchorPane.rightAnchor="73.79999999999995">
                <font>
                   <Font name="Calibri Light Italic" size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="checkoutButton" onAction="#itemView" layoutX="609.0" layoutY="16.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="99.0" text="Checkout" AnchorPane.rightAnchor="306.19999999999993" />
+            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="147.0" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0">
+               <image>
+                  <Image url="@images/CodeRedBanner.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="checkoutButton" layoutX="609.0" layoutY="16.0" mnemonicParsing="false" onAction="#itemView" prefHeight="26.0" prefWidth="99.0" text="Checkout" AnchorPane.rightAnchor="306.19999999999993" />
             <Button fx:id="searchButton" layoutX="948.0" layoutY="17.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="52.0" text="Search" AnchorPane.rightAnchor="14.399999999999977" />
          </children>
       </AnchorPane>
