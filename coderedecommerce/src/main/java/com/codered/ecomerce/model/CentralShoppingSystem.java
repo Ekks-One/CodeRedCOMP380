@@ -2,7 +2,7 @@ package com.codered.ecomerce.model;
 
 import com.codered.ecomerce.model.Customer;
 import com.codered.ecomerce.model.Product;
-import com.sql.swagShop.MasterQuery;
+//import com.sql.swagShop.MasterQuery;
 //may need to restructure files in order to properly import
 
 import java.util.LinkedList;
@@ -24,14 +24,14 @@ public class CentralShoppingSystem
     {
         try
         {
-            MasterQuery.getProducts((LinkedList<Product>) products);
-            MasterQuery.getCustomers((LinkedList<Customer>) customers);
+            //MasterQuery.getProducts((LinkedList<Product>) products);
+            //MasterQuery.getCustomers((LinkedList<Customer>) customers);
 
             //test
             System.out.println("System successfully initialized with " + products.size() + 
             " products and " + customers.size() + " customers.");
         }
-        catch (SQLException e)
+        catch (Exception e)
         {
             System.err.println("Error initializing system: " + e.getMessage());
             e.printStackTrace();

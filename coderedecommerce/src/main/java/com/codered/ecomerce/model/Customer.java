@@ -32,15 +32,15 @@ public class Customer
         return customerName;
     }
 
-    public int getCustoemrID()
+    public int getCustomerID()
     {
         return customerID;
     }
 
     public String getShippingAddress()
-    [
+    {
         return shippingAddress;
-    ]
+    }
 
     public String getCustomerEmail()
     {
@@ -98,15 +98,15 @@ public class Customer
     public void browseProducts()
     {
         //leaving void for now until database gets implemented 
-        //it'll require a List<Product> to be passed in as a parameter and then
-        //return a List<Product> of the products that are available for the customer to browse.
+        //it'll require a List Product  to be passed in as a parameter and then
+        //return a List Product of the products that are available for the customer to browse.
     }    
 
     public void displayOrders()
     {
         //leaving void for now until database gets implemented 
-        //it'll require a List<Order> to be passed in as a parameter and then
-        //return a List<Order> of the orders that were placed by the customer.
+        //it'll require a List Order to be passed in as a parameter and then
+        //return a List Order of the orders that were placed by the customer.
     }
 
 
