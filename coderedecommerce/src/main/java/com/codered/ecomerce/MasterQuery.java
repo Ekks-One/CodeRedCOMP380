@@ -13,29 +13,31 @@ public class MasterQuery {
     private static final Logger log;
     private static final Properties properties = new Properties();
 
-    static {
-    System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
-    log = Logger.getLogger(MasterQuery.class.getName());
+    private MasterQuery(){}
 
-    try (InputStream input = MasterQuery.class.getClassLoader().getResourceAsStream("application.properties")) {
-        if (input == null) {
-            log.severe("Sorry, unable to find application.properties");
-        } else {
-            properties.load(input);
+    static {
+        System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$-7s] %5$s %n");
+        log = Logger.getLogger(MasterQuery.class.getName());
+
+        try (InputStream input = MasterQuery.class.getClassLoader().getResourceAsStream("application.properties")) {
+            if (input == null) {
+                log.severe("Sorry, unable to find application.properties");
+            } else {
+                properties.load(input);
+            }
+        } catch (IOException e) {
+            log.severe("Error loading application.properties: " + e.getMessage());
         }
-    } catch (IOException e) {
-        log.severe("Error loading application.properties: " + e.getMessage());
     }
-}
 
     //main takes a while so get a cup of tea to watch it do it's thing
     public static void main(String[] args) throws Exception{
-        LinkedList<Product> products = new LinkedList<Product>();
-        getProducts(products);
+        LinkedList<Customer> customers = new LinkedList<Customer>();
+        getCustomer(customers);
     }
 
     // -----------------------------------PRODUCT INSERTION BLOCK START---------------------------------------------
-    public static void InitializeProduct(String Name, int BrandID, int CategoryID, Color CL[], Material MT[], Size SZ[], double Price, Product product) throws SQLException{
+    public static void InitializeProduct(String Name, int BrandID, int CategoryID, LinkedList<Color> CL, LinkedList<Material> MT, LinkedList<Size> SZ, double Price, Product product) throws SQLException{
         int productID;
         String sql = "INSERT INTO product (product_name, brand_id, category_id) VALUES (?, ?, ?)";
 
@@ -65,10 +67,10 @@ public class MasterQuery {
                             e.printStackTrace(); // Print the error if sleep is interrupted
                         }
         
-                        for (int i = 0; i < CL.length; i++) {
-                            for (int j = 0; j < MT.length; j++) {
-                                for (int k = 0; k < SZ.length; k++) {
-                                    InsertIntoPS(productID, CL[i], MT[j], SZ[k], Price, 0, connection);
+                        for (Color cl : CL) {
+                            for (Material mt : MT) {
+                                for (Size sz : SZ) {
+                                    InsertIntoPS(productID, cl, mt, sz, Price, 0, connection);
                                 }
                             }
                         }
@@ -90,7 +92,7 @@ public class MasterQuery {
         }
     }
 
-    public static <T> void InsertCMS(int product_id, T cms[], char type, Connection conn) throws SQLException{
+    public static <T> void InsertCMS(int product_id, LinkedList<T> cms, char type, Connection conn) throws SQLException{
         String cmsSql;
 
         switch (type) {
@@ -108,9 +110,9 @@ public class MasterQuery {
         }
 
         try (PreparedStatement pstm = conn.prepareStatement(cmsSql, Statement.RETURN_GENERATED_KEYS);) {
-            for (int i = 0; i < cms.length; i++ ){
+            for (T Gcms : cms){
                 pstm.setInt(1, product_id);
-                pstm.setString(2, cms[i].toString());
+                pstm.setString(2, Gcms.toString());
                 pstm.executeUpdate();
             }
         }
@@ -138,9 +140,10 @@ public class MasterQuery {
     }
     // ----------------------------------------------END------------------------------------------------------------ 
 
-    public static void UpdateStock(int prodID, Color cl, Size sz, Material mt, int stock, int change, Connection conn) throws SQLException{
+    public static void UpdateStock(Variant product, int change) throws SQLException{
         String Update = "UPDATE product_price_stock SET product_stock = ? WHERE product_id = ? AND product_color = ? AND product_size = ? AND product_material = ?";
         int upStock;
+        int stock = product.getStock();
 
         if (stock > 0 && (0-change) <= stock){ // so wen using the method you can use a positive change to signify adding to the stock
             upStock = stock + change;
@@ -151,17 +154,34 @@ public class MasterQuery {
             throw new SQLException("The stock is 0");
         }
 
-        try (PreparedStatement pstm = conn.prepareStatement(Update, Statement.RETURN_GENERATED_KEYS);){
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
+            PreparedStatement pstm = conn.prepareStatement(Update, Statement.RETURN_GENERATED_KEYS);){
             pstm.setInt(1, upStock);
-            pstm.setInt(2, prodID);
-            pstm.setString(3, cl.toString());
-            pstm.setString(4, sz.toString());
-            pstm.setString(5, mt.toString());
+            pstm.setInt(2, product.getID());
+            pstm.setString(3, product.getColor().toString());
+            pstm.setString(4, product.getSize().toString());
+            pstm.setString(5, product.getMaterial().toString());
             pstm.executeUpdate();
 
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+    public static void changeProductPrice(Variant product, double newPrice){
+        String update = "UPDATE product_price_stock SET product_price = ? WHERE product_id = ? AND product_color = ? AND product_size = ? AND product_material = ?";
+
+        try(Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
+            PreparedStatement pstm = conn.prepareStatement(update, Statement.RETURN_GENERATED_KEYS);){
+                pstm.setDouble(1, newPrice);
+                pstm.setInt(2, product.getID());
+                pstm.setString(3, product.getColor().toString());
+                pstm.setString(4, product.getSize().toString());
+                pstm.setString(5,product.getMaterial().toString());
+                pstm.executeUpdate();
+
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
     }
 
     // populates the product objects
@@ -210,6 +230,38 @@ public class MasterQuery {
             }
         }catch(SQLException e){
             e.printStackTrace();
+        }
+    }
+
+    // Customer Queries
+    public static void getCustomer(LinkedList<Customer> customers) throws SQLException{
+        String sql = "SELECT * FROM customer";
+
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
+        PreparedStatement psmt = conn.prepareStatement(sql);
+        ResultSet rt = psmt.executeQuery()){
+            int count = 0;
+            String ship = "SELECT * FROM customer_shipping WHERE customer_id = ?";
+
+            while(rt.next()){
+                int custId = rt.getInt("customer_id");
+                String fname = rt.getString("customer_first_name");
+                String lname = rt.getString("customer_last_name");
+                String Email = rt.getString("customer_email");
+
+                customers.add(new Customer(fname, lname, custId, Email));
+
+                try (PreparedStatement Spstm = conn.prepareStatement(ship);){
+
+                    Spstm.setInt(1, custId);
+                    ResultSet Srt = Spstm.executeQuery();
+                    String address = Srt.getString("customer_address"); //this won't work right now since the address table is empty 
+                    customers.get(count).setShippingAddress(address);
+                }
+
+                customers.get(count).print();
+                count++;
+            }
         }
     }
 }

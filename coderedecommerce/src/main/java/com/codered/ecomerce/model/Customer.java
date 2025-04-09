@@ -8,33 +8,32 @@ import java.time.LocalDateTime;
 //their respective details and attributes.
 public class Customer 
 {
-    private String customerName;
-    private int customerID;
+    private String firstName;
+    private String lastName;
+    private int id;
     private String shippingAddress;
     private String emailAddress;
     private String phoneNumber;
     private LocalDateTime createdAt;
 
     //constructor to initialize customer with the appropriate details.
-    public Customer(String customerName, int customerID, String shippingAddress, String emailAddress, String phoneNumber, LocalDateTime createdAt)
+    public Customer(String firstName, String lastName, int id, String emailAddress)
     {
-        this.customerName = customerName;
-        this.customerID = customerID;
-        this.shippingAddress = shippingAddress;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.id = id;
         this.emailAddress = emailAddress;
-        this.phoneNumber = phoneNumber;
-        this.createdAt = createdAt;
     }
 
     //getters
     public String getCustomerName()
     {
-        return customerName;
+        return firstName + " " + lastName;
     }
 
-    public int getCustomerID()
+    public int getID()
     {
-        return customerID;
+        return id;
     }
 
     public String getShippingAddress()
@@ -58,14 +57,14 @@ public class Customer
     }
 
     //setters
-    public void setCustomerName(String customerName)
+    public void setFirstName(String firstName)
     {
-        this.customerName = customerName;
+        this.firstName = firstName;
     }
 
-    public void setCustomerID(int customerID)
+    public void setLastName(String lastName)
     {
-        this.customerID = customerID;
+        this.lastName = lastName;
     }
 
     public void setShippingAddress(String shippingAddress)
@@ -83,16 +82,15 @@ public class Customer
         this.phoneNumber = phoneNumber;
     }
 
+    public void print(){
+        System.out.println("Customer fname= "+firstName+" lname = "+lastName+" email= "+emailAddress+" address= "+shippingAddress);
+    }
+
     public void updateInfo(String newShippingAddress, String newEmailAddress, String newPhoneNumber)
     {
         setShippingAddress(newShippingAddress);
         setCustomerEmail(newEmailAddress);
         setPhoneNumber(newPhoneNumber);
-    }
-
-    public void addCustomer(String customerName, int customerID, String shippingAddress, String emailAddress,String phoneNumber, LocalDateTime createdAt)
-    {
-        Customer newCustomer = new Customer(customerName, customerID, shippingAddress, emailAddress, phoneNumber, createdAt);
     }
 
     public void browseProducts()
