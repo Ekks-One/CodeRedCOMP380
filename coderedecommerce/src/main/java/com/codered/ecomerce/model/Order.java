@@ -10,19 +10,20 @@ import java.time.LocalDateTime;
 public class Order 
 {
     private int orderID;
-    private int customerID;
+    private Customer customer;
     private LinkedList<Product> orderItems;
     private enum OrderStatus {PENDING, SHIPPED, DELIVERED, CANCELLED, DELAYED};
     private OrderStatus orderStatus;
-    private int orderCount;
+    private int orderCount = 0;
     private LocalDateTime orderDate;
 
     //constructor to initialize order with the appropriate details
-    public Order(int orderID, int customerID, LinkedList<Product> orderItems, int orderCount, LocalDateTime orderDate)
+    public Order(int orderID, Customer customer, List<Product> orderItems, OrderStatus orderStatus, int orderCount, LocalDateTime orderDate)
     {
         this.orderID = orderID;
-        this.customerID = customerID;
-        this.orderItems = orderItems;
+        this.customer = customer;
+        this.orderItems = new LinkedList<>(orderItems);
+        this.orderStatus = orderStatus;
         this.orderCount = orderCount;
         this.orderDate = orderDate;
     }
@@ -35,7 +36,7 @@ public class Order
 
     public int getCustomerID()
     {
-        return customerID;
+        return customer.getID();
     }
 
     public List<Product> getOrderItems()
@@ -64,9 +65,9 @@ public class Order
         this.orderID = orderID;
     }
 
-    public void setCustomerID(int customerID)
+    public void setCustomerID(Customer customer)
     {
-        this.customerID = customerID;
+        this.customer = customer;    
     }
 
     public void setOrderItems(List<Product> orderItems)
@@ -90,10 +91,12 @@ public class Order
     }
         
     //method to generate order ID
-    public boolean generateOrderID()
+    public Order generateOrderID(Customer customer)
     {
-        
-        return true;
+        orderCount++;
+        //test
+        System.out.println("Generating orderID for customer: " + customer.getID());
+        return new Order(orderCount, customer, new LinkedList<>(), OrderStatus.PENDING, orderCount, LocalDateTime.now());
     }
 
     public boolean checkStock()

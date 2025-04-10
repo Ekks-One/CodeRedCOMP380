@@ -3,6 +3,7 @@ package com.codered.ecomerce.model;
 import java.util.List;
 import java.util.LinkedList;
 import java.time.LocalDateTime;
+import java.sql.*;
 
 //customer class in the ecommerce system representing an individual customer with
 //their respective details and attributes.

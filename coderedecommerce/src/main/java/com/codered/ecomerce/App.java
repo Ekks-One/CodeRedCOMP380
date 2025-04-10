@@ -18,7 +18,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 1030, 680);
+        Parent root = FXMLLoader.load(getClass().getResource("primary.fxml"));
+        scene = new Scene(root, 1030, 680);
         stage.setTitle("Code Red E-Commerce System");
         stage.getIcons().add(new Image(App.class.getResourceAsStream("images/Code Red Logo (Mockup).png")));
         stage.setScene(scene);

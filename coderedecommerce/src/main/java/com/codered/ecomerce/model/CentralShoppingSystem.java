@@ -3,7 +3,7 @@ package com.codered.ecomerce.model;
 import com.codered.ecomerce.model.Customer;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.MasterQuery;
-//may need to restructure files in order to properly import
+//may need to restructure files in order to properly i
 
 import java.util.LinkedList;
 import java.util.List;
