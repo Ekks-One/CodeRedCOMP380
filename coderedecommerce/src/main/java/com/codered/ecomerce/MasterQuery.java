@@ -33,7 +33,7 @@ public class MasterQuery {
     //main takes a while so get a cup of tea to watch it do it's thing
     public static void main(String[] args) throws Exception{
         LinkedList<Customer> customers = new LinkedList<Customer>();
-        getCustomer(customers);
+        getCustomers(customers);
     }
 
     // -----------------------------------PRODUCT INSERTION BLOCK START---------------------------------------------
@@ -140,6 +140,32 @@ public class MasterQuery {
     }
     // ----------------------------------------------END------------------------------------------------------------ 
 
+    public static void InsertCustomer(String fname, String lname, String email, String[] address) throws SQLException{
+        String sql = "INSERT INTO customer (customer_first_name, customer_last_name, customer_email) VALUES (?,?,?)";
+        int custId;
+        Customer customer;
+
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
+            PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);){
+            
+            pstm.setString(1, fname);
+            pstm.setString(2, lname);
+            pstm.setString(3, email);
+
+            int affRows = pstm.executeUpdate();
+
+            if (affRows > 0) {
+                ResultSet generatedID = pstm.getGeneratedKeys();
+                if (generatedID.next()) {
+                    custId = generatedID.getInt(1);
+                    customer = new Customer(fname, lname, custId, email);
+                } else {
+                    System.out.println("Insert failed.");
+                }
+            }
+        }
+    }
+
     public static void UpdateStock(Variant product, int change) throws SQLException{
         String Update = "UPDATE product_price_stock SET product_stock = ? WHERE product_id = ? AND product_color = ? AND product_size = ? AND product_material = ?";
         int upStock;
@@ -233,8 +259,8 @@ public class MasterQuery {
         }
     }
 
-    // Customer Queries
-    public static void getCustomer(LinkedList<Customer> customers) throws SQLException{
+    // populates the customer objects
+    public static void getCustomers(LinkedList<Customer> customers){
         String sql = "SELECT * FROM customer";
 
         try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
@@ -251,19 +277,15 @@ public class MasterQuery {
 
                 customers.add(new Customer(fname, lname, custId, Email));
 
-                try (PreparedStatement Spstm = conn.prepareStatement(ship);){
-
-                    Spstm.setInt(1, custId);
-                    ResultSet Srt = Spstm.executeQuery();
-                    String address = Srt.getString("customer_address"); //this won't work right now since the address table is empty 
-                    customers.get(count).setShippingAddress(address);
-                }
-
                 customers.get(count).print();
                 count++;
             }
+        }catch(SQLException e){
+            e.printStackTrace();
         }
     }
+
+
 }
 
 

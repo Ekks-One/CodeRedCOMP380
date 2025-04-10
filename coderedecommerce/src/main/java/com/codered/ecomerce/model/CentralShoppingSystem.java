@@ -11,28 +11,28 @@ import java.sql.*;
 
 public class CentralShoppingSystem 
 {
-    private List<Customer> customers;
-    private List<Product> products;
+    private static LinkedList<Customer> customers = new LinkedList<Customer>();
+    private static LinkedList<Product> products = new LinkedList<Product>();
 
     //Constructor
-    public CentralShoppingSystem()
-    {
-        this.customers = new LinkedList<>();
-        this.products = new LinkedList<>();
-    }
+    private CentralShoppingSystem() {}
 
-    public void initializeSystem()
-    {
+    static {
         MasterQuery.getProducts((LinkedList<Product>) products);
-            //MasterQuery.getCustomers((LinkedList<Customer>) customers);
+        MasterQuery.getCustomers((LinkedList<Customer>) customers);
 
-            //test
-            System.out.println("System successfully initialized with " + products.size() + 
-            " products and " + customers.size() + " customers.");
+        //test
+        int countP = 0, countC = 0;
+        for(Product P : products){
+            countP++;
+        }
+        for(Customer C : customers){
+            countC++;
+        }
+        System.out.println("succesfully initialized with "+countP+" products and "+countC+" customers");
     }
 
-    public void displaySystemInfo()
-    {
-        return; 
+    public static LinkedList<Customer> getCustomers(){
+        return customers;
     }
 }

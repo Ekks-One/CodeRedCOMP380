@@ -11,7 +11,7 @@ public class Customer
     private String firstName;
     private String lastName;
     private int id;
-    private String shippingAddress;
+    private String[] shippingAddress;
     private String emailAddress;
     private String phoneNumber;
     private LocalDateTime createdAt;
@@ -36,7 +36,7 @@ public class Customer
         return id;
     }
 
-    public String getShippingAddress()
+    public String[] getShippingAddress()
     {
         return shippingAddress;
     }
@@ -67,7 +67,7 @@ public class Customer
         this.lastName = lastName;
     }
 
-    public void setShippingAddress(String shippingAddress)
+    public void setShippingAddress(String[] shippingAddress)
     {
         this.shippingAddress = shippingAddress;
     }
@@ -83,10 +83,10 @@ public class Customer
     }
 
     public void print(){
-        System.out.println("Customer fname= "+firstName+" lname = "+lastName+" email= "+emailAddress+" address= "+shippingAddress);
+        System.out.println("Customer id"+id+" fname= "+firstName+" lname = "+lastName+" email= "+emailAddress);
     }
 
-    public void updateInfo(String newShippingAddress, String newEmailAddress, String newPhoneNumber)
+    public void updateInfo(String[] newShippingAddress, String newEmailAddress, String newPhoneNumber)
     {
         setShippingAddress(newShippingAddress);
         setCustomerEmail(newEmailAddress);
