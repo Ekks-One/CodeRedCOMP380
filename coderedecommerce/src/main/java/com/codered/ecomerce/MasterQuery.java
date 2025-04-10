@@ -227,7 +227,6 @@ public class MasterQuery {
 
                 products.add(new Product(id,name,brandId,categoryId));
                 products.get(count).print(); //visualizes the testing
-                products.get(count).getVariants(); //automatically populates the variants
                 count++;
             }
         }catch(SQLException e){
