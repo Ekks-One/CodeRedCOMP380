@@ -83,9 +83,9 @@ public class PrimaryController {
     }
 
 
-    public void itemView() throws IOException
+    public void checkoutView() throws IOException
     {
         //Linked to Checkout Button, but can change once we add something
-        App.setRoot("itemView");
+        App.setRoot("checkoutView");
     }
 }
