@@ -81,7 +81,7 @@ public class PrimaryController extends App{
         // Ensure the checkout button has its functionality
         checkoutButton.setOnAction(event -> {
             try {
-                App.setRoot("itemView");
+                App.setRoot("checkoutView");
             } catch (IOException e) {
                 e.printStackTrace();
             }  
