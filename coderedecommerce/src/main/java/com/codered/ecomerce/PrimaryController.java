@@ -4,18 +4,13 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
-public class PrimaryController {
+public class PrimaryController extends App{
 
 
 
@@ -61,14 +56,10 @@ public class PrimaryController {
         System.out.println("Searching for: " + searchItem);
     }
 
-    //method to return to homepage when the home title card is clicked
+    //Uses method from App to swtich Scenes
     public void returnPrimary(MouseEvent event) throws IOException
     {
-        Parent root = FXMLLoader.load(getClass().getResource("primary.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        App.switchScene("primary", event);
         //test (successful)
         System.out.println("Returning to homepage...");
     }
@@ -80,6 +71,21 @@ public class PrimaryController {
         String searchItem = ((MenuItem)event.getSource()).getText();
         //test (successful)
         System.out.println("Searching for: " + searchItem);
+    }
+
+    @FXML
+    //* Method initialize is called automatically after fxml file loads */
+    //* Can Reuse for other pages to switch fxml files  */
+    //* Add all buttons, methods, etc that need to be implemetned when loaded */
+    public void initialize() {
+        // Ensure the checkout button has its functionality
+        checkoutButton.setOnAction(event -> {
+            try {
+                App.setRoot("itemView");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }  
+        });
     }
 
 
