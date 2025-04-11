@@ -64,7 +64,6 @@ public class PrimaryController {
     //method to return to homepage when the home title card is clicked
     public void returnPrimary(MouseEvent event) throws IOException
     {
-        
         Parent root = FXMLLoader.load(getClass().getResource("primary.fxml"));
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
