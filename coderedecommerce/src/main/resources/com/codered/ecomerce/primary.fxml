@@ -102,7 +102,7 @@
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <Button fx:id="checkoutButton" layoutX="609.0" layoutY="16.0" mnemonicParsing="false" onAction="#itemView" prefHeight="26.0" prefWidth="99.0" text="Checkout" AnchorPane.rightAnchor="306.19999999999993" />
+             <Button fx:id="checkoutButton" layoutX="609.0" layoutY="16.0" mnemonicParsing="false" onAction="#checkoutView" prefHeight="26.0" prefWidth="99.0" text="Checkout" AnchorPane.rightAnchor="306.19999999999993" />
             <Button fx:id="searchButton" layoutX="948.0" layoutY="17.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="52.0" text="Search" AnchorPane.rightAnchor="14.399999999999977" />
          </children>
       </AnchorPane>

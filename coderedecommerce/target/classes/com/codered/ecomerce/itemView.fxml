@@ -5,9 +5,10 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,11 +18,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.ItemViewController">
    <top>
       <AnchorPane prefHeight="92.0" prefWidth="960.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="54.0" fitWidth="79.0" layoutX="7.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="507.0">
+            <ImageView onMouseClicked="#returnPrimary" fitHeight="54.0" fitWidth="79.0" layoutX="7.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="507.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
@@ -60,25 +61,15 @@
       </AnchorPane>
    </top>
    <center>
-      <SplitPane dividerPositions="0.4989561586638831" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <ImageView fitHeight="319.0" fitWidth="293.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="180.61993408203125" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="168.0" AnchorPane.topAnchor="14.0">
+                        <ImageView fitHeight="458.0" fitWidth="442.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
                            <image>
                               <Image url="@images/CodeRedTEE.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="102.0" layoutX="337.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="337.0">
-                           <image>
-                              <Image url="@images/CodeRedTeeFRONT.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="102.0" layoutX="337.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="337.0">
-                           <image>
-                              <Image url="@images/CodeRedTeeBACK.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -87,57 +78,68 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="506.0" prefWidth="747.0">
                <children>
-                  <ScrollBar blockIncrement="20.0" layoutX="463.0" max="10.0" orientation="VERTICAL" prefHeight="507.0" prefWidth="14.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <AnchorPane layoutX="26.0" layoutY="238.0" prefHeight="106.0" prefWidth="385.0" AnchorPane.leftAnchor="26.0">
-                     <children>
-                        <HBox layoutY="53.0" prefHeight="23.0" prefWidth="386.0" spacing="15.0">
+                  <ScrollPane fitToWidth="true" layoutX="-2.0" layoutY="-1.0" minViewportHeight="350.0" prefHeight="509.0" prefViewportHeight="200.0" prefWidth="480.0" AnchorPane.bottomAnchor="-2.2000000000000455" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.1999999999999886" AnchorPane.topAnchor="-1.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="478.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="SMALL" />
-                              <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="MEDIUM" />
-                              <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="LARGE" />
-                              <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="X-LARGE" />
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="506.0" prefWidth="747.0">
+                                 <children>
+                                    <AnchorPane layoutX="26.0" layoutY="238.0" prefHeight="106.0" prefWidth="385.0" AnchorPane.leftAnchor="26.0">
+                                       <children>
+                                          <HBox layoutY="53.0" prefHeight="23.0" prefWidth="386.0" spacing="15.0">
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="SMALL" />
+                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="MEDIUM" />
+                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="LARGE" />
+                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="X-LARGE" />
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets left="10.0" right="11.0" />
+                                             </padding>
+                                          </HBox>
+                                          <Text layoutX="7.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Size">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Line endX="231.0" layoutX="153.0" layoutY="92.0" startX="-146.0" />
+                                          <Line endX="231.0" layoutX="153.0" startX="-146.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="27.0" layoutY="112.0" prefHeight="108.0" prefWidth="153.0">
+                                       <children>
+                                          <Text layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color">
+                                             <font>
+                                                <Font name="Calibri" size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <ToggleButton layoutX="14.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: black;" text="BLACK" />
+                                          <ToggleButton layoutX="87.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: red;" text="RED" />
+                                       </children>
+                                    </AnchorPane>
+                                    <Text fx:id="itemNameText" layoutX="26.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Red Tee">
+                                       <font>
+                                          <Font name="Calibri" size="30.0" />
+                                       </font>
+                                    </Text>
+                                    <Text layoutX="26.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$4000.34">
+                                       <font>
+                                          <Font name="Marlett" size="21.0" />
+                                       </font>
+                                    </Text>
+                                    <Button layoutX="39.0" layoutY="388.0" mnemonicParsing="false" onAction="#subtractQuantity" text="-" />
+                                    <TextField fx:id="quantityTextField" layoutX="60.0" layoutY="388.0" prefHeight="25.0" prefWidth="100.0" promptText="0" text="0" />
+                                    <Button layoutX="160.0" layoutY="388.0" mnemonicParsing="false" onAction="#addQuantity" text="+" />
+                                    <Button layoutX="219.0" layoutY="388.0" mnemonicParsing="false" onAction="#AddtoCart" text="Add to Cart" />
+                                 </children>
+                              </AnchorPane>
                            </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets left="10.0" right="11.0" />
-                           </padding>
-                        </HBox>
-                        <Text layoutX="7.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Size">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Line endX="231.0" layoutX="153.0" layoutY="92.0" startX="-146.0" />
-                        <Line endX="231.0" layoutX="153.0" startX="-146.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutX="27.0" layoutY="112.0" prefHeight="108.0" prefWidth="153.0">
-                     <children>
-                        <Text layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color">
-                           <font>
-                              <Font name="Calibri" size="24.0" />
-                           </font>
-                        </Text>
-                        <Button layoutX="14.0" layoutY="52.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: black;" text="BLACK" />
-                        <Button layoutX="87.0" layoutY="52.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: red;" text="RED" />
-                     </children>
-                  </AnchorPane>
-                  <Text layoutX="26.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Red Tee">
-                     <font>
-                        <Font name="Calibri" size="30.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="26.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$4000.34">
-                     <font>
-                        <Font name="Marlett" size="21.0" />
-                     </font>
-                  </Text>
-                  <Button layoutX="39.0" layoutY="388.0" mnemonicParsing="false" text="-" />
-                  <TextField layoutX="60.0" layoutY="388.0" prefHeight="25.0" prefWidth="100.0" />
-                  <Button layoutX="160.0" layoutY="388.0" mnemonicParsing="false" text="+" />
-                  <Button layoutX="219.0" layoutY="388.0" mnemonicParsing="false" text="Add to Cart" />
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
                </children>
             </AnchorPane>
         </items>
