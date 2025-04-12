@@ -7,14 +7,27 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 
-public class CheckoutController implements Initializable {
+public class CheckoutController extends App implements Initializable {
 
+    @FXML
+    private TextField fnameTextBox, lnameTextBox, addressTextBox, cityTextBox, zipTextBox, emailTextBox, phoneTextBox;
 
 	//Population of the Choice Box
     @FXML
     private ChoiceBox<String> statesChoiceBox;
+
+    private String selectedState;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String email;
+
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -27,6 +40,34 @@ public class CheckoutController implements Initializable {
         );
         statesChoiceBox.setValue("Select State"); //Default Text
     }
+
+    //* Gathers all info inputed from the page */
+    public void placeOrder() throws Exception {
+        firstName = fnameTextBox.getText();
+        lastName = lnameTextBox.getText();
+        address = addressTextBox.getText();
+        selectedState = statesChoiceBox.getValue();
+        email = emailTextBox.getText();
+        
+        if(!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && 
+            !selectedState.equals("Select State") && !email.isEmpty()) {
+            System.out.println("Checkout Successful! \n" +
+                "Name: " + firstName + " " + lastName + "\n" +
+                "Address: " + address + ", " + selectedState + "\n" +
+                "Email: " + email);
+        } else {
+            System.out.println("Please fill in all required fields.");
+        }
+    }
+
+    //* Returns to primary(HomePage) */
+    public void returnPrimary(MouseEvent event) throws IOException {
+        // Get the current stage
+        App.switchScene("primary", event);
+        // Test (successful)
+        System.out.println("Returning to homepage...");
+    }
+
 
     // Example event handler
     @FXML

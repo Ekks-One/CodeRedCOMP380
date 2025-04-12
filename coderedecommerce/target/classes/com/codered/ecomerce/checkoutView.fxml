@@ -99,9 +99,9 @@
                   <Font name="Calibri Light Italic" size="16.0" />
                </font>
             </TextField>
-            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="147.0" layoutY="-1.0" pickOnBounds="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="-1.0">
+            <ImageView fx:id="homeTitleCard" onMouseClicked="#returnPrimary" fitHeight="63.0" fitWidth="147.0" layoutY="-1.0" pickOnBounds="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="-1.0">
                <image>
-                  <Image url="@../../../../../src/main/resources/com/codered/ecomerce/images/CodeRedBanner.png" />
+                  <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
             <Button fx:id="checkoutButton" layoutX="588.0" layoutY="17.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="99.0" text="Checkout" AnchorPane.rightAnchor="235.2" />
@@ -133,7 +133,7 @@
                         <Text layoutX="29.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State" />
                         <Text layoutX="27.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail Address" />
                         <TextField fx:id="emailTextBox" layoutX="24.0" layoutY="257.0" prefHeight="26.0" prefWidth="317.0" />
-                        <Button fx:id="placeOrderButton" layoutX="85.0" layoutY="384.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="210.0" text="Place Order" />
+                        <Button fx:id="placeOrderButton" onAction="#placeOrder" layoutX="85.0" layoutY="384.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="210.0" text="Place Order" />
                         <Text layoutX="25.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter your information">
                            <font>
                               <Font size="16.0" />
