@@ -1,9 +1,9 @@
 package com.codered.ecomerce.model;
 
-import com.codered.ecomerce.MasterQuery;
 import com.codered.ecomerce.enums.Color;
 import com.codered.ecomerce.enums.Material;
 import com.codered.ecomerce.enums.Size;
+import com.codered.ecomerce.sql.*;
 
 import java.sql.*;
 
@@ -29,11 +29,11 @@ public class Variant {
         this.price = price;
     }
     public void updateStock(int change) throws SQLException{
-        MasterQuery.UpdateStock(this, change);
+        QueryInProduct.UpdateStock(this, change);
         this.stock = this.stock - change;
     }
     public void changePrice(double newPrice) throws SQLException{
-        MasterQuery.changeProductPrice(this, newPrice);
+        QueryInProduct.changeProductPrice(this, newPrice);
         this.price = newPrice;
     }
 

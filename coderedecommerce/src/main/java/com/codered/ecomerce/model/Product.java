@@ -1,24 +1,24 @@
 package com.codered.ecomerce.model;
 
-import java.util.LinkedList;
+import java.util.*;
 //import java.util.ListIterator;
 
 import com.codered.ecomerce.enums.*;
-import com.codered.ecomerce.MasterQuery;
+import com.codered.ecomerce.sql.*;
 
 public class Product {
-    private LinkedList<Color> cl;
-    private LinkedList<Material> mt;
-    private LinkedList<Size> sz;
+    private ArrayList<Color> cl;
+    private ArrayList<Material> mt;
+    private ArrayList<Size> sz;
     private String name;
     private int brandID;
     private int categoryID;
     private int ID;
     private double basePrice;
-    private LinkedList<Variant> variants = new LinkedList<Variant>();
+    private ArrayList<Variant> variants = new ArrayList<Variant>();
     
     //for making NEW products
-    public Product(int id, String Name, int BrandID, int CategoryID, LinkedList<Color> CL, LinkedList<Material> MT, LinkedList<Size> SZ, double Price) {
+    public Product(int id, String Name, int BrandID, int CategoryID, ArrayList<Color> CL, ArrayList<Material> MT, ArrayList<Size> SZ, double Price) {
         this.ID = id;
         this.name = Name;
         this.brandID = BrandID;
@@ -28,7 +28,7 @@ public class Product {
         this.sz = SZ;
         this.basePrice = Price;
 
-        getVariants();
+        fetchVariants();
     }
 
     //for instantiating product class
@@ -37,20 +37,20 @@ public class Product {
         this.name = Name;
         this.brandID = BrandID;
         this.categoryID = CategoryID;
-        
-        getVariants();
+
+        fetchVariants();
     }
 
     //no setters for now
 
     //geters
-    public LinkedList<Color> getColors() {
+    public ArrayList<Color> getColors() {
         return cl;
     }
-    public LinkedList<Material> getMaterials() {
+    public ArrayList<Material> getMaterials() {
         return mt;
     }
-    public LinkedList<Size> getSizes() {
+    public ArrayList<Size> getSizes() {
         return sz;
     }
     public String getName() {
@@ -68,8 +68,9 @@ public class Product {
     public double getBasePrice() {
         return basePrice;
     }
-    public void getVariants(){
-        MasterQuery.getVariants(ID, variants);
+
+    private void fetchVariants(){
+        QuerySeProduct.getVariants(ID, variants);
     }
 
     public void print(){

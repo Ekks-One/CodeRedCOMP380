@@ -94,13 +94,6 @@ public class Customer
         setPhoneNumber(newPhoneNumber);
     }
 
-    public void browseProducts()
-    {
-        //leaving void for now until database gets implemented 
-        //it'll require a List Product  to be passed in as a parameter and then
-        //return a List Product of the products that are available for the customer to browse.
-    }    
-
     public void displayOrders()
     {
         //leaving void for now until database gets implemented 
