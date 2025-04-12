@@ -25,5 +25,12 @@ public class PaymentViewController extends App implements Initializable{
         cardTypeChoiceBox.setValue("Select Card Type"); //Default Text
 
     }//end initialize
+
+    public void returnPrimary(MouseEvent event) throws IOException {
+        // Get the current stage
+        App.switchScene("primary", event);
+        // Test (successful)
+        System.out.println("Returning to homepage...");
+    }
     
 }//end PaymentViewController
