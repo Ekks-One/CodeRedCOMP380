@@ -9,43 +9,36 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 public class PrimaryController extends App{
 
-
-
+    //declaration of FXML elements
     @FXML
     private TextField searchTextBox;
     @FXML
-    private Button searchButton;
+    private Button searchButton, checkoutButton;
     @FXML
-    private Button checkoutButton;
+    private AnchorPane headerAnchorP;
     @FXML
-    private ImageView homeTitleCard;
+    private GridPane productGridPane;
     @FXML
-    private MenuItem mensTops;
+    private ImageView homeTitleCard, 
+                      imageV00, imageV10, imageV20,
+                      imageV01, imageV11, imageV21,
+                      imageV02, imageV12, imageV22;
     @FXML
-    private MenuItem mensBottoms;
+    private StackPane stackP00, stackP10, stackP20,
+                      stackP01, stackP11, stackP21,
+                      stackP02, stackP12, stackP22;
     @FXML
-    private MenuItem womensTops;
-    @FXML
-    private MenuItem womensBottoms;
-    @FXML
-    private MenuItem kidsTops;
-    @FXML
-    private MenuItem kidsBottoms;
-    @FXML
-    private MenuItem aboutUs;
-    @FXML 
-    private MenuItem ordersMenuItem;
+    private MenuItem mensTops, mensBottoms, 
+                     womensTops, womensBottoms, 
+                     kidsTops, kidsBottoms,
+                     aboutUs, ordersMenuItem;
     
-    
-
-    /*@FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
-    }
-    */
 
     //method to perform search from the search when the search button is clicked.
     @FXML
@@ -86,6 +79,48 @@ public class PrimaryController extends App{
                 e.printStackTrace();
             }  
         });
+        
+        headerAnchorP.setStyle("-fx-background-color: red;");
+
+        /*
+         * Declaring 2D array to map the respective image views to their corresponding 
+         * stack panes
+         */
+        ImageView[][] imageViews =
+        {
+            {imageV00, imageV10, imageV20},
+            {imageV01, imageV11, imageV21},
+            {imageV02, imageV12, imageV22}
+        };
+        
+        StackPane[][] stackPanes =
+        {
+            {stackP00, stackP10, stackP20},
+            {stackP01, stackP11, stackP21},
+            {stackP02, stackP12, stackP22}  
+        };
+
+        /*
+         * Nested for loop to iterate through the grid of images and set their fitWidth
+         * and fitHeight properties to the stack panes' which ensures that the grid of images
+         * on the home page will scale dynamically when the window is resized
+         */
+        for(int i = 0; i < imageViews.length; i++)
+        {
+            for(int j = 0; j < stackPanes[i].length; j++)
+            {
+                ImageView imageView = imageViews[i][j];
+                StackPane stackPane = stackPanes[i][j];
+
+                stackPane.prefWidthProperty().bind(productGridPane.widthProperty().divide(3));
+                stackPane.prefHeightProperty().bind(productGridPane.heightProperty().divide(3));
+
+                imageView.fitWidthProperty().bind(stackPane.widthProperty());
+                imageView.fitHeightProperty().bind(stackPane.heightProperty());
+                imageView.setPreserveRatio(false);
+                
+            }
+        } 
     }
 
 
