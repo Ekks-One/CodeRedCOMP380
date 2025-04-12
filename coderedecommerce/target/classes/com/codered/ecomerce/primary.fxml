@@ -1,72 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
-  All rights reserved. Use is subject to license terms.
-
-  This file is available and licensed under the following license:
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions
-  are met:
-
-  - Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
-  - Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in
-    the documentation and/or other materials provided with the distribution.
-  - Neither the name of Oracle Corporation nor the names of its
-    contributors may be used to endorse or promote products derived
-    from this software without specific prior written permission.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--->
-
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="650.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PrimaryController">
-  <children>
-      <AnchorPane prefHeight="72.0" prefWidth="1014.0">
+<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PrimaryController">
+   <children>
+      <AnchorPane fx:id="headerAnchorP">
          <children>
-          <MenuBar layoutY="62.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1014.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <menus>
-              <Menu mnemonicParsing="false" text="Men's Clothing">
-                <items>
-                  <MenuItem fx:id="mensTops" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
-                  <MenuItem fx:id="mensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
-                </items>
-              </Menu>
-              <Menu mnemonicParsing="false" text="Women's Clothing">
-                <items>
-                  <MenuItem fx:id="womensTops" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
+            <MenuBar layoutY="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <menus>
+                  <Menu mnemonicParsing="false" text="Men's Clothing">
+                     <items>
+                        <MenuItem fx:id="mensTops" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
+                        <MenuItem fx:id="mensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Women's Clothing">
+                     <items>
+                        <MenuItem fx:id="womensTops" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
                         <MenuItem fx:id="womensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
-                </items>
-              </Menu>
+                     </items>
+                  </Menu>
                   <Menu mnemonicParsing="false" text="Kids">
                      <items>
                         <MenuItem fx:id="kidsTops" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
@@ -79,102 +46,123 @@
                         <MenuItem fx:id="ordersMenuItem" mnemonicParsing="false" text="Orders" />
                      </items>
                   </Menu>
-            </menus>
+               </menus>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
-          </MenuBar>
-            <TextField blendMode="SRC_ATOP" editable="false" focusTraversable="false" layoutY="-8.0" prefHeight="70.0" prefWidth="1014.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <font>
-                  <Font name="Showcard Gothic" size="24.0" />
-               </font>
-               <effect>
-                  <ColorAdjust brightness="-0.02" contrast="0.26" saturation="1.0" />
-               </effect>
-            </TextField>
-            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="739.0" layoutY="14.0" prefHeight="30.0" prefWidth="201.0" promptText="Search" AnchorPane.rightAnchor="73.79999999999995">
+            </MenuBar>
+            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="1266.0" layoutY="43.0" promptText="Search" AnchorPane.rightAnchor="83.0" AnchorPane.topAnchor="45.0">
                <font>
                   <Font name="Calibri Light Italic" size="16.0" />
                </font>
             </TextField>
-            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="147.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0">
+            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="160.0" layoutY="25.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <Button fx:id="checkoutButton" layoutX="609.0" layoutY="16.0" mnemonicParsing="false" onAction="#itemView" prefHeight="26.0" prefWidth="99.0" text="Checkout" AnchorPane.rightAnchor="306.19999999999993" />
-            <Button fx:id="searchButton" layoutX="948.0" layoutY="17.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="52.0" text="Search" AnchorPane.rightAnchor="14.399999999999977" />
+            <Button fx:id="checkoutButton" layoutX="1186.0" layoutY="45.0" mnemonicParsing="false" onAction="#checkoutView" text="Checkout" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="45.0" />
+            <Button fx:id="searchButton" layoutX="1471.0" layoutY="44.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="45.0" />
          </children>
       </AnchorPane>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="558.0" prefWidth="1014.0" VBox.vgrow="ALWAYS">
+      <AnchorPane fx:id="gridAnchorPane" VBox.vgrow="ALWAYS">
          <children>
-            <ScrollPane fx:id="productScrollPane" fitToWidth="true" prefHeight="558.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="562.0" prefWidth="999.0">
+            <GridPane fx:id="productGridPane" alignment="CENTER" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                  <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                  <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
+                  <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
+                  <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
+               </rowConstraints>
+               <children>
+                  <StackPane fx:id="stackP00" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                      <children>
-                        <GridPane fx:id="productGridPane" gridLinesVisible="true" layoutY="-2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <ImageView fitHeight="190.0" fitWidth="342.0" pickOnBounds="true">
-                                 <image>
-                                    <Image url="@images/Item%200-0.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="189.0" fitWidth="345.0" pickOnBounds="true" GridPane.columnIndex="1">
-                                 <image>
-                                    <Image url="@images/Item%200-1.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="189.0" fitWidth="342.0" pickOnBounds="true" GridPane.columnIndex="2">
-                                 <image>
-                                    <Image url="@images/Item%200-2.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="188.0" fitWidth="346.0" pickOnBounds="true" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@images/Item%201-0.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="187.0" fitWidth="349.0" pickOnBounds="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@images/Item%201-1.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="187.0" fitWidth="350.0" pickOnBounds="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <image>
-                                    <Image url="@images/Item%201-2.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="187.0" fitWidth="349.0" pickOnBounds="true" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@images/Item%202-0.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="187.0" fitWidth="352.0" pickOnBounds="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@images/Item%202-1.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="188.0" fitWidth="348.0" pickOnBounds="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@images/Item%202-2.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </GridPane>
+                        <ImageView fx:id="imageV00" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%200-0.png" />
+                           </image>
+                        </ImageView>
                      </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
-         </children></AnchorPane>
-  </children>
+                  </StackPane>
+                  <StackPane fx:id="stackP10" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imageV10" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%201-0.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="stackP20" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imageV20" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%202-0.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="stackP01" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imageV01" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%200-1.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="stackP11" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imageV11" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%201-1.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="stackP21" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imageV21" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%202-1.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="stackP02" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imageV02" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%200-2.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="stackP12" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imageV12" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%201-2.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="stackP22" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="imageV22" pickOnBounds="true">
+                           <image>
+                              <Image url="@images/Item%202-2.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </children>
 </VBox>

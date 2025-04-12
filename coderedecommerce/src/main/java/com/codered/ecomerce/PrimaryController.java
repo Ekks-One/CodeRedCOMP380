@@ -4,53 +4,41 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
-public class PrimaryController {
+public class PrimaryController extends App{
 
-
-
+    //declaration of FXML elements
     @FXML
     private TextField searchTextBox;
     @FXML
-    private Button searchButton;
+    private Button searchButton, checkoutButton;
     @FXML
-    private Button checkoutButton;
+    private AnchorPane headerAnchorP;
     @FXML
-    private ImageView homeTitleCard;
+    private GridPane productGridPane;
     @FXML
-    private MenuItem mensTops;
+    private ImageView homeTitleCard, 
+                      imageV00, imageV10, imageV20,
+                      imageV01, imageV11, imageV21,
+                      imageV02, imageV12, imageV22;
     @FXML
-    private MenuItem mensBottoms;
+    private StackPane stackP00, stackP10, stackP20,
+                      stackP01, stackP11, stackP21,
+                      stackP02, stackP12, stackP22;
     @FXML
-    private MenuItem womensTops;
-    @FXML
-    private MenuItem womensBottoms;
-    @FXML
-    private MenuItem kidsTops;
-    @FXML
-    private MenuItem kidsBottoms;
-    @FXML
-    private MenuItem aboutUs;
-    @FXML 
-    private MenuItem ordersMenuItem;
+    private MenuItem mensTops, mensBottoms, 
+                     womensTops, womensBottoms, 
+                     kidsTops, kidsBottoms,
+                     aboutUs, ordersMenuItem;
     
-    
-
-    /*@FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
-    }
-    */
 
     //method to perform search from the search when the search button is clicked.
     @FXML
@@ -61,15 +49,10 @@ public class PrimaryController {
         System.out.println("Searching for: " + searchItem);
     }
 
-    //method to return to homepage when the home title card is clicked
+    //Uses method from App to swtich Scenes
     public void returnPrimary(MouseEvent event) throws IOException
     {
-        
-        Parent root = FXMLLoader.load(getClass().getResource("primary.fxml"));
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        App.switchScene("primary", event);
         //test (successful)
         System.out.println("Returning to homepage...");
     }
@@ -83,10 +66,67 @@ public class PrimaryController {
         System.out.println("Searching for: " + searchItem);
     }
 
+    @FXML
+    //* Method initialize is called automatically after fxml file loads */
+    //* Can Reuse for other pages to switch fxml files  */
+    //* Add all buttons, methods, etc that need to be implemetned when loaded */
+    public void initialize() {
+        // Ensure the checkout button has its functionality
+        checkoutButton.setOnAction(event -> {
+            try {
+                App.setRoot("checkoutView");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }  
+        });
+        
+        headerAnchorP.setStyle("-fx-background-color: red;");
 
-    public void itemView() throws IOException
+        /*
+         * Declaring 2D array to map the respective image views to their corresponding 
+         * stack panes
+         */
+        ImageView[][] imageViews =
+        {
+            {imageV00, imageV10, imageV20},
+            {imageV01, imageV11, imageV21},
+            {imageV02, imageV12, imageV22}
+        };
+        
+        StackPane[][] stackPanes =
+        {
+            {stackP00, stackP10, stackP20},
+            {stackP01, stackP11, stackP21},
+            {stackP02, stackP12, stackP22}  
+        };
+
+        /*
+         * Nested for loop to iterate through the grid of images and set their fitWidth
+         * and fitHeight properties to the stack panes' which ensures that the grid of images
+         * on the home page will scale dynamically when the window is resized
+         */
+        for(int i = 0; i < imageViews.length; i++)
+        {
+            for(int j = 0; j < stackPanes[i].length; j++)
+            {
+                ImageView imageView = imageViews[i][j];
+                StackPane stackPane = stackPanes[i][j];
+
+                stackPane.prefWidthProperty().bind(productGridPane.widthProperty().divide(3));
+                stackPane.prefHeightProperty().bind(productGridPane.heightProperty().divide(3));
+
+                imageView.fitWidthProperty().bind(stackPane.widthProperty());
+                imageView.fitHeightProperty().bind(stackPane.heightProperty());
+                imageView.setPreserveRatio(false);
+                
+            }
+        } 
+    }
+
+
+    public void checkoutView() throws IOException
     {
         //Linked to Checkout Button, but can change once we add something
-        App.setRoot("itemView");
+        App.setRoot("checkoutView");
     }
 }
