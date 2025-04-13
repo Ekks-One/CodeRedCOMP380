@@ -9,6 +9,7 @@ import java.sql.*;
 
 import com.codered.ecomerce.model.Customer;
 
+// Write to customer tables (insertions and updates)
 public class QueryInCustomer extends SwagConnection{
     public static void InsertCustomer(String fname, String lname, String email, String[] address) throws SQLException{
         String sql = "INSERT INTO customer (customer_first_name, customer_last_name, customer_email) VALUES (?,?,?)";

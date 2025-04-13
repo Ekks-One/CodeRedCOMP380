@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.codered.ecomerce.model.Customer;
 
+// Read from customer tables (Selects)
 public class QuerySeCustomer extends SwagConnection{
     public static void getCustomers(ArrayList<Customer> customers){
         String sql = "SELECT * FROM customer";

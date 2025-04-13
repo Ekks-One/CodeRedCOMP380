@@ -68,6 +68,9 @@ public class Product {
     public double getBasePrice() {
         return basePrice;
     }
+    public ArrayList<Variant> getVariants(){
+        return variants;
+    }
 
     private void fetchVariants(){
         QuerySeProduct.getVariants(ID, variants);

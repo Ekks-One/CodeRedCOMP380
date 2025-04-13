@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
 
+// Just here to use the properties file to connect to database
 public class SwagConnection {
     protected static final Logger log;
     protected static final Properties properties = new Properties();
