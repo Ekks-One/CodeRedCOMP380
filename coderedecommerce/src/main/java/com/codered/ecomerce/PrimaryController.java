@@ -1,17 +1,23 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
-
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class PrimaryController extends App{
 
@@ -82,6 +88,8 @@ public class PrimaryController extends App{
         
         headerAnchorP.setStyle("-fx-background-color: red;");
 
+
+
         /*
          * Declaring 2D array to map the respective image views to their corresponding 
          * stack panes
@@ -122,7 +130,24 @@ public class PrimaryController extends App{
             }
         } 
     }
+    /*
+     * Method to handle the click event on the images within the gridPane and returns the
+     * itemView page of the selected item, passing the image from the homepage to the itemView page
+     */
+    public void itemView(MouseEvent event) throws IOException
+    {
+        ImageView clickedImage = (ImageView) event.getSource();
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("itemView.fxml"));
+        Parent root = loader.load();
+
+        ItemViewController controller = loader.getController();
+        controller.setItemImage(clickedImage.getImage());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
     public void checkoutView() throws IOException
     {

@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
@@ -14,15 +15,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.ItemViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.ItemViewController">
    <top>
       <AnchorPane prefHeight="92.0" prefWidth="960.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView onMouseClicked="#returnPrimary" fitHeight="54.0" fitWidth="79.0" layoutX="7.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="507.0">
+            <ImageView fx:id="selectedImageView" fitHeight="54.0" fitWidth="79.0" layoutX="7.0" layoutY="5.0" onMouseClicked="#returnPrimary" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="507.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
@@ -33,65 +35,77 @@
                     <menus>
                       <Menu mnemonicParsing="false" text="Men's Clothing">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Close" />
+                          <MenuItem fx:id="mensTops" mnemonicParsing="false" onAction="#menuSearch" text="Men's Tops" />
+                              <MenuItem fx:id="mensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Men's Bottoms" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Women's Clothing">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
+                          <MenuItem fx:id="womensTops" mnemonicParsing="false" onAction="#menuSearch" text="Women's Tops" />
+                              <MenuItem fx:id="womensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Women's Bottoms" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Kids">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="About" />
+                          <MenuItem fx:id="kidsTops" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Tops" />
+                              <MenuItem fx:id="kidsBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Bottoms" />
                         </items>
                       </Menu>
                         <Menu mnemonicParsing="false" text="More">
                            <items>
-                              <MenuItem mnemonicParsing="false" text="Close" />
+                              <MenuItem mnemonicParsing="false" text="About Us" />
+                              <MenuItem mnemonicParsing="false" text="Orders" />
                            </items>
                         </Menu>
                     </menus>
                   </MenuBar>
                </children>
             </HBox>
-            <TextField layoutX="748.0" layoutY="19.0" prefWidth="150.0" AnchorPane.rightAnchor="102.0" />
-            <Button layoutX="906.0" layoutY="19.0" mnemonicParsing="false" text="Search" AnchorPane.rightAnchor="42.0" />
+            <TextField layoutX="735.0" layoutY="19.0" prefWidth="150.0" AnchorPane.rightAnchor="75.0" />
+            <Button fx:id="searchButton" layoutX="894.0" layoutY="19.0" mnemonicParsing="false" text="Search" AnchorPane.rightAnchor="14.0" />
+            <Button fx:id="checkoutButton" layoutX="656.0" layoutY="19.0" mnemonicParsing="false" onAction="#checkoutView" text="Checkout" AnchorPane.rightAnchor="238.0" />
          </children>
       </AnchorPane>
    </top>
    <center>
-      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.5" prefWidth="960.0" BorderPane.alignment="CENTER">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane fx:id="leftAnchorPane">
                <children>
                   <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <ImageView fitHeight="458.0" fitWidth="442.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="14.0">
+                        <StackPane fx:id="imageStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ImageView fx:id="itemImageView" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <image>
                               <Image url="@images/CodeRedTEE.png" />
                            </image>
                         </ImageView>
                      </children>
                   </AnchorPane>
+                  <HBox layoutY="387.0" prefHeight="190.0" prefWidth="542.0" />
+                  <TextArea fx:id="productDesciptionBox" layoutX="14.0" layoutY="370.0" text="Product Description:&#10;Elevate your everyday look with this versatile and stylish piece, designed&#10;for both comfort and flair. Crafted from high-quality, breathable fabric, this &#10;item offers a flattering fit that moves with you throughout the day. &#10;Whether you're dressing it up or keeping it casual, it's perfect for any &#10;occasion.&#10;Features:&#10;- Soft, durable material for all-day comfort&#10;- Modern fit with a timeless silhouette&#10;- Available in multiple colors and sizes&#10;- Easy to care for – machine washable&#10;- Great for layering or wearing on its own" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <font>
+                        <Font size="12.5" />
+                     </font>
+                  </TextArea>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="506.0" prefWidth="747.0">
                <children>
-                  <ScrollPane fitToWidth="true" layoutX="-2.0" layoutY="-1.0" minViewportHeight="350.0" prefHeight="509.0" prefViewportHeight="200.0" prefWidth="480.0" AnchorPane.bottomAnchor="-2.2000000000000455" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.1999999999999886" AnchorPane.topAnchor="-1.0">
+                  <ScrollPane fitToWidth="true" layoutX="-2.0" layoutY="-1.0" minViewportHeight="350.0" prefViewportHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="478.0">
+                      <AnchorPane fx:id="leftAnchorPane" minWidth="200.0" prefHeight="505.0" prefWidth="461.0">
                            <children>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="506.0" prefWidth="747.0">
+                              <AnchorPane layoutY="-4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <AnchorPane layoutX="26.0" layoutY="238.0" prefHeight="106.0" prefWidth="385.0" AnchorPane.leftAnchor="26.0">
+                                    <AnchorPane layoutY="238.0">
                                        <children>
                                           <HBox layoutY="53.0" prefHeight="23.0" prefWidth="386.0" spacing="15.0">
                                              <children>
-                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="SMALL" />
-                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="MEDIUM" />
-                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="LARGE" />
-                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="X-LARGE" />
+                                                <Button fx:id="smallButton" mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="SMALL" />
+                                                <Button fx:id="mediumButton" mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="MEDIUM" />
+                                                <Button fx:id="largeButton" mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="LARGE" />
+                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="X-LARGE" fx:id="xlButton" />
                                              </children>
                                              <opaqueInsets>
                                                 <Insets />
@@ -105,8 +119,8 @@
                                                 <Font size="24.0" />
                                              </font>
                                           </Text>
-                                          <Line endX="231.0" layoutX="153.0" layoutY="92.0" startX="-146.0" />
-                                          <Line endX="231.0" layoutX="153.0" startX="-146.0" />
+                                          <Line endX="231.0" layoutX="153.0" layoutY="92.0" startX="-146.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="1.5" />
+                                          <Line endX="231.0" layoutX="153.0" startX="-146.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="2.0" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane layoutX="27.0" layoutY="112.0" prefHeight="108.0" prefWidth="153.0">
@@ -116,8 +130,8 @@
                                                 <Font name="Calibri" size="24.0" />
                                              </font>
                                           </Text>
-                                          <ToggleButton layoutX="14.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: black;" text="BLACK" />
-                                          <ToggleButton layoutX="87.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: red;" text="RED" />
+                                          <ToggleButton fx:id="colorBlack" layoutX="14.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: black;" text="BLACK" />
+                                          <ToggleButton fx:id="colorRed" layoutX="87.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: red;" text="RED" />
                                        </children>
                                     </AnchorPane>
                                     <Text fx:id="itemNameText" layoutX="26.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Red Tee">
