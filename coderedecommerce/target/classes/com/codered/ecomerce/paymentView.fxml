@@ -56,31 +56,34 @@
          </children>
       </AnchorPane>
    </top>
-   <left>
+   <center>
       <AnchorPane prefHeight="510.0" prefWidth="962.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Information" wrappingWidth="302.13671875">
+            <Text layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Information" wrappingWidth="330.13671875">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text layoutX="17.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Number" />
-            <Text layoutX="17.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ZIP Code" />
-            <Text layoutX="16.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Code" />
-            <TextField fx:id="cardNumTextBox" layoutX="16.0" layoutY="95.0" prefHeight="25.0" prefWidth="255.0" promptText="16-Digit Card No." />
-            <TextField fx:id="securityNumTextBox" layoutX="15.0" layoutY="166.0" prefHeight="25.0" prefWidth="106.0" promptText="ex. 123" />
-            <TextField fx:id="zipCodeTextBox" layoutX="16.0" layoutY="230.0" prefHeight="25.0" prefWidth="103.0" promptText="ex. 12345" />
-            <Text layoutX="142.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Type" />
-            <ChoiceBox fx:id="cardTypeChoiceBox" layoutX="142.0" layoutY="166.0" prefHeight="25.0" prefWidth="127.0" />
-            <Text layoutX="143.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Holder" />
-            <TextField fx:id="cardHolderTextBox" layoutX="142.0" layoutY="230.0" prefHeight="25.0" prefWidth="127.0" promptText="ex. John Doe" />
-            <Button fx:id="confirmPayButton" layoutX="143.0" layoutY="281.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="126.0" text="Confirm Payment" />
+            <Text layoutX="35.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Number" />
+            <Text layoutX="187.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ZIP Code" />
+            <Text layoutX="34.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Code" />
+            <TextField fx:id="cardNumTextBox" layoutX="35.0" layoutY="95.0" prefHeight="25.0" prefWidth="255.0" promptText="16-Digit Card No." />
+            <TextField fx:id="securityNumTextBox" layoutX="35.0" layoutY="163.0" prefHeight="25.0" prefWidth="106.0" promptText="ex. 123" />
+            <TextField fx:id="zipCodeTextBox" layoutX="187.0" layoutY="227.0" prefHeight="25.0" prefWidth="103.0" promptText="ex. 12345" />
+            <Text layoutX="35.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Type" />
+            <ChoiceBox fx:id="cardTypeChoiceBox" layoutX="35.0" layoutY="286.0" prefHeight="25.0" prefWidth="127.0" />
+            <Text layoutX="38.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Holder" />
+            <TextField fx:id="cardHolderTextBox" layoutX="35.0" layoutY="227.0" prefHeight="25.0" prefWidth="127.0" promptText="ex. John Doe" />
+            <Button fx:id="confirmPayButton" onAction="#confirmPayment" layoutX="35.0" layoutY="345.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" text="Confirm Payment" />
             <Text layoutX="480.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Order" wrappingWidth="302.13671875">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
+            <Text layoutX="169.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expiration Date" />
+            <ChoiceBox fx:id="cardDateYearChoiceBox" layoutX="221.0" layoutY="163.0" prefHeight="25.0" prefWidth="71.0" />
+            <ChoiceBox fx:id="cardDateMonthChoiceBox" layoutX="171.0" layoutY="163.0" prefHeight="25.0" prefWidth="45.0" />
          </children>
       </AnchorPane>
-   </left>
+   </center>
 </BorderPane>
