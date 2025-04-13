@@ -5,9 +5,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -20,6 +25,8 @@ public class CheckoutController extends App implements Initializable {
 	//Population of the Choice Box
     @FXML
     private ChoiceBox<String> statesChoiceBox;
+    @FXML
+    private Button placeOrderButton;
 
     private String selectedState;
     private String firstName;
@@ -42,23 +49,42 @@ public class CheckoutController extends App implements Initializable {
     }
 
     //* Gathers all info inputed from the page */
-    public void placeOrder() throws Exception {
+
+    //* Places order if all required fields are filled out */
+    public void returnPayment(ActionEvent event) throws IOException {
         firstName = fnameTextBox.getText();
         lastName = lnameTextBox.getText();
         address = addressTextBox.getText();
         selectedState = statesChoiceBox.getValue();
         email = emailTextBox.getText();
-        
-        if(!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && 
-            !selectedState.equals("Select State") && !email.isEmpty()) {
-            System.out.println("Checkout Successful! \n" +
-                "Name: " + firstName + " " + lastName + "\n" +
-                "Address: " + address + ", " + selectedState + "\n" +
-                "Email: " + email);
-        } else {
-            System.out.println("Please fill in all required fields.");
-        }
-    }
+
+        try {
+            if(!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && 
+                !selectedState.equals("Select State") && !email.isEmpty()) {
+                System.out.println("Checkout Successful! \n" +
+                    "Name: " + firstName + " " + lastName + "\n" +
+                    "Address: " + address + ", " + selectedState + "\n" +
+                    "Email: " + email);
+                // Load the new FXML file
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("paymentView.fxml"));
+                Parent root = loader.load();
+
+                // Get the current stage
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+                // Set the new scene
+                stage.setScene(new Scene(root));
+                stage.setTitle("Order Confirmation");
+                stage.show();
+            } 
+            else {
+                System.out.println("Please fill in all required fields.");
+            }
+            
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    } 
 
     //* Returns to primary(HomePage) */
     public void returnPrimary(MouseEvent event) throws IOException {
@@ -68,11 +94,12 @@ public class CheckoutController extends App implements Initializable {
         System.out.println("Returning to homepage...");
     }
 
-
     // Example event handler
     @FXML
-    private void handleSomething(ActionEvent event) {
+    private void getSelectedState(ActionEvent event) {
         String selectedState = statesChoiceBox.getValue();
         System.out.println("Selected State: " + selectedState);
     }
+
+
 }

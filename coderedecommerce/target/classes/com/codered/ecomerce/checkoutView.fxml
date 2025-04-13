@@ -133,7 +133,7 @@
                         <Text layoutX="29.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State" />
                         <Text layoutX="27.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail Address" />
                         <TextField fx:id="emailTextBox" layoutX="24.0" layoutY="257.0" prefHeight="26.0" prefWidth="317.0" />
-                        <Button fx:id="placeOrderButton" onAction="#placeOrder" layoutX="85.0" layoutY="384.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="210.0" text="Place Order" />
+                        <Button fx:id="placeOrderButton" onAction="#returnPayment" layoutX="85.0" layoutY="384.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="210.0" text="Place Order" />
                         <Text layoutX="25.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter your information">
                            <font>
                               <Font size="16.0" />
