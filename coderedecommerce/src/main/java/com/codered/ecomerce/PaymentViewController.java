@@ -1,3 +1,7 @@
+/**
+ * Codered E-Commece System
+ * this {@code PaymentViewController} class is used to handle the payment view of the application.
+ */
 package com.codered.ecomerce;
 
 import java.io.IOException;

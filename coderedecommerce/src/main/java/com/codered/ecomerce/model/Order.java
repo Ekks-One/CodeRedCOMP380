@@ -1,3 +1,15 @@
+/**
+ * Codered E-Commerce System
+ * The {@code Order} class represents an order in the e-commerce system.
+ * It contains all pertinent information about the order such as the order ID,
+ * customer details, order items, order status, order count, and the date the order was placed.
+ * 
+ * <p> This class provides methods to retrieve and update order information.</p>
+ * 
+ * @author CodeRed Team (Alfredo, Xavier)
+ * @version 1.0
+ * Created on 04-01-2025
+ */
 package com.codered.ecomerce.model;
 
 import com.codered.ecomerce.model.Product;
@@ -6,7 +18,9 @@ import java.util.List;
 import java.util.LinkedList;
 import java.time.LocalDateTime;
 
-
+/**
+ * This class represents an order object in the e-commerce system.
+ */
 public class Order 
 {
     private int orderID;
@@ -17,7 +31,9 @@ public class Order
     private int orderCount = 0;
     private LocalDateTime orderDate;
 
-    //constructor to initialize order with the appropriate details
+    /*
+    * constructor to initialize order with the appropriate details
+    */
     public Order(int orderID, Customer customer, List<Product> orderItems, OrderStatus orderStatus, int orderCount, LocalDateTime orderDate)
     {
         this.orderID = orderID;
@@ -28,7 +44,11 @@ public class Order
         this.orderDate = orderDate;
     }
 
-    //getters
+    /**
+     * getters responsible for retrieving all pertinent info about the order.
+     * @return orderID, customerID, orderItems, orderCount, orderStatus,
+     * and orderDate.
+     */
     public int getOrderID()
     {
         return orderID;
@@ -59,7 +79,16 @@ public class Order
         return orderDate;
     }
 
-    //setters
+    /**
+     * setters responsible for updating order details after the order has 
+     * been created
+     * @param orderID, 
+     * @param customerID,
+     * @param orderItems,
+     * @param orderCount,
+     * @param orderStatus,
+     * @param orderDate
+     */
     public void setOrderID(int orderID)
     {
         this.orderID = orderID;
@@ -90,7 +119,11 @@ public class Order
         this.orderDate = orderDate;
     }
         
-    //method to generate order ID
+    /**
+     * method to generate order ID for a customer once they place an order
+     * @param customer
+     * @return order object with all the details of the order
+     */
     public Order generateOrderID(Customer customer)
     {
         orderCount++;
@@ -99,33 +132,56 @@ public class Order
         return new Order(orderCount, customer, new LinkedList<>(), OrderStatus.PENDING, orderCount, LocalDateTime.now());
     }
 
+    /**
+     * method to check if an item is in stock before placing an order
+     * @return true if the item is in stock, false otherwise
+     */
     public boolean checkStock()
     {
         //returning true for now until database gets implemented
         return true;
     }
 
+    /**
+     * method to retrieve order details for a customer
+     * 
+     */
     public void retrieveOrderDetails()
     {
         //leaving emptyf for now
     }
 
-    public void orderhistory()
+    /**
+     * method to retrive order history for a particular customer
+     * @param customerID
+     */
+    public void orderhistory(int customerID)
     {
         //leaving empty for now
     }
 
+    /**
+     * method to retrieve all system orders
+     * @return list of all orders in the system
+     */
     public void allSystemOrders()
     {
         /*leaving empty for now, im thinking it might be better to implement this
         in a future sprint.*/
     }
 
-    public void updateOrderStatus()
+    /**
+     * method to update the status of an order
+     * @param orderStatus the new status to set for the order
+     */
+    public void updateOrderStatus(OrderStatus orderStatus)
     {
-        //leaving empty for now
+        this.orderStatus = orderStatus; // Update the order status
     }
 
+    /**
+     * method to display a summary of the order details
+     */
     public void sendConfirmationEmail()
     {
         //leaving empty for now
