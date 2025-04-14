@@ -1,3 +1,13 @@
+/**
+ * CodeRed E-Commerce System
+ * This {@code App} class is the main entry point of the application.
+ * It initializes the JavaFX application, sets up the primary stage,
+ * and provides methods for switching scenes and loading FXML files.
+ * 
+ * @author CodeRed Team (Xavier, Alfredo, Miguel)
+ * @version 1.0
+ * @see primary.fxml
+ */
 package com.codered.ecomerce;
 
 import java.io.IOException;
@@ -40,7 +50,6 @@ public class App extends Application {
     /**
      * This method is used to set the primary root of the application
      */
-
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));

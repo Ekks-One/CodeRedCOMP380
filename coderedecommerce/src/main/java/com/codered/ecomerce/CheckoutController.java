@@ -1,4 +1,15 @@
+/**
+ * CodeRed E-Commerce Application
+ * This {@code CheckoutController} class is used to handle the checkout operations of the application
+ * it contains methods that initializes the checkout view, handles the checkout process,
+ * and returns the user to the primary view.
+ * 
+ * @author CodeRed Team (Miguel)
+ * @version 1.0
+ * @see checkoutView.fxml
+ */
 package com.codered.ecomerce;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,12 +26,9 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 
-
-///* CheckoutController controls the checkout page of the application. It handles the checkout process and user input for shipping details.
-/// @author(s) Miguel Alfaro
-/// @version 1.0
-/// 
-///  */
+/**
+ * CheckoutController controls the operation of the checkout page
+ */
 public class CheckoutController extends App implements Initializable {
 
     @FXML
@@ -38,8 +46,11 @@ public class CheckoutController extends App implements Initializable {
     private String address;
     private String email;
 
-    
-
+    /**
+     * Method to initialize the drop down menu that contains the states that are deliverable to the user
+     * @param location the URL location of the FXML file
+     * @param resources the ResourceBundle containing the resource for the FXML file
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         statesChoiceBox.getItems().addAll(
@@ -52,9 +63,12 @@ public class CheckoutController extends App implements Initializable {
         statesChoiceBox.setValue("Select State"); //Default Text
     }
 
-    //* Gathers all info inputed from the page */
-
-    //* Places order if all required fields are filled out, proceed  to payment selection */
+    /**
+     * Method to handle the checkout process when the user clicks the place order button
+     * it checks if all the required fields are filled in and then proceeds to load the payment view
+     * @param event
+     * @throws IOException
+     */
     public void returnPayment(ActionEvent event) throws IOException {
         firstName = fnameTextBox.getText();
         lastName = lnameTextBox.getText();
@@ -96,7 +110,11 @@ public class CheckoutController extends App implements Initializable {
             }
     } 
 
-    //* Returns to primary(HomePage) */
+    /**
+     * Method to return the user to the primary view when the title card is clicked
+     * @param event
+     * @throws IOException
+     */
     public void returnPrimary(MouseEvent event) throws IOException {
         // Get the current stage
         App.switchScene("primary", event);

@@ -1,6 +1,11 @@
 /**
  * Codered E-Commece System
  * this {@code PaymentViewController} class is used to handle the payment view of the application.
+ * it contains methods to handle the payment functionality, including
+ * initializing the view, confirming the payment, and returning to the homepage.
+ * 
+ * @Author CodeRed Team (Miguel, Xavier)
+ * @version 1.0
  */
 package com.codered.ecomerce;
 
@@ -15,16 +20,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 
-
-///*
-/// PaymentViewController controls the payment view page of the application. It handles the payment process and user input for payment details.
-/// @author(s) Miguel Alfaro
-/// @version 1.0
-/// 
-///  */
+/**
+ * PaymentViewController controls the operations of the payment view page
+ */
 public class PaymentViewController extends App implements Initializable{
-
-
 
     @FXML
     private ChoiceBox<String> cardTypeChoiceBox;
@@ -39,6 +38,11 @@ public class PaymentViewController extends App implements Initializable{
     @FXML
     private String cardNumber, cardSecurityCode, cardHolderName, cardType, cardDateMonth, cardDateYear, zipCode;
 
+    /**
+     * Method to initialize the PaymentViewController class
+     * @param location the URL location, 
+     * @param resources the ResourceBundle
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Initialize the ChoiceBox with card types
@@ -62,7 +66,11 @@ public class PaymentViewController extends App implements Initializable{
     }//end initialize
 
 
-    
+/**
+ * Method to confirm the payment and display the payment details
+ * @param ActionEvent event that triggers the method
+ * @throws IOException 
+ */    
     public void confirmPayment(ActionEvent event) throws IOException {
 
         // Get the values from the text fields and choice boxes
@@ -111,7 +119,11 @@ public class PaymentViewController extends App implements Initializable{
         }
 
     }
-    //* Click CodeRedLogo, return to homepage */
+    /**
+     *  Method that returns the user to the homepage by clicking on the home title card
+     * @param MouseEvent event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
     public void returnPrimary(MouseEvent event) throws IOException {
         // Get the current stage
         App.switchScene("primary", event);
@@ -119,4 +131,4 @@ public class PaymentViewController extends App implements Initializable{
         System.out.println("Returning to homepage...");
     }
     
-}//end PaymentViewController
+}

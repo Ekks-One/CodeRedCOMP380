@@ -9,7 +9,7 @@
  * 
  * @author CodeRed Team (Xavier, Alfredo)
  * @version 1.0
- * Created on 04-01-2025
+ * @created on 04-01-2025
  */
 package com.codered.ecomerce.model;
 

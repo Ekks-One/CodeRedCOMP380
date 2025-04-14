@@ -1,3 +1,12 @@
+/**
+ * CodRed E-Commerce System
+ * This class handles database queries related to products and variants.
+ * It retrieves product and variant information from the database and populates the respective objects.
+ * 
+ * @author CodeRed Team (Jesus)
+ * @version 1.0
+ * @created on 04/12/2025
+ */
 package com.codered.ecomerce.sql;
 
 import java.sql.Connection;
@@ -11,9 +20,16 @@ import com.codered.ecomerce.model.*;
 import com.codered.ecomerce.enums.*;
 
 
-// Read from product tables (selects)
+/**
+ * Read from product tables (selects)
+ * This class is responsible for querying the database to retrieve product and variant information.
+ */
 public class QuerySeProduct extends SwagConnection{
-    // populates the product objects
+    /**
+     * populates the product objects
+     * @param products the arraylist to store the products
+     * @throws SQLException if there is an error with the SQL query
+     */ 
     public static void getProducts(ArrayList<Product> products){
         String sql = "SELECT * FROM product";
 
@@ -40,7 +56,11 @@ public class QuerySeProduct extends SwagConnection{
             e.printStackTrace();
         }
     }
-    // populates the varient objects
+    /**
+     * populates the varient objects
+     * @param prodID the product id, @param variants the arraylist to store the variants
+     * @throws SQLException if there is an error with the SQL query
+     */
     public static void getVariants(int prodID, ArrayList<Variant> variants){
         String sql = "SELECT * FROM product_price_stock";
 

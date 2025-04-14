@@ -1,3 +1,11 @@
+/**
+ * CodeRed E-Commerce System
+ * This {@code QueryInProduct} class handles the insertion and update of product data in the database
+ * 
+ * @author CodeRed Team (Jesus)
+ * @version 1.0
+ * @created on 04/12/2025
+ */
 package com.codered.ecomerce.sql;
 
 import java.sql.Connection;
@@ -8,7 +16,9 @@ import java.sql.*;
 
 import com.codered.ecomerce.model.Variant;
 
-// Write to product tables (insertions and updates)
+/**
+ * Write to product tables (insertions and updates)
+ */ 
 public class QueryInProduct extends SwagConnection{
     public static void UpdateStock(Variant product, int change) throws SQLException{
         String Update = "UPDATE product_price_stock SET product_stock = ? WHERE product_id = ? AND product_color = ? AND product_size = ? AND product_material = ?";

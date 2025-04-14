@@ -1,3 +1,13 @@
+/**
+ * CodeRed E-Commerce Application
+ * This {@code ItemViewController} class is used to handle the item view of the application.
+ * It contains methods to handle the item view functionality, including adding items to the cart, selecting colors and sizes, 
+ * and navigating back to the homepage.
+ * 
+ * @authors CodeRed Team (Xavier, Miguel, Alfredo)
+ * @version 1.0
+ * @see itemView.fxml
+ */
 package com.codered.ecomerce;
 
 import java.io.IOException;
@@ -21,7 +31,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-
+/**
+ * ItemViewController controls the item view page of the application. It handles the item view functionality
+ */
 public class ItemViewController extends App{
 
     @FXML
@@ -47,25 +59,20 @@ public class ItemViewController extends App{
     private int quantityAmmount;
     private String itemID;
 
-    ///*
-    /// @author(s) Xavier Ramos, Alfredo Catzin, Miguel Alfaro
-    /// @version 1.0
-    /// 
-    ///  */
-
     /*
      * Method to initialize the page and set the default values for the item view page
      */
     public void initialize()
     {
         itemImageView.fitWidthProperty().bind(imageStackPane.widthProperty());
-        itemImageView.fitHeightProperty().bind(imageStackPane.heightProperty());
-
-    
+        itemImageView.fitHeightProperty().bind(imageStackPane.heightProperty());    
     }
 
-    //*Combine all item info on page together */
-
+    /**
+     * Method to add the selected item to the customers cart
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
     public void AddtoCart() throws Exception {
         itemName = itemNameText.getText();
         quantityAmmount = Integer.parseInt(quantityTextField.getText());
@@ -76,8 +83,12 @@ public class ItemViewController extends App{
         }
     }
 
-    //* Click CodeRedLogo, return to homepage */
-
+    /**
+     *  Method that returns the user to the homepage by clicking on the home title card
+     * @param MouseEvent "click" event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
     public void returnPrimary(MouseEvent event) throws IOException {
         // Get the current stage
         App.switchScene("primary", event);
@@ -99,28 +110,42 @@ public class ItemViewController extends App{
         itemImageView.setImage(image);
     }
 
-    //* Returns Color Selected */
-
+    /**
+     *  Method to select the color of the item the customer has selected
+     * @param event the action event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
     public void colorSelect(ActionEvent event) throws Exception {
         ToggleButton selectedButton = (ToggleButton) event.getSource();
         selectedColor = selectedButton.getText();
         System.out.println("Color " + selectedColor + " selected!");
     }
     
-    //* Returns Size Selected */
-
+    /** 
+     * Method to select the size of the item the customer has selected
+     * @param event the action event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
     public void sizeSelect(ActionEvent event) throws Exception {
         Button selctedButton = (Button) event.getSource();
         selectedSize = selctedButton.getText();
         System.out.println("Size " + selectedSize + " selected!");
     }
 
-    //* " + Button " will add 1 to current Quantity in TextField  */
+    /** 
+     * Method to add 1 to the current quantity in the TextField
+     * @throws IOException if there is an error loading the fxml file 
+     */
     public void addQuantity() throws Exception {
         quantityTextField.setText(String.valueOf(Integer.parseInt(quantityTextField.getText()) + 1));
     }
 
-    //* " - Button " will subtract 1 to current Quantity in TextField  */
+    /**
+     * Method to subtract 1 from the current quantity in the TextField
+     * @throws IOException if there is an error loading the fxml file
+     */
     public void subtractQuantity() throws Exception {
         if(Integer.parseInt(quantityTextField.getText()) > 0) {
             quantityTextField.setText(String.valueOf(Integer.parseInt(quantityTextField.getText()) - 1));
@@ -129,8 +154,11 @@ public class ItemViewController extends App{
         }
     }
 
-    /*
+    /**
      * Method to add functionality of the checkout button within the itemView page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     * @see checkoutView.fxml
      */
     public void checkoutView(ActionEvent event) throws IOException
     {
@@ -146,8 +174,10 @@ public class ItemViewController extends App{
                 stage.show();
     }
 
-    /*
+    /**
      * Method to add functionality of the menu serch bar within the itemView page
+     * @param even the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
      */
         public void menuSearch(ActionEvent event) throws IOException
     {
@@ -156,8 +186,11 @@ public class ItemViewController extends App{
         System.out.println("Searching for: " + searchItem);
     }
 
-    /*
+    /**
      * Method to add functionality of the search button within the itemView page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     * @see searchView.fxml
      */
     public void search() throws IOException
     {

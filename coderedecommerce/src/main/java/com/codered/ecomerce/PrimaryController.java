@@ -90,7 +90,11 @@ public class PrimaryController extends App{
         System.out.println("Returning to homepage...");
     }
 
-    //method to perform a filtered search from the menu bar corresponding to the selected menu item
+    /**
+     * method to perform a filtered search from the menu bar corresponding to the selected menu item
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */ 
     @FXML
     public void menuSearch(ActionEvent event) throws IOException
     {
@@ -105,16 +109,6 @@ public class PrimaryController extends App{
     * Add all buttons, methods, etc that need to be implemented when loaded 
     */
     public void initialize() {
-        /**
-         * Ensure the checkout button has its functionality
-         */ 
-        checkoutButton.setOnAction(event -> {
-            try {
-                App.setRoot("checkoutView");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }  
-        });
         
         headerAnchorP.setStyle("-fx-background-color: red;");
 
@@ -154,10 +148,10 @@ public class PrimaryController extends App{
                 imageView.fitWidthProperty().bind(stackPane.widthProperty());
                 imageView.fitHeightProperty().bind(stackPane.heightProperty());
                 imageView.setPreserveRatio(false);
-                
             }
         } 
     }
+    
     /*
      * Method to handle the click event on the images within the gridPane and returns the
      * itemView page of the selected item, passing the image from the homepage to the itemView page
@@ -180,12 +174,13 @@ public class PrimaryController extends App{
     /**
      * Method to handle the click event on the checkout button and returns the 
      * checkoutView page
-     * * @param event the mouse event that triggers the method
+     * @param event the mouse event that triggers the method
      * @throws IOException if there is an error loading the fxml file
      */
-    public void checkoutView() throws IOException
+    @FXML
+    public void checkoutView(ActionEvent event) throws IOException
     {
-        //Linked to Checkout Button, but can change once we add something
+        System.out.println("Taking you to checkout!");
         App.setRoot("checkoutView");
     }
 }

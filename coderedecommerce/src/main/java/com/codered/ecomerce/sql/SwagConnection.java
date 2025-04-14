@@ -1,3 +1,13 @@
+/**
+ * CodeRed E-Commerce System
+ * This {@code SwagConnection} class is responsible for establishing a connection to the database and performing various
+ * database operations related to products, colors, materials, and sizes.
+ * It provides methods to initialize products, insert product attributes, and manage product pricing and stock.
+ * 
+ * @author CodeRed Team (Jesus)
+ * @version 1.0
+ * @created on 04/12/2025
+ */
 package com.codered.ecomerce.sql;
 
 import com.codered.ecomerce.enums.*;

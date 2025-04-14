@@ -1,3 +1,11 @@
+/**
+ * CodeRed E-Commerce System
+ * This {@code QuerySeCustomer} class handles the selection of customer data from the database
+ * 
+ * @author CodeRed Team (Jesus)
+ * @version 1.0
+ * @created on 04/12/2025
+ */
 package com.codered.ecomerce.sql;
 
 import java.sql.Connection;
@@ -9,7 +17,9 @@ import java.util.ArrayList;
 
 import com.codered.ecomerce.model.Customer;
 
-// Read from customer tables (Selects)
+/**
+ * Read from customer tables (Selects)
+ */ 
 public class QuerySeCustomer extends SwagConnection{
     public static void getCustomers(ArrayList<Customer> customers){
         String sql = "SELECT * FROM customer";

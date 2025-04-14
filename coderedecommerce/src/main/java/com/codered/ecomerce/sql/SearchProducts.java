@@ -1,3 +1,11 @@
+/**
+ * CodeRed E-Commerce System
+ * This {@code SearchProduct} class handles the searching of products in the database
+ * 
+ * @author CodeRed Team (Jesus)
+ * @version 1.0
+ * @created on 04/12/2025
+ */
 package com.codered.ecomerce.sql;
 
 import java.sql.Connection;
@@ -10,13 +18,19 @@ import java.util.ArrayList;
 import com.codered.ecomerce.model.*;
 import com.codered.ecomerce.enums.*;
 
-// parses and searches for imputted string
+/**
+ * parses and searches for imputted string
+ */ 
 public class SearchProducts extends SwagConnection{
     static String search;
 
     private SearchProducts(){}
 
-    // to get the result for direct strings
+    /**
+     *  Method to get the result for direct strings
+     * @param token the string to search for, @param searchResults the arraylist to store the results
+     * @throws SQLException if there is an error with the SQL query
+     */
     public static void SearchHelperProduct(String token, ArrayList<Variant> searchResults){
         String sql = "SELECT * FROM product WHERE product_name LIKE %"+ token.toString() + "% OR DIFFERENCE (UPPER(product_name), "+token.toString()+") >= 3";
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
@@ -41,7 +55,11 @@ public class SearchProducts extends SwagConnection{
         }
     }
 
-    // to get the results for matching colors/materials/sizes
+    /**
+     *  Method to get the results for matching colors/materials/sizes
+     * @param token the enum to search for, @param searchResults the arraylist to store the results
+     * @throws SQLException if there is an error with the SQL query
+     */ 
     public static <E extends Enum<E>> void SearchHelperCMS(E token, ArrayList<Variant> searchResults) throws SQLException{
         StringBuilder sql = new StringBuilder("SELECT * FROM product_price_stock WHERE ");
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
@@ -85,7 +103,12 @@ public class SearchProducts extends SwagConnection{
         }
     }
 
-    // so that the nested loops can be broken easily
+    /**
+     *  Method so that the nested loops can be broken easily
+     * @param numOther1, @param numOther2, @param variants, @param searchResults, @param token
+     * @return 0 if the index is not found, else return the index
+     * @throws SQLException if there is an error with the SQL query
+     */
     private static <E extends Enum<E>> int IndexHelper(int numOther1, int numOther2, ArrayList<Variant> variants, ArrayList<Variant> searchResults, E token){
         
         for (int i = 0; i < numOther1; i++){

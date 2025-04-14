@@ -1,3 +1,14 @@
+/**
+ * CodeRed E-Commerce System
+ * This {@class Product} class represents a product in the e-commerce system.
+ * It contains all pertinent information about the product such as the product ID,
+ * name, brand ID, category ID, colors, materials, sizes, and base price.
+ * It also contains methods to retrieve and update product information.
+ * 
+ * @author CodeRed Team (Alfredo, Jesus, Xavier)
+ * @version 1.0
+ * @created on 04/01/2025
+ */
 package com.codered.ecomerce.model;
 
 import java.util.*;
@@ -6,6 +17,11 @@ import java.util.*;
 import com.codered.ecomerce.enums.*;
 import com.codered.ecomerce.sql.*;
 
+/**
+ * This class represents a product object in the e-commerce system.
+ * It contains methods to retrieve and update product information.
+ * It also contains methods to fetch variants of the product.
+ */
 public class Product {
     private ArrayList<Color> cl;
     private ArrayList<Material> mt;
@@ -17,7 +33,11 @@ public class Product {
     private double basePrice;
     private ArrayList<Variant> variants = new ArrayList<Variant>();
     
-    //for making NEW products
+    /**
+     * Constructor for the Product class.
+     * @param id, @param Name, @param BrandID, @param CategoryID, 
+     * @param CL, @param MT, @param SZ, @param Price
+     */
     public Product(int id, String Name, int BrandID, int CategoryID, ArrayList<Color> CL, ArrayList<Material> MT, ArrayList<Size> SZ, double Price) {
         this.ID = id;
         this.name = Name;
@@ -31,7 +51,11 @@ public class Product {
         fetchVariants();
     }
 
-    //for instantiating product class
+    /**
+     * Method to create a product object with only the ID, name, brand ID, and category ID.
+     * @param id, @param Name
+     * @param BrandID, @param CategoryID    
+     */
     public Product(int id, String Name, int BrandID, int CategoryID){
         this.ID = id;
         this.name = Name;
@@ -41,9 +65,11 @@ public class Product {
         fetchVariants();
     }
 
-    //no setters for now
-
-    //geters
+    /**
+     * Getter method for the product ID.
+     * @return color, @return materials, @return name, @return brandID,
+     * @return categoryID, @return ID, @return basePrice, @return variants
+     */ 
     public ArrayList<Color> getColors() {
         return cl;
     }
@@ -72,10 +98,16 @@ public class Product {
         return variants;
     }
 
+    /**
+     * Method to fetch the variants of the prodicts from the database
+     */
     private void fetchVariants(){
         QuerySeProduct.getVariants(ID, variants);
     }
 
+    /**
+     * Method to print the product information to othe console
+     */
     public void print(){
         System.out.println("id= "+ID+" name= "+name+" ");
     }
