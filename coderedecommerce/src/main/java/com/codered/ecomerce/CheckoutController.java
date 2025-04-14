@@ -1,22 +1,26 @@
 package com.codered.ecomerce;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 
+
+///* CheckoutController controls the checkout page of the application. It handles the checkout process and user input for shipping details.
+/// @author(s) Miguel Alfaro
+/// @version 1.0
+/// 
+///  */
 public class CheckoutController extends App implements Initializable {
 
     @FXML
@@ -50,7 +54,7 @@ public class CheckoutController extends App implements Initializable {
 
     //* Gathers all info inputed from the page */
 
-    //* Places order if all required fields are filled out */
+    //* Places order if all required fields are filled out, proceed  to payment selection */
     public void returnPayment(ActionEvent event) throws IOException {
         firstName = fnameTextBox.getText();
         lastName = lnameTextBox.getText();
@@ -79,6 +83,12 @@ public class CheckoutController extends App implements Initializable {
             } 
             else {
                 System.out.println("Please fill in all required fields.");
+                        // Display an alert to inform the user that all fields are required
+                        Alert missingInfoAlert = new Alert(Alert.AlertType.WARNING);
+                        missingInfoAlert.setTitle("Missing Fields");
+                        missingInfoAlert.setHeaderText("Please complete all fields.");
+                        missingInfoAlert.setContentText("One or more fields are empty. Please fill them in before continuing.");
+                        missingInfoAlert.showAndWait();
             }
             
             } catch (IOException e) {
@@ -94,7 +104,7 @@ public class CheckoutController extends App implements Initializable {
         System.out.println("Returning to homepage...");
     }
 
-    // Example event handler
+
     @FXML
     private void getSelectedState(ActionEvent event) {
         String selectedState = statesChoiceBox.getValue();

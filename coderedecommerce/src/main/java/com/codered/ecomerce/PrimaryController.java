@@ -1,3 +1,18 @@
+/**
+ * Codered E-Commerce System
+ * This {@code PrimaryController} class is used to handle the primart view of the application
+ * * It contains methods to handle the search functionality, menu bar functionality, and image click events.
+ * * It also contains methods to initialize the view and set up the layout of the images in the grid.
+ * * The class uses JavaFX to create the user interface and handle events.
+ * 
+ * @Author CodeRed Team (Miugel, Xavier, Alfredo)
+ * @version 1.0
+ * @see Primary.fxml
+ * @see App.java
+ * @see ItemViewController.java
+ * @see checkoutView.java
+ * @see searchView,java
+ */
 package com.codered.ecomerce;
 
 import java.io.IOException;
@@ -19,6 +34,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+///* PrimaryController controls the primary page of the application. It handles the search functionality and image grid display.
+/// @author(s) Miguel Alfaro, Alfredo Catzin, Xavier Ramos
+/// @version 1.0
+/// */
 public class PrimaryController extends App{
 
     //declaration of FXML elements
@@ -46,7 +65,11 @@ public class PrimaryController extends App{
                      aboutUs, ordersMenuItem;
     
 
-    //method to perform search from the search when the search button is clicked.
+    /**
+     * method to perform search from the search bar when the search button is clicked.
+     * This method retrieves the text from the searchTextBox and prints it to the console.
+     * @throws IOException if there is an error loading the fxml file
+     */ 
     @FXML
     public void search() throws IOException
     {
@@ -55,7 +78,11 @@ public class PrimaryController extends App{
         System.out.println("Searching for: " + searchItem);
     }
 
-    //Uses method from App to swtich Scenes
+    /**
+     * method to return to the primary view when the home title card is clicked
+     * @param event the mouse even that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */ 
     public void returnPrimary(MouseEvent event) throws IOException
     {
         App.switchScene("primary", event);
@@ -73,11 +100,14 @@ public class PrimaryController extends App{
     }
 
     @FXML
-    //* Method initialize is called automatically after fxml file loads */
-    //* Can Reuse for other pages to switch fxml files  */
-    //* Add all buttons, methods, etc that need to be implemetned when loaded */
+    /** Method initialize is called automatically after fxml file loads
+    * Can Reuse for other pages to switch fxml files  
+    * Add all buttons, methods, etc that need to be implemented when loaded 
+    */
     public void initialize() {
-        // Ensure the checkout button has its functionality
+        /**
+         * Ensure the checkout button has its functionality
+         */ 
         checkoutButton.setOnAction(event -> {
             try {
                 App.setRoot("checkoutView");
@@ -87,8 +117,6 @@ public class PrimaryController extends App{
         });
         
         headerAnchorP.setStyle("-fx-background-color: red;");
-
-
 
         /*
          * Declaring 2D array to map the respective image views to their corresponding 
@@ -149,6 +177,12 @@ public class PrimaryController extends App{
         stage.show();
     }
 
+    /**
+     * Method to handle the click event on the checkout button and returns the 
+     * checkoutView page
+     * * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
     public void checkoutView() throws IOException
     {
         //Linked to Checkout Button, but can change once we add something

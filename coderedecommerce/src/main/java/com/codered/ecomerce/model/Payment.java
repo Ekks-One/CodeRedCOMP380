@@ -1,5 +1,22 @@
+/**
+ * Codered E-Commerce System
+ * The {@code Payment} class represents a payment in the e-commerce system.
+ * It contains all pertinent information about the payment such as the payment ID,
+ * total amount, payment method, product amount, shipping amount, tax amount,
+ * and discount amount.
+ * 
+ * <p> This class provides methods to retrieve and update payment information.</p>
+ * 
+ * @author CodeRed Team (Xavier, Alfredo)
+ * @version 1.0
+ * Created on 04-01-2025
+ */
 package com.codered.ecomerce.model;
 
+/**
+ * This class represents a payment object in the e-commerce system.
+ * It contains methods to retrieve and update payment information.
+ */
 public class Payment {
     private int paymentID;
     private double totalAmount;
@@ -9,6 +26,11 @@ public class Payment {
     private final double taxAmount;
     private double discountAmount;
 
+    /**
+     * constructor method to initialize payment with the appropriate details.
+     * @param paymentID, @param totalAmount, @param paymentMethod, @param productAmount, 
+     * @param shippingAmount, @param taxAmount, @param discountAmount
+     */
     public Payment(int paymentID, double totalAmount, String paymentMethod, double productAmount, double shippingAmount, double taxAmount, double discountAmount) {
         this.paymentID = paymentID;
         this.totalAmount = totalAmount;
@@ -19,11 +41,22 @@ public class Payment {
     }
    
 
-    //Getter Methods
+    /**
+     * method to perform calculation of the total amount of the payment
+     * @param productAmount, @param shippingAmount, @param taxAmount, @param discountAmount
+     * 
+     * @return total amount of the payment
+     */ 
     public double getTotalAmount(int productAmount, int shippingAmount, int taxAmount, int discountAmount) {
         return productAmount + shippingAmount + taxAmount - discountAmount;
     }
 
+
+    /*
+     * Getter methods responsible for retrieving all pertinent information about the payment
+     * @return paymentID, totalAmount, productAmount, shippingAmount,
+     * taxAmount, and discountAmount.
+     */
     public int getPaymentID() {
         return paymentID;
     }
@@ -49,7 +82,11 @@ public class Payment {
     }
 
 
-    //Setter Methods
+    /**
+     * Setter methods responsible for updating payment details after the payment has been created
+     * @param paymentID, @param totalAmount, @param productAmount,
+     * @param shippingAmount, @param taxAmount, @param discountAmount
+     */ 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
