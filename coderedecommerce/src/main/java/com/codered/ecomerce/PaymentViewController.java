@@ -11,7 +11,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 
-
+///*
+/// PaymentViewController controls the payment view page of the application. It handles the payment process and user input for payment details.
+/// @author(s) Miguel Alfaro
+/// @version 1.0
+/// 
+///  */
 public class PaymentViewController extends App implements Initializable{
 
 
@@ -65,6 +70,7 @@ public class PaymentViewController extends App implements Initializable{
         zipCode = zipCodeTextBox.getText();
 
         try{
+            // Check if any of the fields are empty or not selected, display an error message if so
             if(cardNumber.isEmpty() || cardSecurityCode.isEmpty() || cardHolderName.isEmpty() || cardType.equals("Select Card Type") || cardDateMonth.equals("Select Month") || cardDateYear.equals("Select Year")){
                 System.out.println("Please fill out all fields.");
             }else{
@@ -84,7 +90,7 @@ public class PaymentViewController extends App implements Initializable{
         }
 
     }
-
+    //* Click CodeRedLogo, return to homepage */
     public void returnPrimary(MouseEvent event) throws IOException {
         // Get the current stage
         App.switchScene("primary", event);

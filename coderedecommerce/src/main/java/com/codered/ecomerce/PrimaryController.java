@@ -19,6 +19,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+///* PrimaryController controls the primary page of the application. It handles the search functionality and image grid display.
+/// @author(s) Miguel Alfaro, Alfredo Catzin, Xavier Ramos
+/// @version 1.0
+/// */
 public class PrimaryController extends App{
 
     //declaration of FXML elements

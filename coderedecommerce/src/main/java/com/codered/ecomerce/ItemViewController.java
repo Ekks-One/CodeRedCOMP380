@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -15,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 
 
@@ -42,6 +46,12 @@ public class ItemViewController extends App{
     private String itemName;
     private int quantityAmmount;
     private String itemID;
+
+    ///*
+    /// @author(s) Xavier Ramos, Alfredo Catzin, Miguel Alfaro
+    /// @version 1.0
+    /// 
+    ///  */
 
     /*
      * Method to initialize the page and set the default values for the item view page
@@ -122,10 +132,18 @@ public class ItemViewController extends App{
     /*
      * Method to add functionality of the checkout button within the itemView page
      */
-    public void checkoutView() throws IOException
+    public void checkoutView(ActionEvent event) throws IOException
     {
-        //Linked to Checkout Button, but can change once we add something
-        App.setRoot("checkoutView");
+       FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
+                Parent root = loader.load();
+
+                // Get the current stage
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+                // Set the new scene
+                stage.setScene(new Scene(root));
+                stage.setTitle("Checkout Page");
+                stage.show();
     }
 
     /*
