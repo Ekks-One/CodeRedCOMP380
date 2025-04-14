@@ -9,13 +9,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 
 
+///*
+/// PaymentViewController controls the payment view page of the application. It handles the payment process and user input for payment details.
+/// @author(s) Miguel Alfaro
+/// @version 1.0
+/// 
+///  */
 public class PaymentViewController extends App implements Initializable{
 
 
@@ -69,8 +75,15 @@ public class PaymentViewController extends App implements Initializable{
         zipCode = zipCodeTextBox.getText();
 
         try{
+            // Check if any of the fields are empty or not selected, display an error message if so
             if(cardNumber.isEmpty() || cardSecurityCode.isEmpty() || cardHolderName.isEmpty() || cardType.equals("Select Card Type") || cardDateMonth.equals("Select Month") || cardDateYear.equals("Select Year")){
                 System.out.println("Please fill out all fields.");
+                //Display an alert to inform the user that all fields are required
+                Alert missingInfoAlert = new Alert(Alert.AlertType.ERROR); // Create an error alert
+                missingInfoAlert.setTitle("Something went wrong");               
+                missingInfoAlert.setHeaderText("Missing required fields!");      
+                missingInfoAlert.setContentText("Please fill in all fields.");
+                missingInfoAlert.showAndWait();
             }else{
                 
 
@@ -81,14 +94,24 @@ public class PaymentViewController extends App implements Initializable{
                     "Card Security Code: " + cardSecurityCode + "\n" +
                     "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
                     "Card Type: " + cardType);
-            
+                //Display an alert to confirm the order creation containing the payment details, order details
+                Alert OrderCreatedAlert = new Alert(Alert.AlertType.INFORMATION); // Create an information alert
+                OrderCreatedAlert.setTitle("Order Confirmation");
+                OrderCreatedAlert.setHeaderText("Order Created Successfully!");
+                OrderCreatedAlert.setContentText("Card Holder Name: " + cardHolderName + "\n" +
+                    "Card Number: " + cardNumber + "\n" +
+                    "Card Security Code: " + cardSecurityCode + "\n" +
+                    "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
+                    "Card Type: " + cardType); // Set the content text
+                OrderCreatedAlert.showAndWait();
             }
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
+             
         }
 
     }
-
+    //* Click CodeRedLogo, return to homepage */
     public void returnPrimary(MouseEvent event) throws IOException {
         // Get the current stage
         App.switchScene("primary", event);
