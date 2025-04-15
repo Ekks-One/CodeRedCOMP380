@@ -41,7 +41,7 @@ public class ItemViewController extends App{
     @FXML
     private Text itemPriceText;
     @FXML
-    private Button searchButton, checkoutButton;
+    private Button searchButton, checkoutButton; 
     @FXML
     private TextField quantityTextField, searchTextBox;
     @FXML
@@ -187,15 +187,33 @@ public class ItemViewController extends App{
     }
 
     /**
-     * Method to add functionality of the search button within the itemView page
-     * @param event the mouse event that triggers the method
+     * method to perform search from the search bar when the search button is clicked.
+     * This method retrieves the text from the searchTextBox and prints it to the console.
+     * Brings you to searchResults Page
      * @throws IOException if there is an error loading the fxml file
-     * @see searchView.fxml
-     */
-    public void search() throws IOException
+     */ 
+    @FXML
+    public void search(ActionEvent event) throws IOException
     {
-        String searchItem = searchTextBox.getText();
-        //test(successful)
-        System.out.println("Searching for: " + searchItem);
+        if(!searchTextBox.getText().isEmpty()) {
+            System.out.println("Taking you to Search Results!");
+            String searchItem = searchTextBox.getText();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
+                Parent root = loader.load();
+
+                // Get the current stage
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+                // Set the new scene
+                stage.setScene(new Scene(root));
+                stage.setTitle("Checkout Page");
+                stage.show();
+                //test(successful)
+            System.out.println("Searching for: " + searchItem);
+        }
+        else{
+            System.out.println("Please enter a search term.");
+        }
     }
 }

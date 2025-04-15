@@ -13,11 +13,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 
@@ -133,20 +137,30 @@ public class PaymentViewController extends App implements Initializable{
         System.out.println("Returning to homepage...");
     }
 
-     /**
+    /**
      * method to perform search from the search bar when the search button is clicked.
      * This method retrieves the text from the searchTextBox and prints it to the console.
      * Brings you to searchResults Page
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void search() throws IOException
+    public void search(ActionEvent event) throws IOException
     {
         if(!searchTextBox.getText().isEmpty()) {
-            System.out.println("Taking you to checkout!");
-            App.setRoot("searchResultsView");
+            System.out.println("Taking you to Search Results!");
             String searchItem = searchTextBox.getText();
-            //test(successful)
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
+                Parent root = loader.load();
+
+                // Get the current stage
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+                // Set the new scene
+                stage.setScene(new Scene(root));
+                stage.setTitle("Checkout Page");
+                stage.show();
+                //test(successful)
             System.out.println("Searching for: " + searchItem);
         }
         else{

@@ -61,7 +61,7 @@
                   </MenuBar>
                </children>
             </HBox>
-            <TextField layoutX="735.0" layoutY="19.0" promptText="Search" AnchorPane.rightAnchor="75.0" />
+            <TextField fx:id="searchTextBox" layoutX="735.0" layoutY="19.0" promptText="Search" AnchorPane.rightAnchor="75.0" />
             <Button fx:id="searchButton" layoutX="894.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="14.0" />
             <Button fx:id="checkoutButton" layoutX="656.0" layoutY="19.0" mnemonicParsing="false" onAction="#checkoutView" text="Checkout" AnchorPane.rightAnchor="238.0" />
          </children>
