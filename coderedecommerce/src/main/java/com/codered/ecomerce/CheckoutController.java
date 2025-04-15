@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -39,6 +40,8 @@ public class CheckoutController extends App implements Initializable {
     private ChoiceBox<String> statesChoiceBox;
     @FXML
     private Button placeOrderButton;
+    @FXML 
+    private TextField searchTextBox;
 
     private String selectedState;
     private String firstName;
@@ -122,12 +125,48 @@ public class CheckoutController extends App implements Initializable {
         System.out.println("Returning to homepage...");
     }
 
-
+    /**
+     * Method to handle the action event when the user selects a state from the 
+     * choice box. It retrieves the selected state and prints it to the console
+     */
     @FXML
     private void getSelectedState(ActionEvent event) {
         String selectedState = statesChoiceBox.getValue();
         System.out.println("Selected State: " + selectedState);
     }
 
+    /**
+     * method to perform a filtered search from the menu bar corresponding to the selected menu item
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */ 
+    @FXML
+    public void menuSearch(ActionEvent event) throws IOException
+    {
+        String searchItem = ((MenuItem)event.getSource()).getText();
+        //test (successful)
+        System.out.println("Searching for: " + searchItem);
+    }
+
+    /**
+     * method to perform search from the search bar when the search button is clicked.
+     * This method retrieves the text from the searchTextBox and prints it to the console.
+     * Brings you to searchResults Page
+     * @throws IOException if there is an error loading the fxml file
+     */ 
+    @FXML
+    public void search() throws IOException
+    {
+        if(!searchTextBox.getText().isEmpty()) {
+            System.out.println("Taking you to checkout!");
+            App.setRoot("searchResultsView");
+            String searchItem = searchTextBox.getText();
+            //test(successful)
+            System.out.println("Searching for: " + searchItem);
+        }
+        else{
+            System.out.println("Please enter a search term.");
+        }
+    }
 
 }

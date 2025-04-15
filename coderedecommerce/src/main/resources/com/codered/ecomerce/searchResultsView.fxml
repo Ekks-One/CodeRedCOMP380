@@ -20,45 +20,49 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.searchResultsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.searchResultsController">
    <top>
-      <AnchorPane prefHeight="92.0" prefWidth="960.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
+      <AnchorPane style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="54.0" fitWidth="79.0" layoutX="7.0" layoutY="5.0" onMouseClicked="#returnPrimary" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="507.0">
+            <ImageView fx:id="homeTitleCard" fitHeight="66.0" fitWidth="116.0" onMouseClicked="#returnPrimary" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="844.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <HBox layoutY="65.0" prefHeight="20.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox layoutY="64.0" prefHeight="20.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <MenuBar prefHeight="41.0" prefWidth="960.0" HBox.hgrow="ALWAYS">
+                  <MenuBar HBox.hgrow="ALWAYS">
                     <menus>
                       <Menu mnemonicParsing="false" text="Men's Clothing">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Close" />
+                          <MenuItem fx:id="mensTopsButton" mnemonicParsing="false" onAction="#menuSearch" text="Men's Tops" />
+                              <MenuItem fx:id="mensBottomsButton" mnemonicParsing="false" onAction="#menuSearch" text="Men's Bottoms" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Women's Clothing">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
+                          <MenuItem fx:id="womensTopsButton" mnemonicParsing="false" onAction="#menuSearch" text="Women's Tops" />
+                              <MenuItem fx:id="womensBottomsButton" mnemonicParsing="false" onAction="#menuSearch" text="Women's Bottoms" />
                         </items>
                       </Menu>
-                      <Menu mnemonicParsing="false" text="Kids">
+                      <Menu mnemonicParsing="false" text="Kid's Clothing">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="About" />
+                          <MenuItem fx:id="kidsTopsButton" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Tops" />
+                              <MenuItem fx:id="kidsBottomsButton" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Bottoms" />
                         </items>
                       </Menu>
                         <Menu mnemonicParsing="false" text="More">
                            <items>
-                              <MenuItem mnemonicParsing="false" text="Close" />
+                              <MenuItem mnemonicParsing="false" text="About Us" />
+                              <MenuItem mnemonicParsing="false" text="Orders" />
                            </items>
                         </Menu>
                     </menus>
                   </MenuBar>
                </children>
             </HBox>
-            <TextField layoutX="748.0" layoutY="19.0" prefWidth="150.0" AnchorPane.rightAnchor="102.0" />
-            <Button layoutX="906.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="42.0" />
+            <TextField fx:id="searchTextBox" layoutX="748.0" layoutY="19.0" prefWidth="150.0" promptText="Search" AnchorPane.rightAnchor="102.0" />
+            <Button fx:id="searchButton" layoutX="906.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="42.0" />
          </children>
       </AnchorPane>
    </top>
@@ -67,15 +71,15 @@
          <children>
             <ScrollPane fitToWidth="true" prefHeight="1000.0" prefWidth="960.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="958.0">
+                <AnchorPane>
                      <children>
                         <VBox layoutX="34.0" layoutY="111.0" prefHeight="211.0" prefWidth="100.0" spacing="20.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="678.0" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="111.0">
                            <children>
-                              <CheckBox mnemonicParsing="false" text="Tees" />
-                              <CheckBox mnemonicParsing="false" text="Shorts" />
-                              <CheckBox mnemonicParsing="false" text="Pants" />
-                              <CheckBox mnemonicParsing="false" text="Sweaters" />
-                              <CheckBox mnemonicParsing="false" text="Things" />
+                              <CheckBox fx:id="teesCheckBox" mnemonicParsing="false" text="Tees" />
+                              <CheckBox fx:id="shortsCheckBox" mnemonicParsing="false" text="Shorts" />
+                              <CheckBox fx:id="pantsCheckbox" mnemonicParsing="false" text="Pants" />
+                              <CheckBox fx:id="sweaterCheckBox" mnemonicParsing="false" text="Sweaters" />
+                              <CheckBox fx:id="thingsCheckBox" mnemonicParsing="false" text="Things" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -98,74 +102,74 @@
                               </Text>
                            </children>
                         </HBox>
-                        <GridPane layoutX="379.0" layoutY="66.0" prefHeight="800.0" prefWidth="350.0" vgap="40.0" AnchorPane.leftAnchor="379.0" AnchorPane.rightAnchor="215.39999999999998" AnchorPane.topAnchor="66.0">
+                        <GridPane layoutX="379.0" layoutY="66.0" prefHeight="800.0" vgap="40.0" AnchorPane.leftAnchor="379.0" AnchorPane.rightAnchor="215.39999999999998" AnchorPane.topAnchor="66.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                           </rowConstraints>
                            <children>
-                              <AnchorPane prefHeight="117.0" prefWidth="372.0" style="-fx-border-color: black;" GridPane.rowIndex="2">
+                              <AnchorPane style="-fx-border-color: black;" GridPane.rowIndex="2">
                                  <children>
                                     <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
                                        <image>
                                           <Image url="@images/Item%200-0.png" />
                                        </image>
                                     </ImageView>
-                                    <Button layoutX="203.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="83.0" text="Add to Cart" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="72.0" AnchorPane.topAnchor="85.0" />
+                                    <Button fx:id="addToCartButton02" layoutX="204.8" layoutY="87.2" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="86.0" />
                                     <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
                                     <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="117.0" prefWidth="372.0" style="-fx-border-color: black;" GridPane.rowIndex="1">
+                              <AnchorPane style="-fx-border-color: black;" GridPane.rowIndex="1">
                                  <children>
                                     <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
                                        <image>
                                           <Image url="@images/Item%200-0.png" />
                                        </image>
                                     </ImageView>
-                                    <Button layoutX="203.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="83.0" text="Add to Cart" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="72.0" AnchorPane.topAnchor="85.0" />
+                                    <Button fx:id="addToCartButton01" layoutX="207.20000000000002" layoutY="88.8" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="206.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="88.0" />
                                     <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
                                     <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="117.0" prefWidth="372.0" style="-fx-border-color: black;" GridPane.rowIndex="3">
+                              <AnchorPane style="-fx-border-color: black;" GridPane.rowIndex="3">
                                  <children>
                                     <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
                                        <image>
                                           <Image url="@images/Item%200-0.png" />
                                        </image>
                                     </ImageView>
-                                    <Button layoutX="203.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="83.0" text="Add to Cart" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="72.0" AnchorPane.topAnchor="85.0" />
+                                    <Button fx:id="addToCartButton03" layoutX="204.8" layoutY="87.2" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="86.0" />
                                     <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
                                     <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="117.0" prefWidth="372.0" style="-fx-border-color: black;" GridPane.rowIndex="4">
+                              <AnchorPane style="-fx-border-color: black;" GridPane.rowIndex="4">
                                  <children>
                                     <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
                                        <image>
                                           <Image url="@images/Item%200-0.png" />
                                        </image>
                                     </ImageView>
-                                    <Button layoutX="203.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="83.0" text="Add to Cart" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="72.0" AnchorPane.topAnchor="85.0" />
+                                    <Button fx:id="addToCartButton04" layoutX="204.8" layoutY="87.2" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="86.0" />
                                     <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
                                     <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="117.0" prefWidth="372.0" style="-fx-border-color: black;">
+                              <AnchorPane style="-fx-border-color: black;">
                                  <children>
                                     <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
                                        <image>
                                           <Image url="@images/Item%200-0.png" />
                                        </image>
                                     </ImageView>
-                                    <Button layoutX="203.0" layoutY="85.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="83.0" text="Add to Cart" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="72.0" AnchorPane.topAnchor="85.0" />
+                                    <Button fx:id="addToCart00" layoutX="204.8" layoutY="87.2" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="86.0" />
                                     <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
                                     <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
                                  </children>

@@ -14,50 +14,54 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PaymentViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PaymentViewController">
    <top>
-      <AnchorPane prefHeight="84.0" prefWidth="960.0" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
+      <AnchorPane style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="54.0" fitWidth="79.0" layoutX="7.0" layoutY="5.0" onMouseClicked="#returnPrimary" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="507.0">
+            <ImageView fitHeight="68.0" fitWidth="98.0" layoutY="1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="864.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <HBox layoutY="65.0" prefHeight="20.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox layoutY="64.0" prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <MenuBar prefHeight="41.0" prefWidth="960.0" HBox.hgrow="ALWAYS">
                     <menus>
                       <Menu mnemonicParsing="false" text="Men's Clothing">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Close" />
+                          <MenuItem fx:id="mensTopsButton" mnemonicParsing="false" onAction="#menuSearch" text="Men's Tops" />
+                              <MenuItem fx:id="mensBottomsButton" mnemonicParsing="false" onAction="#menuSearch" text="Men's Bottoms" />
                         </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Women's Clothing">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
+                          <MenuItem fx:id="womensTopsButton" mnemonicParsing="false" onAction="#menuSearch" text="Women's Tops" />
+                              <MenuItem fx:id="womensBottomsButton" mnemonicParsing="false" onAction="#menuSearch" text="Women's Bottoms" />
                         </items>
                       </Menu>
-                      <Menu mnemonicParsing="false" text="Kids">
+                      <Menu mnemonicParsing="false" text="Kid's Clothing">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="About" />
+                          <MenuItem fx:id="kidsTopsButton" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Tops" />
+                              <MenuItem fx:id="kidsBottomsButton" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Bottoms" />
                         </items>
                       </Menu>
                         <Menu mnemonicParsing="false" text="More">
                            <items>
-                              <MenuItem mnemonicParsing="false" text="Close" />
+                              <MenuItem mnemonicParsing="false" text="About Us" />
+                              <MenuItem mnemonicParsing="false" text="Orders" />
                            </items>
                         </Menu>
                     </menus>
                   </MenuBar>
                </children>
             </HBox>
-            <TextField layoutX="748.0" layoutY="19.0" prefWidth="150.0" AnchorPane.rightAnchor="102.0" />
-            <Button layoutX="906.0" layoutY="19.0" mnemonicParsing="false" text="Search" AnchorPane.rightAnchor="42.0" />
+            <TextField fx:id="searchTextBox" layoutX="748.0" layoutY="19.0" prefWidth="150.0" promptText="Search" AnchorPane.rightAnchor="102.0" />
+            <Button fx:id="searchButton" layoutX="906.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="42.0" />
          </children>
       </AnchorPane>
    </top>
    <center>
-      <AnchorPane prefHeight="510.0" prefWidth="962.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="510.0" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment Information" wrappingWidth="330.13671875">
                <font>
@@ -74,7 +78,7 @@
             <ChoiceBox fx:id="cardTypeChoiceBox" layoutX="35.0" layoutY="286.0" prefHeight="25.0" prefWidth="127.0" />
             <Text layoutX="38.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Card Holder" />
             <TextField fx:id="cardHolderTextBox" layoutX="35.0" layoutY="227.0" prefHeight="25.0" prefWidth="127.0" promptText="ex. John Doe" />
-            <Button fx:id="confirmPayButton" onAction="#confirmPayment" layoutX="35.0" layoutY="345.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" text="Confirm Payment" />
+            <Button fx:id="confirmPayButton" layoutX="35.0" layoutY="345.0" mnemonicParsing="false" onAction="#confirmPayment" prefHeight="40.0" prefWidth="260.0" text="Confirm Payment" />
             <Text layoutX="480.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Order" wrappingWidth="302.13671875">
                <font>
                   <Font size="22.0" />

@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
@@ -33,7 +34,8 @@ public class PaymentViewController extends App implements Initializable{
     private ChoiceBox<String> cardDateYearChoiceBox;
 
     @FXML
-    private TextField cardNumTextBox, securityNumTextBox, zipCodeTextBox, cardHolderTextBox;
+    private TextField cardNumTextBox, securityNumTextBox, zipCodeTextBox, cardHolderTextBox,
+                      searchTextBox;
 
     @FXML
     private String cardNumber, cardSecurityCode, cardHolderName, cardType, cardDateMonth, cardDateYear, zipCode;
@@ -129,6 +131,40 @@ public class PaymentViewController extends App implements Initializable{
         App.switchScene("primary", event);
         // Test (successful)
         System.out.println("Returning to homepage...");
+    }
+
+     /**
+     * method to perform search from the search bar when the search button is clicked.
+     * This method retrieves the text from the searchTextBox and prints it to the console.
+     * Brings you to searchResults Page
+     * @throws IOException if there is an error loading the fxml file
+     */ 
+    @FXML
+    public void search() throws IOException
+    {
+        if(!searchTextBox.getText().isEmpty()) {
+            System.out.println("Taking you to checkout!");
+            App.setRoot("searchResultsView");
+            String searchItem = searchTextBox.getText();
+            //test(successful)
+            System.out.println("Searching for: " + searchItem);
+        }
+        else{
+            System.out.println("Please enter a search term.");
+        }
+    }
+
+     /**
+     * method to perform a filtered search from the menu bar corresponding to the selected menu item
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */ 
+    @FXML
+    public void menuSearch(ActionEvent event) throws IOException
+    {
+        String searchItem = ((MenuItem)event.getSource()).getText();
+        //test (successful)
+        System.out.println("Searching for: " + searchItem);
     }
     
 }

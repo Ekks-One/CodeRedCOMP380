@@ -1,14 +1,29 @@
+/**
+ * CodeRed E-Commerce Application
+ * This {@code searchResultsController} class is responsible for handling the search functionality in the application.
+ * It allows users to search for items using a search bar and menu options.
+ * 
+ * @author CodeRed Team (Xavier, Afredo)
+ * @version 1.0
+ * @created on 04/14/2025
+ */ 
 package com.codered.ecomerce;
 
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * This class is responsible for handling the search functionality in the application.
+ */
 public class searchResultsController {
     
     @FXML private TextField searchTextBox;
+
     /**
      * Method to return the user to the primary view when the title card is clicked
      * @param event
@@ -40,6 +55,19 @@ public class searchResultsController {
         else{
             System.out.println("Please enter a search term.");
         }
+    }
+
+    /**
+     * method to perform a filtered search from the menu bar corresponding to the selected menu item
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */ 
+    @FXML
+    public void menuSearch(ActionEvent event) throws IOException
+    {
+        String searchItem = ((MenuItem)event.getSource()).getText();
+        //test (successful)
+        System.out.println("Searching for: " + searchItem);
     }
     
 }
