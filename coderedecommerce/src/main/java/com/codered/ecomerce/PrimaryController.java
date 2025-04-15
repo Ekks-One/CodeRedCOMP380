@@ -16,7 +16,7 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
-import java.util.Map;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +26,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -68,14 +67,22 @@ public class PrimaryController extends App{
     /**
      * method to perform search from the search bar when the search button is clicked.
      * This method retrieves the text from the searchTextBox and prints it to the console.
+     * Brings you to searchResults Page
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
     public void search() throws IOException
     {
-        String searchItem = searchTextBox.getText();
-        //test(successful)
-        System.out.println("Searching for: " + searchItem);
+        if(!searchTextBox.getText().isEmpty()) {
+            System.out.println("Taking you to checkout!");
+            App.setRoot("searchResultsView");
+            String searchItem = searchTextBox.getText();
+            //test(successful)
+            System.out.println("Searching for: " + searchItem);
+        }
+        else{
+            System.out.println("Please enter a search term.");
+        }
     }
 
     /**
