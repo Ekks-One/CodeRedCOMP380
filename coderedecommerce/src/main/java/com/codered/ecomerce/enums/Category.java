@@ -1,0 +1,31 @@
+package com.codered.ecomerce.enums;
+
+public enum Category {
+    INIT,
+    T_SHIRT,
+    HOODIE,
+    JACKET,
+    TANK_TOP,
+    SWEATER,
+    SHIRT,
+    VEST,
+    LONG_SLEEVE,
+    PANTS,
+    CROP_TOP,
+    SUIT_JACKET,
+    DRESS_SHIRT,
+    TROUSERS,
+    BLAZER,
+    DRESS,
+    BLOUSE,
+    SKIRT,
+    GOWN,
+    TUNIC,
+    CAPE,
+    SWEATPANTS,
+    YUKATA,
+    FLANNEL,
+    TURTLENECK,
+    SHORTS,
+    TOP; 
+}
