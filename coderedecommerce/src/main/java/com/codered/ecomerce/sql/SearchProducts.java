@@ -1,30 +1,39 @@
+/**
+ * CodRed E-Commerce System
+ * This class handles database queries related to products and variants.
+ * It retrieves product and variant information from the database and populates the respective objects.
+ * 
+ * @author CodeRed Team (Jesus)
+ * @version 1.0
+ * @created on 04/15/2025
+ */
 package com.codered.ecomerce.sql;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.codered.ecomerce.model.*;
 import com.codered.ecomerce.enums.*;
 
+/* 
+ * Takes in a string input and queries database for direct searches
+ * compunds search the held objects.
+ */
 public class SearchProducts extends SwagConnection {
     private static String search;
 
     private SearchProducts() {}
 
     public static void main(String[] args) {
-        // Debug database contents
-        debugDatabaseContents();
-        
         ArrayList<Variant> results = Search("black L cotton");
         System.out.println("Final search results: " + results);
     }
 
+    // holds the search logic parsing/search appends
     public static ArrayList<Variant> Search(String srh) {
         search = srh.toUpperCase().trim();
         System.out.println("Search term: " + search);
+        
         ArrayList<Variant> searchResults = new ArrayList<>();
         ArrayList<Color> cl = new ArrayList<>();
         ArrayList<Material> mt = new ArrayList<>();
@@ -118,6 +127,7 @@ public class SearchProducts extends SwagConnection {
         return searchResults;
     }
 
+    // searches the available objects through a map
     public static void CompoundSearchHelper(List<Brand> brands, List<Category> categories,
             List<Color> colors, List<Material> materials, List<Size> sizes,
             ArrayList<Variant> searchResults) {
@@ -162,6 +172,7 @@ public class SearchProducts extends SwagConnection {
         }
     }
 
+    // searches for specific product name or description
     public static void SearchHelperProduct(String token, ArrayList<Variant> searchResults) {
         String sql = "SELECT DISTINCT p.product_id " +
                      "FROM product p " +
@@ -210,6 +221,7 @@ public class SearchProducts extends SwagConnection {
         }
     }
 
+    // searches brand and category tables
     public static <E extends Enum<E>> void SearchHelperBC(E token, ArrayList<Variant> searchResults) {
         String sql;
         String param;
@@ -364,6 +376,7 @@ public class SearchProducts extends SwagConnection {
         }
     }
 
+    // creates a hash map of the products in the system
     private static Map<Integer, Product> getProductMap() {
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
         Map<Integer, Product> productMap = new HashMap<>();
@@ -421,78 +434,5 @@ public class SearchProducts extends SwagConnection {
         }
         System.out.println("Category ID " + categoryId + " not found.");
         return "";
-    }
-
-    private static void debugDatabaseContents() {
-        System.out.println("Debugging database contents:");
-        try (Connection conn = DriverManager.getConnection(
-                properties.getProperty("url"),
-                properties.getProperty("user"),
-                properties.getProperty("password"))) {
-            // Products
-            try (PreparedStatement pstm = conn.prepareStatement("SELECT * FROM product");
-                 ResultSet rs = pstm.executeQuery()) {
-                int count = 0;
-                while (rs.next()) {
-                    count++;
-                    System.out.println("Product: " + rs.getInt("product_id") + ", " + rs.getString("product_name"));
-                }
-                System.out.println("Total products: " + count);
-            }
-            // Descriptions
-            try (PreparedStatement pstm = conn.prepareStatement("SELECT * FROM descriptions");
-                 ResultSet rs = pstm.executeQuery()) {
-                int count = 0;
-                while (rs.next()) {
-                    count++;
-                    System.out.println("Description: " + rs.getInt("product_id") + ", " + rs.getString("description"));
-                }
-                System.out.println("Total descriptions: " + count);
-            }
-            // Brands
-            try (PreparedStatement pstm = conn.prepareStatement("SELECT * FROM brand");
-                 ResultSet rs = pstm.executeQuery()) {
-                int count = 0;
-                while (rs.next()) {
-                    count++;
-                    System.out.println("Brand: " + rs.getInt("brand_id") + ", " + rs.getString("brand_name"));
-                }
-                System.out.println("Total brands: " + count);
-            }
-            // Categories
-            try (PreparedStatement pstm = conn.prepareStatement("SELECT * FROM category");
-                 ResultSet rs = pstm.executeQuery()) {
-                int count = 0;
-                while (rs.next()) {
-                    count++;
-                    System.out.println("Category: " + rs.getInt("category_id") + ", " + rs.getString("category_name"));
-                }
-                System.out.println("Total categories: " + count);
-            }
-            // Product Colors
-            try (PreparedStatement pstm = conn.prepareStatement("SELECT * FROM product_color");
-                 ResultSet rs = pstm.executeQuery()) {
-                int count = 0;
-                while (rs.next()) {
-                    count++;
-                    System.out.println("Product Color: " + rs.getInt("product_id") + ", " + rs.getString("color"));
-                }
-                System.out.println("Total product colors: " + count);
-            }
-            // Product Price Stock (Variants)
-            try (PreparedStatement pstm = conn.prepareStatement("SELECT * FROM product_price_stock");
-                 ResultSet rs = pstm.executeQuery()) {
-                int count = 0;
-                while (rs.next()) {
-                    count++;
-                    System.out.println("Variant: " + rs.getInt("product_id") + ", " + rs.getString("color") + ", " +
-                                       rs.getString("prod_size") + ", " + rs.getString("material") + ", " +
-                                       "stock=" + rs.getInt("product_stock") + ", price=" + rs.getDouble("product_price"));
-                }
-                System.out.println("Total variants: " + count);
-            }
-        } catch (SQLException e) {
-            System.out.println("Failed to debug database contents: " + e.getMessage());
-        }
     }
 }
