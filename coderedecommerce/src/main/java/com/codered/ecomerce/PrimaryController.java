@@ -5,7 +5,7 @@
  * * It also contains methods to initialize the view and set up the layout of the images in the grid.
  * * The class uses JavaFX to create the user interface and handle events.
  * 
- * @Author CodeRed Team (Miugel, Xavier, Alfredo)
+ * @Author CodeRed Team (Miguel, Xavier, Alfredo)
  * @version 1.0
  * @see Primary.fxml
  * @see App.java
