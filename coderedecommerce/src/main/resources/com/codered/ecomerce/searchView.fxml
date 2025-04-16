@@ -54,28 +54,19 @@
          <children>
           <MenuBar layoutY="62.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1014.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <menus>
-              <Menu mnemonicParsing="false" text="Men's Clothing">
-                <items>
-                  <MenuItem mnemonicParsing="false" text="Tops" />
-                  <MenuItem mnemonicParsing="false" text="Bottoms" />
-                </items>
-              </Menu>
-              <Menu mnemonicParsing="false" text="Women's Clothing">
-                <items>
-                  <MenuItem mnemonicParsing="false" text="Tops" />
-                        <MenuItem mnemonicParsing="false" text="Bottoms" />
-                </items>
-              </Menu>
-                  <Menu mnemonicParsing="false" text="Kids">
+             <Menu mnemonicParsing="false" text="Tops">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Tops" />
-                        <MenuItem mnemonicParsing="false" text="Bottoms" />
+                        <MenuItem fx:id="topsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Bottoms">
+                     <items>
+                        <MenuItem fx:id="bottomsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="More">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="About Us" />
-                        <MenuItem mnemonicParsing="false" text="Orders" />
+                        <MenuItem fx:id="aboutUsMenuItem" mnemonicParsing="false" text="About Us" />
                      </items>
                   </Menu>
             </menus>
