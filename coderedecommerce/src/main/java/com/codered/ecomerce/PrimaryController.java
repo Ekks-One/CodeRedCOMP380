@@ -43,7 +43,7 @@ public class PrimaryController extends App{
     @FXML
     private TextField searchTextBox;
     @FXML
-    private Button searchButton, checkoutButton;
+    private Button searchButton, cartViewButton;
     @FXML
     private AnchorPane headerAnchorP;
     @FXML
@@ -189,15 +189,15 @@ public class PrimaryController extends App{
     }
 
     /**
-     * Method to handle the click event on the checkout button and returns the 
-     * checkoutView page
+     * Method to handle the click event on the view cart button and returns the 
+     * cart page
      * @param event the mouse event that triggers the method
      * @throws IOException if there is an error loading the fxml file
      */
     @FXML
-    public void checkoutView(ActionEvent event) throws IOException
+    public void cartView(ActionEvent event) throws IOException
     {
-        System.out.println("Taking you to checkout!");
-        App.setRoot("checkoutView");
+        System.out.println("Taking you to your cart!");
+        App.setRoot("cartView");
     }
 }
