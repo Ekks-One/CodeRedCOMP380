@@ -43,6 +43,17 @@ public class Customer
         this.emailAddress = emailAddress;
     }
 
+    public Customer(String firstName, String lastName, String address, String state, String emailAddress) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.shippingAddress = new String[]{address, state};
+    }
+
+    //public Customer(String firstName2, String lastName2, String address, String selectedState, String email) {
+        //TODO Auto-generated constructor stub
+    //}
+
     /**
      * getters returning all pertinent information about the customer.
      */ 
