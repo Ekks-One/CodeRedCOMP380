@@ -47,6 +47,12 @@ public class QueryInProduct extends SwagConnection{
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Method to update the price of a product in the database
+     * @param product
+     * @param newPrice
+     */
     public static void changeProductPrice(Variant product, double newPrice){
         String update = "UPDATE product_price_stock SET product_price = ? WHERE product_id = ? AND product_color = ? AND product_size = ? AND product_material = ?";
 
