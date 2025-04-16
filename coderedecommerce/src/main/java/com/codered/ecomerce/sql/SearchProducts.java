@@ -1,36 +1,85 @@
-/**
- * CodeRed E-Commerce System
- * This {@code SearchProduct} class handles the searching of products in the database
- * 
- * @author CodeRed Team (Jesus)
- * @version 1.0
- * @created on 04/12/2025
- */
 package com.codered.ecomerce.sql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 import com.codered.ecomerce.model.*;
 import com.codered.ecomerce.enums.*;
 
-/**
- * parses and searches for imputted string
- */ 
+// parses and searches for imputted string
 public class SearchProducts extends SwagConnection{
     static String search;
 
     private SearchProducts(){}
 
-    /**
-     *  Method to get the result for direct strings
-     * @param token the string to search for, @param searchResults the arraylist to store the results
-     * @throws SQLException if there is an error with the SQL query
-     */
+    public static void main(String arg[]){
+        Search("blue");
+    }
+
+    public static ArrayList<Variant> Search(String srh){
+        search = srh.toUpperCase();
+        ArrayList<Variant> searchResults = new ArrayList<Variant>();
+
+        ArrayList<Color> cl = new ArrayList<Color>();
+        ArrayList<Material> mt = new ArrayList<Material>();
+        ArrayList<Size> sz = new ArrayList<Size>();
+        ArrayList<Brand> bd = new ArrayList<Brand>();
+        ArrayList<Category> ct = new ArrayList<Category>();
+
+        // searches the inital input 
+        SearchHelperProduct(search, searchResults);
+
+        // parser
+        for (Brand B : Brand.values()){
+            if (search != "" && search.contains(B.getLabel())){
+                search = search.replace(B.getLabel(), "");
+                if (search == "" && bd.isEmpty()){SearchHelperBC(B, searchResults);}
+                else {bd.add(B);}
+            }
+        }
+        for (Category C : Category.values()){
+            if (search != "" && search.contains(C.getLabel())){
+                search = search.replace(C.getLabel(), "");
+                if (search == "" && ct.isEmpty()){SearchHelperBC(C, searchResults);}
+                else {ct.add(C);}
+            }
+        }
+        for (Color C : Color.values()){
+            if (search != "" && search.contains(C.toString())){
+                search = search.replace(C.toString(), "");
+                if (search == "" && cl.isEmpty()) {SearchHelperCMS(C, searchResults);}
+                else {cl.add(C);}
+            }
+        }
+        for (Material M : Material.values()){
+            if (search != "" && search.contains(M.toString())){
+                search = search.replace(M.toString(), "");
+                if (search == "" && mt.isEmpty()) {SearchHelperCMS(M, searchResults);}
+                else {mt.add(M);}
+            }
+        }
+        for (Size S : Size.values()){
+            if (search != "" && search.contains(S.toString())){
+                search = search.replace(S.toString(), "");
+                if (search == "" && sz.isEmpty()) {SearchHelperCMS(S, searchResults);}
+                else {sz.add(S);}
+            }
+        }
+
+        if (search != ""){
+            SearchHelperProduct(search, searchResults);
+        }
+
+        CompoundSearchHelper();
+
+        return searchResults;
+    }
+
+    public static <E extends Enum<E>> void CompoundSearchHelper(){
+
+    }
+
+    // to get the result for direct strings
     public static void SearchHelperProduct(String token, ArrayList<Variant> searchResults){
         String sql = "SELECT * FROM product WHERE product_name LIKE %"+ token.toString() + "% OR DIFFERENCE (UPPER(product_name), "+token.toString()+") >= 3";
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
@@ -55,12 +104,52 @@ public class SearchProducts extends SwagConnection{
         }
     }
 
-    /**
-     *  Method to get the results for matching colors/materials/sizes
-     * @param token the enum to search for, @param searchResults the arraylist to store the results
-     * @throws SQLException if there is an error with the SQL query
-     */ 
-    public static <E extends Enum<E>> void SearchHelperCMS(E token, ArrayList<Variant> searchResults) throws SQLException{
+    public static <E extends Enum<E>> void SearchHelperBC(E token, ArrayList<Variant> searchResults) {
+        StringBuilder sql = new StringBuilder("SELEC * FROM ");
+        String state;
+        ArrayList<Product> products = CentralShoppingSystem.getProducts();
+
+        if(token.getClass().toString() == "Category") {
+            sql.append("category WHERE category_name LIKE %" + token.toString() + "% OR DIFFERENCE (UPPER(category_name), " + token.toString() + ") >= 3");
+            state = "category_id";
+        }
+        else if(token.getClass().toString() == "Brand") {
+            sql.append("brand WHERE brand_name LIKE %" + token.toString() + "% OR DIFFERENCE (UPPER(brand_name), " + token.toString() + ") >= 3");
+            state = "brand_id";
+        }
+        else {return;}
+
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
+        PreparedStatement pstm = conn.prepareStatement(sql.toString());
+        ResultSet rt = pstm.executeQuery();){
+            String psql = "SELECT * FROM product WHERE ? = ?";
+            
+            while (rt.next()){
+                int id = rt.getInt(state);
+
+                try (Connection tconn = DriverManager.getConnection(properties.getProperty("url"), properties);
+                PreparedStatement tpstm = tconn.prepareStatement(psql);){
+                    tpstm.setString(1, state);
+                    tpstm.setInt(2, id);
+                    ResultSet trt = tpstm.executeQuery();
+
+                    while(trt.next()){
+                        int pid = trt.getInt("product_id");
+                        int count = 0;
+                        ArrayList<Variant> variants = products.get(pid).getVariants();
+        
+                        while(variants.get(count) == null){
+                            count++;
+                        }
+                        searchResults.add(variants.get(count));
+                    }
+                    
+                }
+            }
+        } catch (SQLException e) {e.printStackTrace();}
+    }
+    // to get the results for matching colors/materials/sizes
+    public static <E extends Enum<E>> void SearchHelperCMS(E token, ArrayList<Variant> searchResults) {
         StringBuilder sql = new StringBuilder("SELECT * FROM product_price_stock WHERE ");
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
 
@@ -82,7 +171,7 @@ public class SearchProducts extends SwagConnection{
             numOther1 = Color.values().length;
             numOther2 = Material.values().length;
         }
-        else {throw new SQLException("invalid type");}
+        else {return;}
 
         try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
         PreparedStatement pstm = conn.prepareStatement(sql.toString());
@@ -100,15 +189,10 @@ public class SearchProducts extends SwagConnection{
 
                 IndexHelper(numOther1, numOther2, variants, searchResults, token);
             }
-        }
+        } catch (SQLException e) {e.printStackTrace();}
     }
 
-    /**
-     *  Method so that the nested loops can be broken easily
-     * @param numOther1, @param numOther2, @param variants, @param searchResults, @param token
-     * @return 0 if the index is not found, else return the index
-     * @throws SQLException if there is an error with the SQL query
-     */
+    // so that the nested loops can be broken easily
     private static <E extends Enum<E>> int IndexHelper(int numOther1, int numOther2, ArrayList<Variant> variants, ArrayList<Variant> searchResults, E token){
         
         for (int i = 0; i < numOther1; i++){
