@@ -22,28 +22,19 @@
          <children>
             <MenuBar layoutY="61.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <menus>
-                  <Menu mnemonicParsing="false" text="Men's Clothing">
+                  <Menu mnemonicParsing="false" text="Tops">
                      <items>
-                        <MenuItem fx:id="mensTops" mnemonicParsing="false" onAction="#menuSearch" text="Men's Tops" />
-                        <MenuItem fx:id="mensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Men's Bottoms" />
+                        <MenuItem fx:id="topsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Women's Clothing">
+                  <Menu mnemonicParsing="false" text="Bottoms">
                      <items>
-                        <MenuItem fx:id="womensTops" mnemonicParsing="false" onAction="#menuSearch" text="Women'sTops" />
-                        <MenuItem fx:id="womensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Women's Bottoms" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Kids">
-                     <items>
-                        <MenuItem fx:id="kidsTops" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Tops" />
-                        <MenuItem fx:id="kidsBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Bottoms" />
+                        <MenuItem fx:id="bottomsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="More">
                      <items>
-                        <MenuItem fx:id="aboutUs" mnemonicParsing="false" text="About Us" />
-                        <MenuItem fx:id="ordersMenuItem" mnemonicParsing="false" text="Orders" />
+                        <MenuItem fx:id="aboutUsMenuItem" mnemonicParsing="false" text="About Us" />
                      </items>
                   </Menu>
                </menus>

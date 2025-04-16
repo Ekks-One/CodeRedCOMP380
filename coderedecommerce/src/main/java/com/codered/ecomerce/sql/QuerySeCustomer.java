@@ -19,6 +19,7 @@ import com.codered.ecomerce.model.Customer;
 
 /**
  * Read from customer tables (Selects)
+ * @param customers ArrayList of Customer objects to be populated with data from the database
  */ 
 public class QuerySeCustomer extends SwagConnection{
     public static void getCustomers(ArrayList<Customer> customers){

@@ -33,28 +33,19 @@
                <children>
                   <MenuBar HBox.hgrow="ALWAYS">
                     <menus>
-                      <Menu mnemonicParsing="false" text="Men's Clothing">
-                        <items>
-                          <MenuItem fx:id="mensTops" mnemonicParsing="false" onAction="#menuSearch" text="Men's Tops" />
-                              <MenuItem fx:id="mensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Men's Bottoms" />
-                        </items>
-                      </Menu>
-                      <Menu mnemonicParsing="false" text="Women's Clothing">
-                        <items>
-                          <MenuItem fx:id="womensTops" mnemonicParsing="false" onAction="#menuSearch" text="Women's Tops" />
-                              <MenuItem fx:id="womensBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Women's Bottoms" />
-                        </items>
-                      </Menu>
-                      <Menu mnemonicParsing="false" text="Kids">
-                        <items>
-                          <MenuItem fx:id="kidsTops" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Tops" />
-                              <MenuItem fx:id="kidsBottoms" mnemonicParsing="false" onAction="#menuSearch" text="Kid's Bottoms" />
-                        </items>
-                      </Menu>
-                        <Menu mnemonicParsing="false" text="More">
-                           <items>
-                              <MenuItem mnemonicParsing="false" text="About Us" />
-                              <MenuItem mnemonicParsing="false" text="Orders" />
+                      <Menu mnemonicParsing="false" text="Tops">
+                     <items>
+                        <MenuItem fx:id="topsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Bottoms">
+                     <items>
+                        <MenuItem fx:id="bottomsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="More">
+                     <items>
+                        <MenuItem fx:id="aboutUsMenuItem" mnemonicParsing="false" text="About Us" />
                            </items>
                         </Menu>
                     </menus>
