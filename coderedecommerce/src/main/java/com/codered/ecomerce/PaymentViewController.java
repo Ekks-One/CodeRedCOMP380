@@ -116,7 +116,7 @@ public class PaymentViewController extends App implements Initializable{
                     "Card Type: " + cardType);
 
                     //Retrieves customer from Customer Class and formats the customer information to be displayed in the alert
-                    String customerInfo = "Customer Name: " + customer.getCustomerName() + "\n" +
+                    String customerInfo = "Customer Name: " + customer.getFname() + " " + customer.getLname() + "\n" +
                     "Email: " + customer.getCustomerEmail() + "\n" +
                     "Shipping Address: " + String.join(", ", customer.getShippingAddress()) + "\n\n";
 
