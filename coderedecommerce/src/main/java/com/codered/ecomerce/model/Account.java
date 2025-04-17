@@ -11,6 +11,7 @@
 package com.codered.ecomerce.model;
 
 import java.util.*;
+import com.codered.ecomerce.enums.*;
 
 /**
  * This class represents a user account in the e-commerce system.

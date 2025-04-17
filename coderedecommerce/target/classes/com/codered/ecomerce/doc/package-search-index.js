@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.codered.ecomerce"},{"l":"com.codered.ecomerce.enums"},{"l":"com.codered.ecomerce.model"},{"l":"com.codered.ecomerce.sql"}];updateSearchResults();

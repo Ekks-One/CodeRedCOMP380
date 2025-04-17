@@ -11,7 +11,6 @@
 package com.codered.ecomerce.model;
 
 import com.codered.ecomerce.enums.*;
-
 /**
  * This class represents a payment method object in the e-commerce system.
  * It contains methods to retrieve and update payment method information.
