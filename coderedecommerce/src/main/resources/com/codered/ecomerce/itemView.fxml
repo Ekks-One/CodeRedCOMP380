@@ -89,7 +89,7 @@
                            <children>
                               <AnchorPane layoutY="-4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <AnchorPane layoutY="238.0" AnchorPane.leftAnchor="0.0">
+                                    <AnchorPane layoutX="20.0" layoutY="239.0" AnchorPane.leftAnchor="20.0">
                                        <children>
                                           <HBox layoutY="53.0" prefHeight="23.0" prefWidth="386.0" spacing="15.0">
                                              <children>
@@ -114,37 +114,37 @@
                                           <Line endX="231.0" layoutX="153.0" startX="-146.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="2.0" />
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="27.0" layoutY="112.0" AnchorPane.leftAnchor="0.0">
+                                    <AnchorPane layoutX="21.0" layoutY="108.0" AnchorPane.leftAnchor="21.0">
                                        <children>
                                           <Text layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color">
                                              <font>
                                                 <Font name="Calibri" size="24.0" />
                                              </font>
                                           </Text>
-                                          <ToggleButton fx:id="colorBlack" layoutX="14.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: black;" text="BLACK" textFill="WHITE" />
-                                          <ToggleButton fx:id="colorRed" layoutX="87.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: red;" text="RED" textFill="WHITE" />
+                                          <ToggleButton fx:id="colorBlack" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: black;" text="BLACK" textFill="WHITE" />
+                                          <ToggleButton fx:id="colorRed" layoutX="70.0" layoutY="52.0" mnemonicParsing="false" onAction="#colorSelect" prefHeight="47.0" prefWidth="52.0" style="-fx-background-color: red;" text="RED" textFill="WHITE" />
                                        </children>
                                     </AnchorPane>
-                                    <Text fx:id="itemNameText" layoutX="26.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Red Tee" AnchorPane.leftAnchor="0.0">
+                                    <Text fx:id="itemNameText" layoutX="20.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Code Red Tee" AnchorPane.leftAnchor="20.0">
                                        <font>
                                           <Font name="Calibri" size="30.0" />
                                        </font>
                                     </Text>
-                                    <Text layoutX="26.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$4000.34">
+                                    <Text layoutX="21.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$4000.34">
                                        <font>
                                           <Font name="Marlett" size="21.0" />
                                        </font>
                                     </Text>
-                                    <Button fx:id="minusButton" layoutX="39.0" layoutY="388.0" mnemonicParsing="false" onAction="#subtractQuantity" text="-">
+                                    <Button fx:id="minusButton" layoutX="21.0" layoutY="388.0" mnemonicParsing="false" onAction="#subtractQuantity" text="-">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font></Button>
-                                    <TextField fx:id="quantityTextField" layoutX="60.0" layoutY="388.0" prefHeight="25.0" prefWidth="100.0" promptText="0" text="0" />
-                                    <Button fx:id="plusButton" layoutX="160.0" layoutY="388.0" mnemonicParsing="false" onAction="#addQuantity" text="+">
+                                    <TextField fx:id="quantityTextField" layoutX="42.0" layoutY="388.0" prefHeight="25.0" prefWidth="100.0" promptText="0" text="0" />
+                                    <Button fx:id="plusButton" layoutX="142.0" layoutY="388.0" mnemonicParsing="false" onAction="#addQuantity" text="+">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font></Button>
-                                    <Button fx:id="addToCartButton" layoutX="219.0" layoutY="388.0" mnemonicParsing="false" onAction="#AddtoCart" text="Add to Cart" />
+                                    <Button fx:id="addToCartButton" layoutX="199.0" layoutY="388.0" mnemonicParsing="false" onAction="#AddtoCart" text="Add to Cart" />
                                  </children>
                               </AnchorPane>
                            </children>

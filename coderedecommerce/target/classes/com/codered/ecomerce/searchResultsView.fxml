@@ -62,9 +62,9 @@
          <children>
             <ScrollPane fitToWidth="true" prefHeight="1000.0" prefWidth="960.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <content>
-                <AnchorPane>
+                <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="3500.0">
                      <children>
-                        <VBox layoutX="34.0" layoutY="111.0" prefHeight="211.0" prefWidth="100.0" spacing="20.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="678.0" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="111.0">
+                        <VBox layoutX="34.0" layoutY="111.0" prefHeight="211.0" prefWidth="100.0" spacing="20.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="111.0">
                            <children>
                               <CheckBox fx:id="teesCheckBox" mnemonicParsing="false" text="Tees" />
                               <CheckBox fx:id="shortsCheckBox" mnemonicParsing="false" text="Shorts" />
@@ -93,9 +93,12 @@
                               </Text>
                            </children>
                         </HBox>
-                        <GridPane layoutX="379.0" layoutY="66.0" prefHeight="800.0" vgap="40.0" AnchorPane.leftAnchor="379.0" AnchorPane.rightAnchor="215.39999999999998" AnchorPane.topAnchor="66.0">
+                        <GridPane fx:id="searchGridPane" hgap="80.0" layoutX="241.0" layoutY="72.0" maxHeight="2000.0" prefHeight="1997.0" prefWidth="700.0" vgap="40.0" AnchorPane.bottomAnchor="1431.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="72.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="306.0" minWidth="10.0" prefWidth="306.0" />
+                              <ColumnConstraints hgrow="ALWAYS" maxWidth="313.0" minWidth="10.0" prefWidth="294.0" />
+                              <ColumnConstraints hgrow="ALWAYS" maxWidth="313.0" minWidth="100.0" prefWidth="300.0" />
+                              <ColumnConstraints hgrow="ALWAYS" maxWidth="313.0" minWidth="100.0" prefWidth="300.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
@@ -103,69 +106,14 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                           </rowConstraints>
-                           <children>
-                              <AnchorPane style="-fx-border-color: black;" GridPane.rowIndex="2">
-                                 <children>
-                                    <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
-                                       <image>
-                                          <Image url="@images/Item%200-0.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Button fx:id="addToCartButton02" layoutX="204.8" layoutY="87.2" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="86.0" />
-                                    <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
-                                    <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane style="-fx-border-color: black;" GridPane.rowIndex="1">
-                                 <children>
-                                    <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
-                                       <image>
-                                          <Image url="@images/Item%200-0.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Button fx:id="addToCartButton01" layoutX="207.20000000000002" layoutY="88.8" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="206.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="88.0" />
-                                    <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
-                                    <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane style="-fx-border-color: black;" GridPane.rowIndex="3">
-                                 <children>
-                                    <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
-                                       <image>
-                                          <Image url="@images/Item%200-0.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Button fx:id="addToCartButton03" layoutX="204.8" layoutY="87.2" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="86.0" />
-                                    <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
-                                    <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane style="-fx-border-color: black;" GridPane.rowIndex="4">
-                                 <children>
-                                    <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
-                                       <image>
-                                          <Image url="@images/Item%200-0.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Button fx:id="addToCartButton04" layoutX="204.8" layoutY="87.2" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="86.0" />
-                                    <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
-                                    <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane style="-fx-border-color: black;">
-                                 <children>
-                                    <ImageView fitHeight="111.0" fitWidth="176.0" layoutX="14.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="8.800000000000011" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="9.0">
-                                       <image>
-                                          <Image url="@images/Item%200-0.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Button fx:id="addToCart00" layoutX="204.8" layoutY="87.2" mnemonicParsing="false" text="Add to Cart" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="204.0" AnchorPane.rightAnchor="44.0" AnchorPane.topAnchor="86.0" />
-                                    <Text layoutX="203.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Product Name&quot;" />
-                                    <Text layoutX="203.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\$434" />
-                                 </children>
-                              </AnchorPane>
-                           </children>
                         </GridPane>
                      </children>
                   </AnchorPane>
