@@ -11,17 +11,13 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.List;
 
 import com.codered.ecomerce.model.*;
 import com.codered.ecomerce.enums.*;
-=======
-
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
->>>>>>> e155a8a58dd42c4820c69845d9be712965bf732b
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +45,18 @@ public class searchResultsController {
 
     public void initialize() {
     ArrayList<Product> products = CentralShoppingSystem.getProducts();
+    List<Variant> variants = new ArrayList<>();
+
+        variants.add(new Variant(1, Color.RED, Material.COTTON, Size.S, 50, 19.99));
+        variants.add(new Variant(2, Color.BLUE, Material.POLYESTER, Size.M, 30, 24.99));
+        variants.add(new Variant(3, Color.BLACK, Material.DENIM, Size.L, 40, 49.99));
+        variants.add(new Variant(4, Color.WHITE, Material.COTTON, Size.XL, 25, 29.99));
+        variants.add(new Variant(5, Color.GREEN, Material.LINEN, Size.M, 60, 34.99));
+        variants.add(new Variant(6, Color.YELLOW, Material.SILK, Size.S, 20, 39.99));
+        variants.add(new Variant(7, Color.GREY, Material.WOOL, Size.L, 70, 59.99));
+        variants.add(new Variant(8, Color.BROWN, Material.LEATHER, Size.XL, 10, 89.99));
+        variants.add(new Variant(9, Color.PURPLE, Material.COTTON, Size.S, 35, 21.99));
+        variants.add(new Variant(10, Color.ORANGE, Material.POLYESTER, Size.M, 80, 27.99));
     
 
     int row = 0;
