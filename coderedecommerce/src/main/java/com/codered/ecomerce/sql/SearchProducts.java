@@ -1,144 +1,438 @@
 /**
- * CodeRed E-Commerce System
- * This {@code SearchProduct} class handles the searching of products in the database
+ * CodRed E-Commerce System
+ * This class handles database queries related to products and variants.
+ * It retrieves product and variant information from the database and populates the respective objects.
  * 
  * @author CodeRed Team (Jesus)
  * @version 1.0
- * @created on 04/12/2025
+ * @created on 04/15/2025
  */
 package com.codered.ecomerce.sql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.*;
+import java.util.*;
 
 import com.codered.ecomerce.model.*;
 import com.codered.ecomerce.enums.*;
 
-/**
- * parses and searches for imputted string
- */ 
-public class SearchProducts extends SwagConnection{
-    static String search;
+/* 
+ * Takes in a string input and queries database for direct searches
+ * compunds search the held objects.
+ */
+public class SearchProducts extends SwagConnection {
+    private static String search;
 
-    private SearchProducts(){}
+    private SearchProducts() {}
 
-    /**
-     *  Method to get the result for direct strings
-     * @param token the string to search for, @param searchResults the arraylist to store the results
-     * @throws SQLException if there is an error with the SQL query
-     */
-    public static void SearchHelperProduct(String token, ArrayList<Variant> searchResults){
-        String sql = "SELECT * FROM product WHERE product_name LIKE %"+ token.toString() + "% OR DIFFERENCE (UPPER(product_name), "+token.toString()+") >= 3";
-        ArrayList<Product> products = CentralShoppingSystem.getProducts();
-
-        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
-        PreparedStatement pstm = conn.prepareStatement(sql);
-        ResultSet rt = pstm.executeQuery();){
-
-            while(rt.next()){
-                int id = rt.getInt("product_id");
-                int count = 0;
-                ArrayList<Variant> variants = products.get(id).getVariants();
-
-                while(variants.get(count) == null){
-                    count++;
-                }
-                searchResults.add(variants.get(count));
-            }
-
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+    public static void main(String[] args) {
+        ArrayList<Variant> results = Search("black L cotton");
+        System.out.println("Final search results: " + results);
     }
 
-    /**
-     *  Method to get the results for matching colors/materials/sizes
-     * @param token the enum to search for, @param searchResults the arraylist to store the results
-     * @throws SQLException if there is an error with the SQL query
-     */ 
-    public static <E extends Enum<E>> void SearchHelperCMS(E token, ArrayList<Variant> searchResults) throws SQLException{
-        StringBuilder sql = new StringBuilder("SELECT * FROM product_price_stock WHERE ");
-        ArrayList<Product> products = CentralShoppingSystem.getProducts();
+    // holds the search logic parsing/search appends
+    public static ArrayList<Variant> Search(String srh) {
+        search = srh.toUpperCase().trim();
+        System.out.println("Search term: " + search);
+        
+        ArrayList<Variant> searchResults = new ArrayList<>();
+        ArrayList<Color> cl = new ArrayList<>();
+        ArrayList<Material> mt = new ArrayList<>();
+        ArrayList<Size> sz = new ArrayList<>();
+        ArrayList<Brand> bd = new ArrayList<>();
+        ArrayList<Category> ct = new ArrayList<>();
 
-        int numOther1;
-        int numOther2;
+        // Initial product name or description search
+        SearchHelperProduct(search, searchResults);
 
-        if (token.getClass().toString() == "Color"){
-            sql.append("color = " + token.toString());
-            numOther1 = Material.values().length;
-            numOther2 = Size.values().length;
+        // Parse enums
+        for (Brand B : Brand.values()) {
+            String label = B.getLabel().toUpperCase();
+            System.out.println("Checking Brand: " + label);
+            if (search.contains(label)) {
+                search = search.replace(label, "").trim();
+                System.out.println("After Brand match, search: " + search);
+                if (search.isEmpty() && bd.isEmpty()) {
+                    SearchHelperBC(B, searchResults);
+                } else {
+                    bd.add(B);
+                }
+            }
         }
-        else if (token.getClass().toString() == "Material"){
-            sql.append("material = " + token.toString());
-            numOther1 = Color.values().length;
-            numOther2 = Size.values().length;
+        for (Category C : Category.values()) {
+            String label = C.getLabel().toUpperCase();
+            System.out.println("Checking Category: " + label);
+            if (search.contains(label)) {
+                search = search.replace(label, "").trim();
+                System.out.println("After Category match, search: " + search);
+                if (search.isEmpty() && ct.isEmpty()) {
+                    SearchHelperBC(C, searchResults);
+                } else {
+                    ct.add(C);
+                }
+            }
         }
-        else if (token.getClass().toString() == "Size"){
-            sql.append("prod_size = " + token.toString());
-            numOther1 = Color.values().length;
-            numOther2 = Material.values().length;
+        for (Color C : Color.values()) {
+            String value = C.toString().toUpperCase();
+            System.out.println("Checking Color: " + value);
+            if (search.contains(value)) {
+                search = search.replace(value, "").trim();
+                System.out.println("After Color match, search: " + search);
+                if (search.isEmpty() && cl.isEmpty()) {
+                    SearchHelperCMS(C, searchResults);
+                } else {
+                    cl.add(C);
+                }
+            }
         }
-        else {throw new SQLException("invalid type");}
+        for (Material M : Material.values()) {
+            String value = M.toString().toUpperCase();
+            System.out.println("Checking Material: " + value);
+            if (search.contains(value)) {
+                search = search.replace(value, "").trim();
+                System.out.println("After Material match, search: " + search);
+                if (search.isEmpty() && mt.isEmpty()) {
+                    SearchHelperCMS(M, searchResults);
+                } else {
+                    mt.add(M);
+                }
+            }
+        }
+        for (Size S : Size.values()) {
+            String value = S.toString().toUpperCase();
+            System.out.println("Checking Size: " + value);
+            if (search.contains(value)) {
+                search = search.replace(value, "").trim();
+                System.out.println("After Size match, search: " + search);
+                if (search.isEmpty() && sz.isEmpty()) {
+                    SearchHelperCMS(S, searchResults);
+                } else {
+                    sz.add(S);
+                }
+            }
+        }
 
-        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
-        PreparedStatement pstm = conn.prepareStatement(sql.toString());
-        ResultSet rt = pstm.executeQuery();){
-            ArrayList<Integer> usedIDs = new ArrayList<Integer>();
+        // Search remaining string
+        if (!search.isEmpty()) {
+            System.out.println("Searching remaining term: " + search);
+            SearchHelperProduct(search, searchResults);
+        }
 
-            while(rt.next()){
-                int id = rt.getInt("product_id");
-                ArrayList<Variant> variants = products.get(id).getVariants();
-                usedIDs.add(id,id);
+        // Handle compound search for collected terms
+        if (!bd.isEmpty() || !ct.isEmpty() || !cl.isEmpty() || !mt.isEmpty() || !sz.isEmpty()) {
+            System.out.println("Compound search with Brands: " + bd + ", Categories: " + ct +
+                               ", Colors: " + cl + ", Materials: " + mt + ", Sizes: " + sz);
+            CompoundSearchHelper(bd, ct, cl, mt, sz, searchResults);
+        }
 
-                if (id == usedIDs.get(id)){
+        return searchResults;
+    }
+
+    // searches the available objects through a map
+    public static void CompoundSearchHelper(List<Brand> brands, List<Category> categories,
+            List<Color> colors, List<Material> materials, List<Size> sizes,
+            ArrayList<Variant> searchResults) {
+        Map<Integer, Product> productMap = getProductMap();
+        System.out.println("Total products from CentralShoppingSystem: " + (productMap != null ? productMap.size() : "null"));
+        if (productMap == null || productMap.isEmpty()) {
+            System.out.println("No products available to search.");
+            return;
+        }
+
+        for (Product product : productMap.values()) {
+            // Check brand and category
+            boolean matchesBrand = brands.isEmpty() || brands.stream().anyMatch(b -> 
+                b.getLabel().equalsIgnoreCase(getBrandName(product.getBrandID())));
+            boolean matchesCategory = categories.isEmpty() || categories.stream().anyMatch(c -> 
+                c.getLabel().equalsIgnoreCase(getCategoryName(product.getCategoryID())));
+            if (!matchesBrand || !matchesCategory) {
+                continue;
+            }
+            System.out.println("Product matches Brand/Category: " + product);
+
+            ArrayList<Variant> variants = product.getVariants();
+            System.out.println("Variants for product: " + (variants != null ? variants.size() : "null"));
+            if (variants == null || variants.isEmpty()) {
+                System.out.println("No variants for this product.");
+                continue;
+            }
+
+            for (Variant variant : variants) {
+                if (variant == null) {
                     continue;
                 }
-
-                IndexHelper(numOther1, numOther2, variants, searchResults, token);
+                System.out.println("Checking variant: " + variant);
+                boolean matchesColor = colors.isEmpty() || colors.contains(variant.getColor());
+                boolean matchesMaterial = materials.isEmpty() || materials.contains(variant.getMaterial());
+                boolean matchesSize = sizes.isEmpty() || sizes.contains(variant.getSize());
+                if (matchesColor && matchesMaterial && matchesSize && !searchResults.contains(variant)) {
+                    System.out.println("Adding variant to results: " + variant);
+                    searchResults.add(variant);
+                }
             }
         }
     }
 
-    /**
-     *  Method so that the nested loops can be broken easily
-     * @param numOther1, @param numOther2, @param variants, @param searchResults, @param token
-     * @return 0 if the index is not found, else return the index
-     * @throws SQLException if there is an error with the SQL query
-     */
-    private static <E extends Enum<E>> int IndexHelper(int numOther1, int numOther2, ArrayList<Variant> variants, ArrayList<Variant> searchResults, E token){
-        
-        for (int i = 0; i < numOther1; i++){
-            for (int j = 0; j < numOther2; j++){
-                int index = 0;
-                
-                // get the index that contains x enum
-                if (variants.get(i).getColor() == token){
-                    int numColor = Color.values().length;
-                    index = i * (numColor * numOther2) + token.ordinal() * numOther2 + j;
-                }
-                else if (variants.get(i).getMaterial() == token){
-                    index = token.ordinal() * (numOther1 * numOther2) + i * numOther2 + j;
-                }
-                else if (variants.get(i).getSize() == token){
-                    int numSize = Size.values().length;
-                    index = j * (numOther1 * numSize) + i * numSize + token.ordinal();
-                }
-                else {return 0;}
+    // searches for specific product name or description
+    public static void SearchHelperProduct(String token, ArrayList<Variant> searchResults) {
+        String sql = "SELECT DISTINCT p.product_id " +
+                     "FROM product p " +
+                     "LEFT JOIN descriptions d ON p.product_id = d.product_id " +
+                     "WHERE UPPER(p.product_name) LIKE ? OR UPPER(CAST(d.description AS NVARCHAR(MAX))) LIKE ?";
+        Map<Integer, Product> productMap = getProductMap();
+        System.out.println("Product map size: " + (productMap != null ? productMap.size() : "null"));
 
-                // if it exists add it to results if it's the last variant then stop itterating
-                if (variants.get(index) != null){
-                    searchResults.add(variants.get(index));
+        try (Connection conn = DriverManager.getConnection(
+                properties.getProperty("url"),
+                properties.getProperty("user"),
+                properties.getProperty("password"));
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, "%" + token.toUpperCase() + "%");
+            pstm.setString(2, "%" + token.toUpperCase() + "%");
+            System.out.println("Executing SearchHelperProduct query with token: " + token);
+            try (ResultSet rs = pstm.executeQuery()) {
+                int matchCount = 0;
+                while (rs.next()) {
+                    matchCount++;
+                    int productId = rs.getInt("product_id");
+                    System.out.println("Found product_id: " + productId);
+                    Product product = productMap.get(productId);
+                    if (product != null) {
+                        ArrayList<Variant> variants = product.getVariants();
+                        System.out.println("Variants for product_id " + productId + ": " + 
+                                          (variants != null ? variants.size() : "null"));
+                        if (variants == null || variants.isEmpty()) {
+                            continue;
+                        }
+                        for (Variant variant : variants) {
+                            if (variant != null && !searchResults.contains(variant)) {
+                                System.out.println("Adding variant from SearchHelperProduct: " + variant);
+                                searchResults.add(variant);
+                                break; // Add first non-null variant
+                            }
+                        }
+                    } else {
+                        System.out.println("product_id " + productId + " not found in product map.");
+                    }
                 }
-                if (index >= variants.size() - 1){
-                    return 0;
+                System.out.println("SearchHelperProduct found " + matchCount + " matching products.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Product search failed: " + e.getMessage(), e);
+        }
+    }
+
+    // searches brand and category tables
+    public static <E extends Enum<E>> void SearchHelperBC(E token, ArrayList<Variant> searchResults) {
+        String sql;
+        String param;
+        if (token.getClass().getSimpleName().equals("Brand")) {
+            sql = "SELECT p.product_id " +
+                  "FROM product p " +
+                  "JOIN brand b ON p.brand_id = b.brand_id " +
+                  "WHERE UPPER(b.brand_name) = ?";
+            param = ((Brand) token).getLabel().toUpperCase();
+        } else if (token.getClass().getSimpleName().equals("Category")) {
+            sql = "SELECT p.product_id " +
+                  "FROM product p " +
+                  "JOIN category c ON p.category_id = c.category_id " +
+                  "WHERE UPPER(c.category_name) = ?";
+            param = ((Category) token).getLabel().toUpperCase();
+        } else {
+            return;
+        }
+
+        Map<Integer, Product> productMap = getProductMap();
+        try (Connection conn = DriverManager.getConnection(
+                properties.getProperty("url"),
+                properties.getProperty("user"),
+                properties.getProperty("password"));
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setString(1, param);
+            System.out.println("Executing SearchHelperBC query for " + token + " with param: " + param);
+            try (ResultSet rs = pstm.executeQuery()) {
+                int matchCount = 0;
+                while (rs.next()) {
+                    matchCount++;
+                    int productId = rs.getInt("product_id");
+                    System.out.println("Found product_id: " + productId);
+                    Product product = productMap.get(productId);
+                    if (product != null) {
+                        ArrayList<Variant> variants = product.getVariants();
+                        System.out.println("Variants for product_id " + productId + ": " + 
+                                          (variants != null ? variants.size() : "null"));
+                        if (variants == null || variants.isEmpty()) {
+                            continue;
+                        }
+                        for (Variant variant : variants) {
+                            if (variant != null && !searchResults.contains(variant)) {
+                                System.out.println("Adding variant from SearchHelperBC: " + variant);
+                                searchResults.add(variant);
+                                break; // Add first non-null variant
+                            }
+                        }
+                    } else {
+                        System.out.println("product_id " + productId + " not found in product map.");
+                    }
+                }
+                System.out.println("SearchHelperBC found " + matchCount + " matching products.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Brand/Category search failed: " + e.getMessage(), e);
+        }
+    }
+
+    public static <E extends Enum<E>> void SearchHelperCMS(E token, ArrayList<Variant> searchResults) {
+        Map<Integer, Product> productMap = getProductMap();
+        System.out.println("Executing SearchHelperCMS for " + token);
+
+        boolean foundVariantsInProducts = false;
+        if (productMap != null && !productMap.isEmpty()) {
+            for (Product product : productMap.values()) {
+                ArrayList<Variant> variants = product.getVariants();
+                System.out.println("Checking variants for product: " + product + ", Variants: " + 
+                                  (variants != null ? variants.size() : "null"));
+                if (variants == null || variants.isEmpty()) {
+                    continue;
+                }
+                for (Variant variant : variants) {
+                    if (variant == null) {
+                        continue;
+                    }
+                    System.out.println("Variant: " + variant);
+                    boolean matches = false;
+                    if (token.getClass().getSimpleName().equals("Color")) {
+                        matches = token.equals(variant.getColor());
+                    } else if (token.getClass().getSimpleName().equals("Material")) {
+                        matches = token.equals(variant.getMaterial());
+                    } else if (token.getClass().getSimpleName().equals("Size")) {
+                        matches = token.equals(variant.getSize());
+                    }
+                    if (matches && !searchResults.contains(variant)) {
+                        System.out.println("Adding variant from SearchHelperCMS (pre-fetched): " + variant);
+                        searchResults.add(variant);
+                        foundVariantsInProducts = true;
+                    }
                 }
             }
         }
 
-        return 0;
+        // Fallback: Directly query the database if no variants were found in pre-fetched products
+        if (!foundVariantsInProducts) {
+            System.out.println("No matching variants found in pre-fetched products. Querying database directly.");
+            String sql;
+            String param = token.toString();
+            if (token.getClass().getSimpleName().equals("Color")) {
+                sql = "SELECT product_id, color, material, prod_size, product_stock, product_price " +
+                      "FROM product_price_stock WHERE UPPER(color) = ?";
+            } else if (token.getClass().getSimpleName().equals("Material")) {
+                sql = "SELECT product_id, color, material, prod_size, product_stock, product_price " +
+                      "FROM product_price_stock WHERE UPPER(material) = ?";
+            } else if (token.getClass().getSimpleName().equals("Size")) {
+                sql = "SELECT product_id, color, material, prod_size, product_stock, product_price " +
+                      "FROM product_price_stock WHERE UPPER(prod_size) = ?";
+            } else {
+                return;
+            }
+
+            try (Connection conn = DriverManager.getConnection(
+                    properties.getProperty("url"),
+                    properties.getProperty("user"),
+                    properties.getProperty("password"));
+                 PreparedStatement pstm = conn.prepareStatement(sql)) {
+                pstm.setString(1, param.toUpperCase());
+                try (ResultSet rs = pstm.executeQuery()) {
+                    while (rs.next()) {
+                        int productId = rs.getInt("product_id");
+                        String colorStr = rs.getString("color");
+                        String materialStr = rs.getString("material");
+                        String sizeStr = rs.getString("prod_size");
+                        int stock = rs.getInt("product_stock");
+                        double price = rs.getDouble("product_price");
+
+                        // Convert strings to enums
+                        Color color;
+                        Material material;
+                        Size size;
+                        try {
+                            color = colorStr != null ? Color.valueOf(colorStr.toUpperCase()) : null;
+                            material = materialStr != null ? Material.valueOf(materialStr.toUpperCase()) : null;
+                            size = sizeStr != null ? Size.valueOf(sizeStr.toUpperCase()) : null;
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Failed to convert database values to enums: " + e.getMessage());
+                            continue;
+                        }
+
+                        // Create Variant object
+                        Variant variant = new Variant(productId, color, material, size, stock, price);
+                        if (!searchResults.contains(variant)) {
+                            System.out.println("Adding variant from SearchHelperCMS (database): " + variant);
+                            searchResults.add(variant);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException("CMS search failed: " + e.getMessage(), e);
+            }
+        }
+    }
+
+    // creates a hash map of the products in the system
+    private static Map<Integer, Product> getProductMap() {
+        ArrayList<Product> products = CentralShoppingSystem.getProducts();
+        Map<Integer, Product> productMap = new HashMap<>();
+        if (products != null) {
+            for (Product product : products) {
+                if (product != null) {
+                    // Use getID() instead of getProductID()
+                    // Assuming Product has a similar getID() method
+                    productMap.put(product.getID(), product);
+                }
+            }
+        }
+        return productMap;
+    }
+
+    private static String getBrandName(int brandId) {
+        String sql = "SELECT brand_name FROM brand WHERE brand_id = ?";
+        try (Connection conn = DriverManager.getConnection(
+                properties.getProperty("url"),
+                properties.getProperty("user"),
+                properties.getProperty("password"));
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setInt(1, brandId);
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    String brandName = rs.getString("brand_name");
+                    System.out.println("Brand ID " + brandId + " -> " + brandName);
+                    return brandName;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to get brand name: " + e.getMessage(), e);
+        }
+        System.out.println("Brand ID " + brandId + " not found.");
+        return "";
+    }
+
+    private static String getCategoryName(int categoryId) {
+        String sql = "SELECT category_name FROM category WHERE category_id = ?";
+        try (Connection conn = DriverManager.getConnection(
+                properties.getProperty("url"),
+                properties.getProperty("user"),
+                properties.getProperty("password"));
+             PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setInt(1, categoryId);
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (rs.next()) {
+                    String categoryName = rs.getString("category_name");
+                    System.out.println("Category ID " + categoryId + " -> " + categoryName);
+                    return categoryName;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to get category name: " + e.getMessage(), e);
+        }
+        System.out.println("Category ID " + categoryId + " not found.");
+        return "";
     }
 }

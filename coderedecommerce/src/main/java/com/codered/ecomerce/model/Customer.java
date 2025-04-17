@@ -12,10 +12,8 @@
  */
 package com.codered.ecomerce.model;
 
-import java.util.List;
-import java.util.LinkedList;
+import java.util.*;
 import java.time.LocalDateTime;
-import java.sql.*;
 
 /**
  * customer class in the ecommerce system representing an individual customer with
@@ -25,10 +23,12 @@ public class Customer
 {
     private String firstName;
     private String lastName;
+    private Account account;
     private int id;
     private String[] shippingAddress;
     private String emailAddress;
     private String phoneNumber;
+    private List<Order> orders;
     private LocalDateTime createdAt;
 
     /**
@@ -43,12 +43,27 @@ public class Customer
         this.emailAddress = emailAddress;
     }
 
+    public Customer(String firstName, String lastName, String address, String state, String emailAddress) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.shippingAddress = new String[]{address, state};
+    }
+
+    //public Customer(String firstName2, String lastName2, String address, String selectedState, String email) {
+        //TODO Auto-generated constructor stub
+    //}
+
     /**
      * getters returning all pertinent information about the customer.
      */ 
-    public String getCustomerName()
+    public String getLname()
     {
-        return firstName + " " + lastName;
+        return lastName;
+    }
+
+    public String getFname(){
+        return firstName;
     }
 
     public int getID()
@@ -76,6 +91,10 @@ public class Customer
         return createdAt;
     }
 
+    public boolean HasAccount(){
+        return !this.account.equals(null);
+    }
+
     /**
      * setters to set the customer details after the customer has been created.
      * This is useful for updating customer information.
@@ -88,6 +107,10 @@ public class Customer
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
+    }
+
+    public void setID(int id){
+        this.id = id;
     }
 
     public void setShippingAddress(String[] shippingAddress)

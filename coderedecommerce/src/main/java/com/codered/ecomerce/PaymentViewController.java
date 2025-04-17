@@ -12,6 +12,10 @@ package com.codered.ecomerce;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.codered.ecomerce.model.Customer;
+import com.codered.ecomerce.model.CustomerManager;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,6 +83,9 @@ public class PaymentViewController extends App implements Initializable{
  */    
     public void confirmPayment(ActionEvent event) throws IOException {
 
+        // Get the current customer from the CustomerManager
+        Customer customer = CustomerManager.getCustomer();
+
         // Get the values from the text fields and choice boxes
         cardNumber = cardNumTextBox.getText();
         cardSecurityCode = securityNumTextBox.getText();
@@ -100,25 +107,35 @@ public class PaymentViewController extends App implements Initializable{
                 missingInfoAlert.showAndWait();
             }else{
                 
-
                 // Test (successful)
-                System.out.println("Payment Successful! \n" +
+                    System.out.println("Payment Successful! \n" +
                     "Card Holder Name: " + cardHolderName + "\n" +
                     "Card Number: " + cardNumber + "\n" +
                     "Card Security Code: " + cardSecurityCode + "\n" +
                     "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
                     "Card Type: " + cardType);
-                //Display an alert to confirm the order creation containing the payment details, order details
-                Alert OrderCreatedAlert = new Alert(Alert.AlertType.INFORMATION); // Create an information alert
-                OrderCreatedAlert.setTitle("Order Confirmation");
-                OrderCreatedAlert.setHeaderText("Order Created Successfully!");
-                OrderCreatedAlert.setContentText("Card Holder Name: " + cardHolderName + "\n" +
+
+                    //Retrieves customer from Customer Class and formats the customer information to be displayed in the alert
+                    String customerInfo = "Customer Name: " + customer.getFname() + " " + customer.getLname() + "\n" +
+                    "Email: " + customer.getCustomerEmail() + "\n" +
+                    "Shipping Address: " + String.join(", ", customer.getShippingAddress()) + "\n\n";
+
+                    // Combines the customer information and payment details into a single string
+                    // to be displayed in the alert
+                    String confirmationText = customerInfo +
+                    "Card Holder Name: " + cardHolderName + "\n" +
                     "Card Number: " + cardNumber + "\n" +
                     "Card Security Code: " + cardSecurityCode + "\n" +
                     "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
-                    "Card Type: " + cardType); // Set the content text
-                OrderCreatedAlert.showAndWait();
-            }
+                    "Card Type: " + cardType;
+
+                //Display an alert to confirm the order creation containing the payment details, order details
+                    Alert OrderCreatedAlert = new Alert(Alert.AlertType.INFORMATION); // Create an information alert
+                    OrderCreatedAlert.setTitle("Order Created Successfully!");
+                    OrderCreatedAlert.setHeaderText("Order Details");
+                    OrderCreatedAlert.setContentText(confirmationText); // Set the content text
+                    OrderCreatedAlert.showAndWait();
+            }//end else
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
              

@@ -13,6 +13,10 @@ package com.codered.ecomerce;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.codered.ecomerce.model.Customer;
+import com.codered.ecomerce.model.CustomerManager;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -82,10 +86,20 @@ public class CheckoutController extends App implements Initializable {
         try {
             if(!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && 
                 !selectedState.equals("Select State") && !email.isEmpty()) {
+
+                // Test (successful)
                 System.out.println("Checkout Successful! \n" +
                     "Name: " + firstName + " " + lastName + "\n" +
                     "Address: " + address + ", " + selectedState + "\n" +
                     "Email: " + email);
+
+                //Create new customer object and store the address and state as a string array
+                Customer customer = new Customer(firstName, lastName, address, selectedState, email);
+                //customer.setShippingAddress(new String[] {address, selectedState});
+
+                //Store the customer globally so that it can be accessed by other classes
+                CustomerManager.setCustomer(customer);
+
                 // Load the new FXML file
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("paymentView.fxml"));
                 Parent root = loader.load();

@@ -12,8 +12,7 @@
  */
 package com.codered.ecomerce.model;
 
-import com.codered.ecomerce.model.Product;
-import com.codered.ecomerce.model.Customer;
+import com.codered.ecomerce.model.*;
 import java.util.List;
 import java.util.LinkedList;
 import java.time.LocalDateTime;
@@ -25,21 +24,19 @@ public class Order
 {
     private int orderID;
     private Customer customer;
-    private LinkedList<Product> orderItems;
+    private LinkedList<Variant> orderItems;
     private enum OrderStatus {PENDING, SHIPPED, DELIVERED, CANCELLED, DELAYED};
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus = OrderStatus.PENDING;
     private int orderCount = 0;
     private LocalDateTime orderDate;
 
     /*
     * constructor to initialize order with the appropriate details
     */
-    public Order(int orderID, Customer customer, List<Product> orderItems, OrderStatus orderStatus, int orderCount, LocalDateTime orderDate)
+    public Order(Customer customer, List<Variant> orderItems, int orderCount, LocalDateTime orderDate)
     {
-        this.orderID = orderID;
         this.customer = customer;
-        this.orderItems = new LinkedList<>(orderItems);
-        this.orderStatus = orderStatus;
+        this.orderItems = new LinkedList<Variant>(orderItems);
         this.orderCount = orderCount;
         this.orderDate = orderDate;
     }
@@ -59,7 +56,7 @@ public class Order
         return customer.getID();
     }
 
-    public List<Product> getOrderItems()
+    public List<Variant> getOrderItems()
     {
         return orderItems;
     }
@@ -99,7 +96,7 @@ public class Order
         this.customer = customer;    
     }
 
-    public void setOrderItems(List<Product> orderItems)
+    public void setOrderItems(List<Variant> orderItems)
     {
         this.orderItems = new LinkedList<>(orderItems);
     }
@@ -129,7 +126,7 @@ public class Order
         orderCount++;
         //test
         System.out.println("Generating orderID for customer: " + customer.getID());
-        return new Order(orderCount, customer, new LinkedList<>(), OrderStatus.PENDING, orderCount, LocalDateTime.now());
+        return new Order( customer, new LinkedList<>(), orderCount, LocalDateTime.now());
     }
 
     /**
