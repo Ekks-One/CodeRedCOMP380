@@ -47,6 +47,7 @@ public class CentralShoppingSystem
      * @return the list of products loaded from the database.
      */
     public static ArrayList<Product> getProducts() {
+        QuerySeProduct.getProducts((ArrayList<Product>) products);
         return products;
     }
 
