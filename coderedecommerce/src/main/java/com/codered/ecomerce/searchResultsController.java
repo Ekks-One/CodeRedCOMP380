@@ -13,8 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.codered.ecomerce.model.*;
-import com.codered.ecomerce.enums.*;
+import com.codered.ecomerce.enums.Color;
+import com.codered.ecomerce.enums.Material;
+import com.codered.ecomerce.enums.Size;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;

@@ -12,6 +12,8 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 
+import com.codered.ecomerce.model.CentralShoppingSystem;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -52,6 +54,7 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
+        CentralShoppingSystem.getInstance();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));
         primaryRoot = loader.load(); // Initialize primaryRoot with the loaded FXML
         scene = new Scene(primaryRoot); // Use primaryRoot for the scene
