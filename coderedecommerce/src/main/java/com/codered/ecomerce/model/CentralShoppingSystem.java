@@ -11,10 +11,13 @@
 package com.codered.ecomerce.model;
 
 import com.codered.ecomerce.enums.*;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
 import com.codered.ecomerce.sql.*;
+
+import javafx.fxml.Initializable;
 
 /**
  * CentralShoppingSystem class is used to manage the product list and system operations.
@@ -23,11 +26,25 @@ public class CentralShoppingSystem
 {
     private static ArrayList<Product> products = new ArrayList<Product>();
     private static ArrayList<Variant> searchResults = new ArrayList<Variant>();
+    private static CentralShoppingSystem instance;
 
     /**
-     * Default constructor for CentralShoppingSystem.
+     * Private Constructor prevent instantiation
      */
-    public CentralShoppingSystem() {}
+    private CentralShoppingSystem() {
+        initializeProducts(); // Initialize products
+    }
+
+    /**
+     * Singleton instance of CentralShoppingSystem
+     * @return singleton instance
+     */
+    public static CentralShoppingSystem getInstance() {
+        if(instance == null) {
+            instance = new CentralShoppingSystem();
+        }
+        return instance;
+    }
 
     public static void main(String[] args) {
         QuerySeProduct.getProducts((ArrayList<Product>) products);
@@ -47,7 +64,6 @@ public class CentralShoppingSystem
      * @return the list of products loaded from the database.
      */
     public static ArrayList<Product> getProducts() {
-        QuerySeProduct.getProducts((ArrayList<Product>) products);
         return products;
     }
 
@@ -59,6 +75,14 @@ public class CentralShoppingSystem
      */
     public static ArrayList<Variant> Browse(String search) {
         return SearchProducts.Search(search);
+    }
+
+    /** 
+     * Initialize the product list before loading products from database.
+     */
+    private void initializeProducts() {
+        QuerySeProduct.getProducts(products);
+        System.out.println("Success initializing: " + products.size());
     }
 
     /*  
