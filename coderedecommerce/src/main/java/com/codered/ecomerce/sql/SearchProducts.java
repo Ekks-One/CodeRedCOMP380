@@ -128,11 +128,10 @@ public class SearchProducts extends SwagConnection {
     }
 
     // searches the available objects through a map
-    public static void CompoundSearchHelper(List<Brand> brands, List<Category> categories,
-            List<Color> colors, List<Material> materials, List<Size> sizes,
-            ArrayList<Variant> searchResults) {
+    public static void CompoundSearchHelper(List<Brand> brands, List<Category> categories, List<Color> colors, List<Material> materials, List<Size> sizes, ArrayList<Variant> searchResults) {
         Map<Integer, Product> productMap = getProductMap();
         System.out.println("Total products from CentralShoppingSystem: " + (productMap != null ? productMap.size() : "null"));
+
         if (productMap == null || productMap.isEmpty()) {
             System.out.println("No products available to search.");
             return;
@@ -164,6 +163,8 @@ public class SearchProducts extends SwagConnection {
                 boolean matchesColor = colors.isEmpty() || colors.contains(variant.getColor());
                 boolean matchesMaterial = materials.isEmpty() || materials.contains(variant.getMaterial());
                 boolean matchesSize = sizes.isEmpty() || sizes.contains(variant.getSize());
+
+                //makes sure there are no repeats
                 if (matchesColor && matchesMaterial && matchesSize && !searchResults.contains(variant)) {
                     System.out.println("Adding variant to results: " + variant);
                     searchResults.add(variant);
@@ -189,6 +190,7 @@ public class SearchProducts extends SwagConnection {
             pstm.setString(1, "%" + token.toUpperCase() + "%");
             pstm.setString(2, "%" + token.toUpperCase() + "%");
             System.out.println("Executing SearchHelperProduct query with token: " + token);
+
             try (ResultSet rs = pstm.executeQuery()) {
                 int matchCount = 0;
                 while (rs.next()) {
@@ -225,6 +227,7 @@ public class SearchProducts extends SwagConnection {
     public static <E extends Enum<E>> void SearchHelperBC(E token, ArrayList<Variant> searchResults) {
         String sql;
         String param;
+
         if (token.getClass().getSimpleName().equals("Brand")) {
             sql = "SELECT p.product_id " +
                   "FROM product p " +
@@ -249,13 +252,16 @@ public class SearchProducts extends SwagConnection {
              PreparedStatement pstm = conn.prepareStatement(sql)) {
             pstm.setString(1, param);
             System.out.println("Executing SearchHelperBC query for " + token + " with param: " + param);
+
             try (ResultSet rs = pstm.executeQuery()) {
                 int matchCount = 0;
+
                 while (rs.next()) {
                     matchCount++;
                     int productId = rs.getInt("product_id");
                     System.out.println("Found product_id: " + productId);
                     Product product = productMap.get(productId);
+
                     if (product != null) {
                         ArrayList<Variant> variants = product.getVariants();
                         System.out.println("Variants for product_id " + productId + ": " + 
@@ -274,6 +280,7 @@ public class SearchProducts extends SwagConnection {
                         System.out.println("product_id " + productId + " not found in product map.");
                     }
                 }
+
                 System.out.println("SearchHelperBC found " + matchCount + " matching products.");
             }
         } catch (SQLException e) {
@@ -281,16 +288,17 @@ public class SearchProducts extends SwagConnection {
         }
     }
 
+    // searches a hash map and defaults to queries if none are found.
     public static <E extends Enum<E>> void SearchHelperCMS(E token, ArrayList<Variant> searchResults) {
         Map<Integer, Product> productMap = getProductMap();
         System.out.println("Executing SearchHelperCMS for " + token);
-
         boolean foundVariantsInProducts = false;
+
         if (productMap != null && !productMap.isEmpty()) {
             for (Product product : productMap.values()) {
                 ArrayList<Variant> variants = product.getVariants();
-                System.out.println("Checking variants for product: " + product + ", Variants: " + 
-                                  (variants != null ? variants.size() : "null"));
+                System.out.println("Checking variants for product: " + product + ", Variants: " + (variants != null ? variants.size() : "null"));
+
                 if (variants == null || variants.isEmpty()) {
                     continue;
                 }
@@ -298,8 +306,10 @@ public class SearchProducts extends SwagConnection {
                     if (variant == null) {
                         continue;
                     }
+
                     System.out.println("Variant: " + variant);
                     boolean matches = false;
+
                     if (token.getClass().getSimpleName().equals("Color")) {
                         matches = token.equals(variant.getColor());
                     } else if (token.getClass().getSimpleName().equals("Material")) {
@@ -307,6 +317,7 @@ public class SearchProducts extends SwagConnection {
                     } else if (token.getClass().getSimpleName().equals("Size")) {
                         matches = token.equals(variant.getSize());
                     }
+
                     if (matches && !searchResults.contains(variant)) {
                         System.out.println("Adding variant from SearchHelperCMS (pre-fetched): " + variant);
                         searchResults.add(variant);
@@ -321,6 +332,7 @@ public class SearchProducts extends SwagConnection {
             System.out.println("No matching variants found in pre-fetched products. Querying database directly.");
             String sql;
             String param = token.toString();
+
             if (token.getClass().getSimpleName().equals("Color")) {
                 sql = "SELECT product_id, color, material, prod_size, product_stock, product_price " +
                       "FROM product_price_stock WHERE UPPER(color) = ?";
@@ -340,6 +352,7 @@ public class SearchProducts extends SwagConnection {
                     properties.getProperty("password"));
                  PreparedStatement pstm = conn.prepareStatement(sql)) {
                 pstm.setString(1, param.toUpperCase());
+                
                 try (ResultSet rs = pstm.executeQuery()) {
                     while (rs.next()) {
                         int productId = rs.getInt("product_id");
@@ -376,24 +389,25 @@ public class SearchProducts extends SwagConnection {
         }
     }
 
-    // creates a hash map of the products in the system
+    // creates a hash map of the products in the system for faster access
     private static Map<Integer, Product> getProductMap() {
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
         Map<Integer, Product> productMap = new HashMap<>();
+
         if (products != null) {
             for (Product product : products) {
                 if (product != null) {
-                    // Use getID() instead of getProductID()
-                    // Assuming Product has a similar getID() method
                     productMap.put(product.getID(), product);
                 }
             }
         }
+
         return productMap;
     }
 
     private static String getBrandName(int brandId) {
         String sql = "SELECT brand_name FROM brand WHERE brand_id = ?";
+
         try (Connection conn = DriverManager.getConnection(
                 properties.getProperty("url"),
                 properties.getProperty("user"),
@@ -410,12 +424,15 @@ public class SearchProducts extends SwagConnection {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to get brand name: " + e.getMessage(), e);
         }
+
         System.out.println("Brand ID " + brandId + " not found.");
+
         return "";
     }
 
     private static String getCategoryName(int categoryId) {
         String sql = "SELECT category_name FROM category WHERE category_id = ?";
+
         try (Connection conn = DriverManager.getConnection(
                 properties.getProperty("url"),
                 properties.getProperty("user"),
@@ -432,7 +449,9 @@ public class SearchProducts extends SwagConnection {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to get category name: " + e.getMessage(), e);
         }
+
         System.out.println("Category ID " + categoryId + " not found.");
+
         return "";
     }
 }

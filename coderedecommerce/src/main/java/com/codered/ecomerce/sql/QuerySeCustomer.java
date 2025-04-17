@@ -29,7 +29,6 @@ public class QuerySeCustomer extends SwagConnection{
         PreparedStatement psmt = conn.prepareStatement(sql);
         ResultSet rt = psmt.executeQuery()){
             int count = 0;
-            String ship = "SELECT * FROM customer_shipping WHERE customer_id = ?";
 
             while(rt.next()){
                 int custId = rt.getInt("customer_id");

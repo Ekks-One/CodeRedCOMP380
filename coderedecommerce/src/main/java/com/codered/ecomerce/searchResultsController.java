@@ -11,6 +11,7 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.codered.ecomerce.model.*;
@@ -54,18 +55,6 @@ public class searchResultsController {
      * @throws IOException
      */
     public void returnPrimary(MouseEvent event) throws IOException {
-        List<Variant> variants = new ArrayList<>();
-
-        variants.add(new Variant(1, Color.RED, Material.COTTON, Size.S, 50, 19.99));
-        variants.add(new Variant(2, Color.BLUE, Material.POLYESTER, Size.M, 30, 24.99));
-        variants.add(new Variant(3, Color.BLACK, Material.DENIM, Size.L, 40, 49.99));
-        variants.add(new Variant(4, Color.WHITE, Material.COTTON, Size.XL, 25, 29.99));
-        variants.add(new Variant(5, Color.GREEN, Material.LINEN, Size.M, 60, 34.99));
-        variants.add(new Variant(6, Color.YELLOW, Material.SILK, Size.S, 20, 39.99));
-        variants.add(new Variant(7, Color.GREY, Material.WOOL, Size.L, 70, 59.99));
-        variants.add(new Variant(8, Color.BROWN, Material.LEATHER, Size.XL, 10, 89.99));
-        variants.add(new Variant(9, Color.PURPLE, Material.COTTON, Size.S, 35, 21.99));
-        variants.add(new Variant(10, Color.ORANGE, Material.POLYESTER, Size.M, 80, 27.99));
         
         // Get the current stage
         App.switchScene("primary", event);
@@ -80,27 +69,20 @@ public class searchResultsController {
      */
 
     public void populateGridPane() throws IOException {
-        ArrayList<Product> products = CentralShoppingSystem.getProducts();
-        //List<Variant> variants = new ArrayList<>();
-        
-        //Added as a Test to figure out Variant situation
-        
-        //     variants.add(new Variant(1, Color.RED, Material.COTTON, Size.S, 50, 19.99));
-        //     variants.add(new Variant(2, Color.BLUE, Material.POLYESTER, Size.M, 30, 24.99));
-        //     variants.add(new Variant(3, Color.BLACK, Material.DENIM, Size.L, 40, 49.99));
-        //     variants.add(new Variant(4, Color.WHITE, Material.COTTON, Size.XL, 25, 29.99));
-        //     variants.add(new Variant(5, Color.GREEN, Material.LINEN, Size.M, 60, 34.99));
-        //     variants.add(new Variant(6, Color.YELLOW, Material.SILK, Size.S, 20, 39.99));
-        //     variants.add(new Variant(7, Color.GREY, Material.WOOL, Size.L, 70, 59.99));
-        //     variants.add(new Variant(8, Color.BROWN, Material.LEATHER, Size.XL, 10, 89.99));
-        //     variants.add(new Variant(9, Color.PURPLE, Material.COTTON, Size.S, 35, 21.99));
-        //     variants.add(new Variant(10, Color.ORANGE, Material.POLYESTER, Size.M, 80, 27.99));
-            
-        // for (Variant variant: variants) {
-        //     if (variant == null) {
-        //         System.out.println("Null product found! Skipping...");
-        //         continue;
-        //     }
+        List<Variant> variants = new ArrayList<>();
+
+        variants.add(new Variant(1, Color.RED, Material.COTTON, Size.S, 50, 19.99));
+        variants.add(new Variant(2, Color.BLUE, Material.POLYESTER, Size.M, 30, 24.99));
+        variants.add(new Variant(3, Color.BLACK, Material.DENIM, Size.L, 40, 49.99));
+        variants.add(new Variant(4, Color.WHITE, Material.COTTON, Size.XL, 25, 29.99));
+        variants.add(new Variant(5, Color.GREEN, Material.LINEN, Size.M, 60, 34.99));
+        variants.add(new Variant(6, Color.YELLOW, Material.SILK, Size.S, 20, 39.99));
+        variants.add(new Variant(7, Color.GREY, Material.WOOL, Size.L, 70, 59.99));
+        variants.add(new Variant(8, Color.BROWN, Material.LEATHER, Size.XL, 10, 89.99));
+        variants.add(new Variant(9, Color.PURPLE, Material.COTTON, Size.S, 35, 21.99));
+        variants.add(new Variant(10, Color.ORANGE, Material.POLYESTER, Size.M, 80, 27.99));
+
+        List<Product> products = CentralShoppingSystem.getProducts();
             
 
         int row = 0;
@@ -109,8 +91,8 @@ public class searchResultsController {
         int prodCount = 0;
         
         // Loop through the products and create a new AnchorPane for each product
-        for(Product product : products) {
-            if(product == null) {
+        for(Variant variant : variants) {
+            if(variant == null) {
                 System.out.println("Null product found! Skipping...");
                 continue;
             }
@@ -141,18 +123,18 @@ public class searchResultsController {
             // Add the product to the cart
 
             // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
-            System.out.println("Added " + product.getName() + " to cart.");
+            System.out.println("Added " + products.get(variant.getID()).getName() + " to cart.");
         });
 
 
         // Create Label for the product name
         // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
-        Label nameLabel = new Label(product.getName());
+        Label nameLabel = new Label(products.get(variant.getID()).getName());
         AnchorPane.setTopAnchor(nameLabel,10.0);
         AnchorPane.setLeftAnchor(nameLabel, 120.0);
 
         // To be added once Variants Situation is figured out: variant.getPrice()
-        Label priceLabel = new Label("$" + product.getBasePrice());
+        Label priceLabel = new Label("$" + variant.getPrice());
         priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
         AnchorPane.setTopAnchor(priceLabel,40.0);
         AnchorPane.setLeftAnchor(priceLabel, 120.0);

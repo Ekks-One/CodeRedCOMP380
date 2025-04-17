@@ -20,7 +20,6 @@ package com.codered.ecomerce.model;
 public class Payment {
     private int paymentID;
     private double totalAmount;
-    private enum paymentMethod {CreditCard, Paypal, DebitCard, ApplePay} 
     private double productAmount;
     private double shippingAmount;
     private final double taxAmount;
