@@ -24,10 +24,11 @@ public class SearchProducts extends SwagConnection {
 
     private SearchProducts() {}
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         ArrayList<Variant> results = Search("black L cotton");
         System.out.println("Final search results: " + results);
     }
+*/
 
     // holds the search logic parsing/search appends
     public static ArrayList<Variant> Search(String srh) {
@@ -128,7 +129,7 @@ public class SearchProducts extends SwagConnection {
     }
 
     // searches the available objects through a map
-    public static void CompoundSearchHelper(List<Brand> brands, List<Category> categories, List<Color> colors, List<Material> materials, List<Size> sizes, ArrayList<Variant> searchResults) {
+    private static void CompoundSearchHelper(List<Brand> brands, List<Category> categories, List<Color> colors, List<Material> materials, List<Size> sizes, ArrayList<Variant> searchResults) {
         Map<Integer, Product> productMap = getProductMap();
         System.out.println("Total products from CentralShoppingSystem: " + (productMap != null ? productMap.size() : "null"));
 
@@ -174,7 +175,7 @@ public class SearchProducts extends SwagConnection {
     }
 
     // searches for specific product name or description
-    public static void SearchHelperProduct(String token, ArrayList<Variant> searchResults) {
+    private static void SearchHelperProduct(String token, ArrayList<Variant> searchResults) {
         String sql = "SELECT DISTINCT p.product_id " +
                      "FROM product p " +
                      "LEFT JOIN descriptions d ON p.product_id = d.product_id " +
@@ -224,7 +225,7 @@ public class SearchProducts extends SwagConnection {
     }
 
     // searches brand and category tables
-    public static <E extends Enum<E>> void SearchHelperBC(E token, ArrayList<Variant> searchResults) {
+    private static <E extends Enum<E>> void SearchHelperBC(E token, ArrayList<Variant> searchResults) {
         String sql;
         String param;
 
@@ -289,7 +290,7 @@ public class SearchProducts extends SwagConnection {
     }
 
     // searches a hash map and defaults to queries if none are found.
-    public static <E extends Enum<E>> void SearchHelperCMS(E token, ArrayList<Variant> searchResults) {
+    private static <E extends Enum<E>> void SearchHelperCMS(E token, ArrayList<Variant> searchResults) {
         Map<Integer, Product> productMap = getProductMap();
         System.out.println("Executing SearchHelperCMS for " + token);
         boolean foundVariantsInProducts = false;
