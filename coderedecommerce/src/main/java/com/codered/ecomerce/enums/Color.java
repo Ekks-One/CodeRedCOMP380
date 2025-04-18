@@ -8,10 +8,11 @@
  */
 package com.codered.ecomerce.enums;
 
+import java.lang.AutoCloseable;
 /**
  * Enum representing various color options for products
  */
-public enum Color{
+public enum Color implements AutoCloseable{
     BLUE,
     GREEN,
     RED,
@@ -37,5 +38,7 @@ public enum Color{
     COBALT,
     STEEL,
     GRAPHITE,
-    CRIMSON
+    CRIMSON;
+
+    public void close(){}
 }

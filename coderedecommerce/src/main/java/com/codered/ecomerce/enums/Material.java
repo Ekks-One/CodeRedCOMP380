@@ -8,10 +8,13 @@
  */
 package com.codered.ecomerce.enums;
 
+import java.lang.AutoCloseable;
+
 /**
  * Enum representing various material options for products
  */
-public enum Material {
+
+public enum Material implements AutoCloseable {
     LEATHER,
     COTTON,
     LINEN,
@@ -25,11 +28,14 @@ public enum Material {
     WHITE_BOARD,
     AIR,
     PELT,
+    HUMAN,
     SPANDEX,
     FLEECE,
     DENIM,
     CANVAS,
     VELVET,
     WOOL,
-    FLANNEL
+    FLANNEL;
+
+    public void close(){}
 }
