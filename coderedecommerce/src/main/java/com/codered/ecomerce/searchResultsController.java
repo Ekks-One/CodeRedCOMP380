@@ -3,7 +3,7 @@
  * This {@code searchResultsController} class is responsible for handling the search functionality in the application.
  * It allows users to search for items using a search bar and menu options.
  * 
- * @author CodeRed Team (Xavier, Afredo)
+ * @author CodeRed Team (Xavier, Afredo, Jesus)
  * @version 1.0
  * @created on 04/14/2025
  */ 

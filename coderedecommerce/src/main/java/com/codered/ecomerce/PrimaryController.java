@@ -5,7 +5,7 @@
  * * It also contains methods to initialize the view and set up the layout of the images in the grid.
  * * The class uses JavaFX to create the user interface and handle events.
  * 
- * @Author CodeRed Team (Miguel, Xavier, Alfredo)
+ * @Author CodeRed Team (Miguel, Xavier, Alfredo, jesus)
  * @version 1.0
  * @see Primary.fxml
  * @see App.java
@@ -18,8 +18,8 @@ package com.codered.ecomerce;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.codered.ecomerce.model.CentralShoppingSystem;
-import com.codered.ecomerce.model.Product;
+import com.codered.ecomerce.model.*;
+import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,6 +68,8 @@ public class PrimaryController extends App{
                      womensTops, womensBottoms, 
                      kidsTops, kidsBottoms,
                      aboutUs, ordersMenuItem;
+
+    private ArrayList<Variant> searchResults = new ArrayList<Variant>();
     
 
     /**
@@ -82,6 +84,7 @@ public class PrimaryController extends App{
         if(!searchTextBox.getText().isEmpty()) {
             System.out.println("Taking you to Search Results!");
             String searchItem = searchTextBox.getText();
+            this.searchResults = SearchProducts.Search(searchItem);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
                 Parent root = loader.load();
@@ -228,8 +231,8 @@ public class PrimaryController extends App{
         int prodCount = 0;
         
         // Loop through the products and create a new AnchorPane for each product
-        for(Product product : products) {
-            if(product == null) {
+        for(Variant variant : this.searchResults) {
+            if(variant == null) {
                 System.out.println("Null product found! Skipping...");
                 continue;
             }
@@ -260,18 +263,18 @@ public class PrimaryController extends App{
             // Add the product to the cart
 
             // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
-            System.out.println("Added " + product.getName() + " to cart.");
+            System.out.println("Added " + products.get(variant.getID()).getName() + " to cart.");
         });
 
 
         // Create Label for the product name
         // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
-        Label nameLabel = new Label(product.getName());
+        Label nameLabel = new Label(products.get(variant.getID()).getName());
         AnchorPane.setTopAnchor(nameLabel,10.0);
         AnchorPane.setLeftAnchor(nameLabel, 120.0);
 
         // To be added once Variants Situation is figured out: variant.getPrice()
-        Label priceLabel = new Label("$" + product.getBasePrice());
+        Label priceLabel = new Label("$" + variant.getPrice());
         priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
         AnchorPane.setTopAnchor(priceLabel,40.0);
         AnchorPane.setLeftAnchor(priceLabel, 120.0);
