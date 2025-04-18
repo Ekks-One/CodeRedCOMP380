@@ -37,17 +37,14 @@ import javafx.stage.Stage;
 /**
  * This class is responsible for handling the search functionality in the application.
  */
-public class searchResultsController {
+public class searchResultsController extends App{
     
     @FXML private TextField searchTextBox;
     @FXML private GridPane searchGridPane;
 
-    private ArrayList<Variant> searchResults = new ArrayList<Variant>();
-
     public void initialize() throws IOException {
-        if (!searchResults.isEmpty()) {
-            populateGridPane();
-        }
+        
+        populateGridPane();
     }
 
 
@@ -73,6 +70,20 @@ public class searchResultsController {
 
     public void populateGridPane() throws IOException {
         List<Product> products = CentralShoppingSystem.getProducts();
+        ArrayList<Variant> variants = new ArrayList<>();
+        
+        //Added as a Test to figure out Variant situation
+        
+            variants.add(new Variant(1, Color.RED, Material.COTTON, Size.S, 50, 19.99));
+            variants.add(new Variant(2, Color.BLUE, Material.POLYESTER, Size.M, 30, 24.99));
+            variants.add(new Variant(3, Color.BLACK, Material.DENIM, Size.L, 40, 49.99));
+            variants.add(new Variant(4, Color.WHITE, Material.COTTON, Size.XL, 25, 29.99));
+            variants.add(new Variant(5, Color.GREEN, Material.LINEN, Size.M, 60, 34.99));
+            variants.add(new Variant(6, Color.YELLOW, Material.SILK, Size.S, 20, 39.99));
+            variants.add(new Variant(7, Color.GREY, Material.WOOL, Size.L, 70, 59.99));
+            variants.add(new Variant(8, Color.BROWN, Material.LEATHER, Size.XL, 10, 89.99));
+            variants.add(new Variant(9, Color.PURPLE, Material.COTTON, Size.S, 35, 21.99));
+            variants.add(new Variant(10, Color.ORANGE, Material.POLYESTER, Size.M, 80, 27.99));
             
         int row = 0;
         int col = 0;
@@ -80,7 +91,7 @@ public class searchResultsController {
         int prodCount = 0;
         
         // Loop through the products and create a new AnchorPane for each product
-        for(Variant variant : this.searchResults) {
+        for(Variant variant : searchResults) {
             if(variant == null) {
                 System.out.println("Null product found! Skipping...");
                 continue;
@@ -152,26 +163,30 @@ public class searchResultsController {
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-public void Search(ActionEvent event) throws IOException {
-    if (!searchTextBox.getText().isEmpty()) {
-        String searchItem = searchTextBox.getText();
-        ArrayList<Variant> results = SearchProducts.Search(searchItem);
-        System.out.println("SearchProducts.Search returned: " + (results != null ? results.size() + " items" : "null"));
+    public void search(ActionEvent event) throws IOException
+    {
+        if(!searchTextBox.getText().isEmpty()) {
+            System.out.println("Taking you to Search Results!");
+            String searchItem = searchTextBox.getText();
+            searchResults = SearchProducts.Search(searchItem);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-        Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
+                Parent root = loader.load();
 
-        this.searchResults = results;
+                // Get the current stage
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
-        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Search Results");
-        stage.show();
-        System.out.println("Searching for: " + searchItem);
-    } else {
-        System.out.println("Please enter a search term.");
+                // Set the new scene
+                stage.setScene(new Scene(root));
+                stage.setTitle("Checkout Page");
+                stage.show();
+                //test(successful)
+            System.out.println("Searching for: " + searchItem);
+        }
+        else{
+            System.out.println("Please enter a search term.");
+        }
     }
-}
 
     /**
      * method to perform a filtered search from the menu bar corresponding to the selected menu item

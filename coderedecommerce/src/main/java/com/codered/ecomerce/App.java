@@ -11,8 +11,10 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.codered.ecomerce.model.CentralShoppingSystem;
+import com.codered.ecomerce.model.Variant;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +31,7 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class App extends Application {
+    public static ArrayList<Variant> searchResults;
 
     private static Scene scene;
     private static Parent primaryRoot; 

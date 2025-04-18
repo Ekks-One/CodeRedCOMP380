@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import com.codered.ecomerce.model.*;
 import com.codered.ecomerce.sql.SearchProducts;
+import com.codered.ecomerce.enums.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,7 +70,6 @@ public class PrimaryController extends App{
                      kidsTops, kidsBottoms,
                      aboutUs, ordersMenuItem;
 
-    private ArrayList<Variant> searchResults = new ArrayList<Variant>();
     
 
     /**
@@ -84,7 +84,7 @@ public class PrimaryController extends App{
         if(!searchTextBox.getText().isEmpty()) {
             System.out.println("Taking you to Search Results!");
             String searchItem = searchTextBox.getText();
-            this.searchResults = SearchProducts.Search(searchItem);
+            searchResults = SearchProducts.Search(searchItem);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
                 Parent root = loader.load();
@@ -203,26 +203,20 @@ public class PrimaryController extends App{
      *  */
     public void populateGridPane() throws IOException {
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
-        //List<Variant> variants = new ArrayList<>();
+        ArrayList<Variant> variants = new ArrayList<>();
         
         //Added as a Test to figure out Variant situation
         
-        //     variants.add(new Variant(1, Color.RED, Material.COTTON, Size.S, 50, 19.99));
-        //     variants.add(new Variant(2, Color.BLUE, Material.POLYESTER, Size.M, 30, 24.99));
-        //     variants.add(new Variant(3, Color.BLACK, Material.DENIM, Size.L, 40, 49.99));
-        //     variants.add(new Variant(4, Color.WHITE, Material.COTTON, Size.XL, 25, 29.99));
-        //     variants.add(new Variant(5, Color.GREEN, Material.LINEN, Size.M, 60, 34.99));
-        //     variants.add(new Variant(6, Color.YELLOW, Material.SILK, Size.S, 20, 39.99));
-        //     variants.add(new Variant(7, Color.GREY, Material.WOOL, Size.L, 70, 59.99));
-        //     variants.add(new Variant(8, Color.BROWN, Material.LEATHER, Size.XL, 10, 89.99));
-        //     variants.add(new Variant(9, Color.PURPLE, Material.COTTON, Size.S, 35, 21.99));
-        //     variants.add(new Variant(10, Color.ORANGE, Material.POLYESTER, Size.M, 80, 27.99));
-            
-        // for (Variant variant: variants) {
-        //     if (variant == null) {
-        //         System.out.println("Null product found! Skipping...");
-        //         continue;
-        //     }
+            variants.add(new Variant(1, Color.RED, Material.COTTON, Size.S, 50, 19.99));
+            variants.add(new Variant(2, Color.BLUE, Material.POLYESTER, Size.M, 30, 24.99));
+            variants.add(new Variant(3, Color.BLACK, Material.DENIM, Size.L, 40, 49.99));
+            variants.add(new Variant(4, Color.WHITE, Material.COTTON, Size.XL, 25, 29.99));
+            variants.add(new Variant(5, Color.GREEN, Material.LINEN, Size.M, 60, 34.99));
+            variants.add(new Variant(6, Color.YELLOW, Material.SILK, Size.S, 20, 39.99));
+            variants.add(new Variant(7, Color.GREY, Material.WOOL, Size.L, 70, 59.99));
+            variants.add(new Variant(8, Color.BROWN, Material.LEATHER, Size.XL, 10, 89.99));
+            variants.add(new Variant(9, Color.PURPLE, Material.COTTON, Size.S, 35, 21.99));
+            variants.add(new Variant(10, Color.ORANGE, Material.POLYESTER, Size.M, 80, 27.99));
             
 
         int row = 0;
@@ -231,7 +225,7 @@ public class PrimaryController extends App{
         int prodCount = 0;
         
         // Loop through the products and create a new AnchorPane for each product
-        for(Variant variant : this.searchResults) {
+        for(Variant variant : searchResults) {
             if(variant == null) {
                 System.out.println("Null product found! Skipping...");
                 continue;
