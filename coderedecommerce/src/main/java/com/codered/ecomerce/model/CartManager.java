@@ -18,6 +18,12 @@ public class CartManager {
     private static CartManager instance;
 
 
+    // Private constructor to prevent instantiation
+    // This ensures that the CartManager is a singleton and can only be accessed through getInstance()
+    private CartManager () {
+        System.out.println("CartManager initialized");
+    }
+
     /**
      * Singleton instance of CartManager
      * @return singleton instance
@@ -25,15 +31,10 @@ public class CartManager {
     // This method returns the singleton instance of CartManager.
     public static CartManager getInstance() {
         if (instance == null) {
+            System.out.println("Creating new CartManager instance");
             instance = new CartManager();
         }
         return instance;
-    }
-
-    // Private constructor to prevent instantiation
-    // This ensures that the CartManager is a singleton and can only be accessed through getInstance()
-    private CartManager () {
-
     }
 
     //adds item to the cart

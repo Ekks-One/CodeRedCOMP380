@@ -18,9 +18,13 @@ package com.codered.ecomerce;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.codered.ecomerce.model.*;
+import com.codered.ecomerce.enums.Color;
+import com.codered.ecomerce.enums.Material;
+import com.codered.ecomerce.enums.Size;
+import com.codered.ecomerce.model.CentralShoppingSystem;
+import com.codered.ecomerce.model.Product;
+import com.codered.ecomerce.model.Variant;
 import com.codered.ecomerce.sql.SearchProducts;
-import com.codered.ecomerce.enums.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,16 +91,21 @@ public class PrimaryController extends App{
             searchResults = SearchProducts.Search(searchItem);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-                Parent root = loader.load();
+            Parent root = loader.load();
 
-                // Get the current stage
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            // Get the controller instance
+            searchResultsController controller = loader.getController();
 
-                // Set the new scene
-                stage.setScene(new Scene(root));
-                stage.setTitle("Checkout Page");
-                stage.show();
-                //test(successful)
+            // Pass the searchItem to the controller
+            controller.setSearchItem(searchItem);
+            // Get the current stage
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+            // Set the new scene
+            stage.setScene(new Scene(root));
+            stage.setTitle("Checkout Page");
+            stage.show();
+            //test(successful)
             System.out.println("Searching for: " + searchItem);
         }
         else{

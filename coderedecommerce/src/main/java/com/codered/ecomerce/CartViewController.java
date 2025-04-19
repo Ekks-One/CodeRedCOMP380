@@ -73,13 +73,12 @@ public class CartViewController extends App {
     }
 
     public void populateGridPane() throws IOException {
+        CartManager.getInstance();
         List<Variant> cartItems = CartManager.getCartItems();
         List<Product> products = CentralShoppingSystem.getProducts();
         ArrayList<Variant> variants = new ArrayList<>();
 
 
-        
-        
         int row = 0;
         
         cartGridPane.getChildren().clear(); // Clear the grid pane before populating it
