@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,9 +17,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PrimaryController">
+<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PrimaryController">
    <children>
-      <AnchorPane fx:id="headerAnchorP">
+      <AnchorPane fx:id="headerAnchorP" style="-fx-background-color: red;">
          <children>
             <MenuBar layoutY="61.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <menus>
@@ -56,104 +57,108 @@
             <Button fx:id="searchButton" layoutX="1471.0" layoutY="31.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="13.799999999999955" AnchorPane.topAnchor="31.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="gridAnchorPane" VBox.vgrow="ALWAYS">
-         <children>
-            <GridPane fx:id="productGridPane" alignment="CENTER" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
-                  <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
-                  <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
-                  <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
-                  <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
-               </rowConstraints>
+      <ScrollPane VBox.vgrow="ALWAYS">
+         <content>
+            <AnchorPane fx:id="gridAnchorPane">
                <children>
-                  <StackPane fx:id="stackP00" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="341.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                  <GridPane fx:id="productGridPane" alignment="CENTER" gridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="33.33" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
+                        <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
+                        <RowConstraints percentHeight="33.33" vgrow="ALWAYS" />
+                     </rowConstraints>
                      <children>
-                        <ImageView fx:id="imageV00" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%200-0.png" />
-                           </image>
-                        </ImageView>
+                        <StackPane fx:id="stackP00" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="341.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV00" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%200-0.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="stackP10" minHeight="341.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV10" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%201-0.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="stackP20" minHeight="341.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV20" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%202-0.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="stackP01" minWidth="341.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV01" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%200-1.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="stackP11" minHeight="341.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV11" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%201-1.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="stackP21" minHeight="341.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV21" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%202-1.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="stackP02" minHeight="341.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV02" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%200-2.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="stackP12" minHeight="341.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV12" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%201-2.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <StackPane fx:id="stackP22" minHeight="341.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="imageV22" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Item%202-2.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
                      </children>
-                  </StackPane>
-                  <StackPane fx:id="stackP10" minHeight="341.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fx:id="imageV10" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%201-0.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane fx:id="stackP20" minHeight="341.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fx:id="imageV20" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%202-0.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane fx:id="stackP01" minWidth="341.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fx:id="imageV01" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%200-1.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane fx:id="stackP11" minHeight="341.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fx:id="imageV11" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%201-1.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane fx:id="stackP21" minHeight="341.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fx:id="imageV21" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%202-1.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane fx:id="stackP02" minHeight="341.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fx:id="imageV02" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%200-2.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane fx:id="stackP12" minHeight="341.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fx:id="imageV12" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%201-2.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane fx:id="stackP22" minHeight="341.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fx:id="imageV22" onMouseClicked="#itemView" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/Item%202-2.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
+                  </GridPane>
                </children>
-            </GridPane>
-         </children>
-      </AnchorPane>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
    </children>
 </VBox>

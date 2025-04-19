@@ -13,6 +13,7 @@ package com.codered.ecomerce;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.codered.ecomerce.model.CartManager;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Variant;
 
@@ -57,7 +58,8 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        CentralShoppingSystem.getInstance();
+        CartManager.getInstance(); // Initialize the CartManager
+        CentralShoppingSystem.getInstance(); // Initialize the CentralShoppingSystem
         FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));
         primaryRoot = loader.load(); // Initialize primaryRoot with the loaded FXML
         scene = new Scene(primaryRoot); // Use primaryRoot for the scene

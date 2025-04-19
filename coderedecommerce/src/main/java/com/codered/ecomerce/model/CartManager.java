@@ -13,21 +13,41 @@ import java.util.List;
 
  
 public class CartManager {
-    private static List<CartItem> cartItems = new ArrayList<>();
+    private static List<Variant> cartItems = new ArrayList<Variant>();
+    // Singleton instance of CartManager
+    private static CartManager instance;
 
+
+    /**
+     * Singleton instance of CartManager
+     * @return singleton instance
+     */
+    // This method returns the singleton instance of CartManager.
+    public static CartManager getInstance() {
+        if (instance == null) {
+            instance = new CartManager();
+        }
+        return instance;
+    }
+
+    // Private constructor to prevent instantiation
+    // This ensures that the CartManager is a singleton and can only be accessed through getInstance()
+    private CartManager () {
+
+    }
 
     //adds item to the cart
-    public static void addCartItem (CartItem cartItem) {
-        cartItems.add(cartItem);
+    public static void addCartItem (Variant variant) {
+        cartItems.add(variant);
     }
 
     //removes item from the cart
-    public static void removeCartItem(CartItem cartItem) {
-        cartItems.remove(cartItem);
+    public static void removeCartItem(Variant variant) {
+        cartItems.remove(variant);
     }
 
     //contains all items in the cart
-    public static List<CartItem> getCartItems() {
+    public static List<Variant> getCartItems() {
         return cartItems;
     }
     

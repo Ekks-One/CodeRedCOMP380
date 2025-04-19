@@ -11,26 +11,37 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.codered.ecomerce.model.CartManager;
+import com.codered.ecomerce.model.CentralShoppingSystem;
+import com.codered.ecomerce.model.Product;
+import com.codered.ecomerce.model.Variant;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 /**
  * CheckoutController controls the operation of the checkout page
  */
-public class CartViewController extends App implements Initializable {
+public class CartViewController extends App {
 
     @FXML
     private TextField fnameTextBox, lnameTextBox, addressTextBox, cityTextBox, zipTextBox, emailTextBox, phoneTextBox;
@@ -42,6 +53,8 @@ public class CartViewController extends App implements Initializable {
     private Button checkOutButton;
     @FXML 
     private TextField searchTextBox;
+    @FXML
+    private GridPane cartGridPane;
 
 
 
@@ -50,9 +63,94 @@ public class CartViewController extends App implements Initializable {
      * @param location the URL location of the FXML file
      * @param resources the ResourceBundle containing the resource for the FXML file
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    
+    public void initialize() {
+        try {
+            populateGridPane();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void populateGridPane() throws IOException {
+        List<Variant> cartItems = CartManager.getCartItems();
+        List<Product> products = CentralShoppingSystem.getProducts();
+        ArrayList<Variant> variants = new ArrayList<>();
+
+
+        
+        
+        int row = 0;
+        
+        cartGridPane.getChildren().clear(); // Clear the grid pane before populating it
+        
+        // Loop through the products and create a new AnchorPane for each product
+        for(Variant variant : cartItems) {
+
+            // Limit the number of products displayed to 24
+        
+        // Create a new AnchorPane for each product
+        AnchorPane productPane = new AnchorPane();
+        productPane.setStyle("-fx-border-color: black; -fx-padding: 10 10 10 10;");
+
+        //Create ImageView for the product image
+        ImageView productImageView = new ImageView();
+        productImageView.setImage(new Image(getClass().getResource("/com/codered/ecomerce/images/Item 0-1.png").toExternalForm()));
+        productImageView.setFitWidth(100);
+        productImageView.setFitHeight(100);
+        productImageView.setPreserveRatio(true);
+        AnchorPane.setTopAnchor(productImageView, 10.0);
+        AnchorPane.setLeftAnchor(productImageView, 10.0);
+
+        // Create Label for the product name
+        // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
+        Label nameLabel = new Label(products.get(variant.getID()).getName());
+        AnchorPane.setTopAnchor(nameLabel,10.0);
+        AnchorPane.setLeftAnchor(nameLabel, 120.0);
+
+        // To be added once Variants Situation is figured out: variant.getPrice()
+        Label priceLabel = new Label("$" + variant.getPrice());
+        priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
+        AnchorPane.setTopAnchor(priceLabel,40.0);
+        AnchorPane.setLeftAnchor(priceLabel, 120.0);
+
+        // Create a "Remove" button
+        Button removeButton = new Button("Remove from Cart");
+        removeButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+        AnchorPane.setTopAnchor(removeButton, 70.0);
+        AnchorPane.setLeftAnchor(removeButton, 120.0);
+
+        // Add an event handler to the "Remove" button
+        removeButton.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove this item from the cart?");
+            alert.setTitle("Remove Item");
+            alert.showAndWait().ifPresent(response -> {
+                if(response ==  ButtonType.OK) {
+                    CartManager.removeCartItem(variant);
+                    // Refresh the GridPane
+                    try {
+                        populateGridPane();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (cartItems.isEmpty()) {
+                        Label emptyCartLabel = new Label("Your cart is empty.");
+                        cartGridPane.add(emptyCartLabel, 0, 0);
+                    }
+                }
+            });
+        });
+
+        // Add all elements to the product pane
+        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, removeButton);
+
+        // Add the product pane to the grid
+        cartGridPane.add(productPane, 0, row);
+        
+        
+        row++;
+
+        }
     }
 
     /**

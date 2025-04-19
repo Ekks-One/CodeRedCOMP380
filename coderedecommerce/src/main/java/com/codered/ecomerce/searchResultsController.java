@@ -11,12 +11,16 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import com.codered.ecomerce.enums.*;
-import com.codered.ecomerce.model.*;
-import com.codered.ecomerce.sql.*;
+import com.codered.ecomerce.enums.Color;
+import com.codered.ecomerce.enums.Material;
+import com.codered.ecomerce.enums.Size;
+import com.codered.ecomerce.model.CartManager;
+import com.codered.ecomerce.model.CentralShoppingSystem;
+import com.codered.ecomerce.model.Product;
+import com.codered.ecomerce.model.Variant;
+import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -71,6 +75,7 @@ public class searchResultsController extends App{
     public void populateGridPane() throws IOException {
         List<Product> products = CentralShoppingSystem.getProducts();
         ArrayList<Variant> variants = new ArrayList<>();
+        CartManager cart = CartManager.getInstance();
         
         //Added as a Test to figure out Variant situation
         
@@ -114,14 +119,27 @@ public class searchResultsController extends App{
         productImageView.setPreserveRatio(true);
         AnchorPane.setTopAnchor(productImageView, 10.0);
         AnchorPane.setLeftAnchor(productImageView, 10.0);
+        productImageView.setOnMouseClicked(event -> {
+            
+                try {
+                    App.switchScene("itemView", event);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                //test (successful)
+            System.out.println("Image clicked for product: " + products.get(variant.getID()).getName());
+        });
 
         // Create Button for adding to cart
         Button addCartButton = new Button("Add to Cart");
         AnchorPane.setTopAnchor(addCartButton, 120.0);
         AnchorPane.setLeftAnchor(addCartButton, 10.0);
         addCartButton.setOnAction(event -> {
-            // Add the product to the cart
+            // Add the product to the car
 
+            CartManager.addCartItem(variant); // Directly call the method without assignment
+            
             // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
             System.out.println("Added " + products.get(variant.getID()).getName() + " to cart.");
         });
