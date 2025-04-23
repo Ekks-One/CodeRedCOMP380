@@ -52,6 +52,13 @@ public class CartManager {
         return cartItems;
     }
     
+    public static double getTotalPrice() {
+        double totalPrice = 0.0;
+        for (Variant item : cartItems) {
+            totalPrice += item.getPrice();
+        }
+        return totalPrice;
+    }
 
     public static void clearCart() {
         cartItems.clear();

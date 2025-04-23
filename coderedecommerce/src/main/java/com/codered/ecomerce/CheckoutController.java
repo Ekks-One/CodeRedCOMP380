@@ -55,17 +55,21 @@ public class CheckoutController extends App implements Initializable {
     @FXML
     private ChoiceBox<String> statesChoiceBox;
     @FXML
-    private Button placeOrderButton;
+    private Button placeOrderButton, cartViewButton;
     @FXML 
     private TextField searchTextBox;
     @FXML
     private GridPane cartGridPane;
+    @FXML
+    private Label totalCostLabel;
 
     private String selectedState;
     private String firstName;
     private String lastName;
     private String address;
     private String email;
+    private double totalCost = 0.0;
+   
 
     /**
      * Method to initialize the drop down menu that contains the states that are deliverable to the user
@@ -95,6 +99,7 @@ public class CheckoutController extends App implements Initializable {
         List<Variant> cartItems = CartManager.getCartItems();
         List<Product> products = CentralShoppingSystem.getProducts();
 
+
         
         int row = 0;
         int col = 0;
@@ -104,7 +109,6 @@ public class CheckoutController extends App implements Initializable {
         // Loop through the products and create a new AnchorPane for each product
         for(Variant variant : cartItems) {
 
-            // Limit the number of products displayed to 24
         
         // Create a new AnchorPane for each product
         AnchorPane productPane = new AnchorPane();
@@ -144,6 +148,8 @@ public class CheckoutController extends App implements Initializable {
             alert.showAndWait().ifPresent(response -> {
                 if(response ==  ButtonType.OK) {
                     CartManager.removeCartItem(variant);
+                    // Update the total cost
+                    totalCost -= variant.getPrice();
                     // Refresh the GridPane
                     try {
                         populateGridPane();
@@ -172,6 +178,9 @@ public class CheckoutController extends App implements Initializable {
         }
 
         }
+        totalCost = CartManager.getTotalPrice(); // Get the total cost label from the CartManager
+        totalCostLabel.setText(totalCost + ""); // Set the total cost label to the total cost of the cart
+
     }
     /**
      * Method to handle the checkout process when the user clicks the place order button

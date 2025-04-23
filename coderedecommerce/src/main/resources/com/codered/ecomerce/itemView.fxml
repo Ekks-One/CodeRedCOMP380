@@ -24,7 +24,7 @@
    <top>
       <AnchorPane style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="selectedImageView" fitHeight="69.0" fitWidth="135.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1166.0">
+            <ImageView fx:id="selectedImageView" fitHeight="63.0" fitWidth="147.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="-1.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
