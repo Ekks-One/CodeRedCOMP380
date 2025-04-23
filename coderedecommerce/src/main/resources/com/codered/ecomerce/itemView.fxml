@@ -21,16 +21,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.ItemViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.ItemViewController">
    <top>
       <AnchorPane style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="selectedImageView" fitHeight="63.0" fitWidth="147.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="-1.0">
+            <ImageView fx:id="selectedImageView" fitHeight="60.0" fitWidth="125.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <HBox layoutY="68.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox layoutY="68.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <MenuBar HBox.hgrow="ALWAYS">
                     <menus>
@@ -55,7 +55,8 @@
             </HBox>
             <TextField fx:id="searchTextBox" layoutX="735.0" layoutY="19.0" promptText="Search" AnchorPane.rightAnchor="75.0" />
             <Button fx:id="searchButton" layoutX="894.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="14.0" />
-            <Button fx:id="checkoutButton" layoutX="656.0" layoutY="19.0" mnemonicParsing="false" onAction="#checkoutView" text="Checkout" AnchorPane.rightAnchor="238.0" />
+            <Button fx:id="checkoutButton" layoutX="1005.0" layoutY="19.0" mnemonicParsing="false" onAction="#checkoutView" text="Checkout" AnchorPane.rightAnchor="230.33333333333326" />
+            <Button fx:id="viewCartButton" layoutX="931.0" layoutY="19.0" mnemonicParsing="false" onAction="#cartView" text="View Cart" AnchorPane.rightAnchor="303.4" />
          </children>
       </AnchorPane>
    </top>

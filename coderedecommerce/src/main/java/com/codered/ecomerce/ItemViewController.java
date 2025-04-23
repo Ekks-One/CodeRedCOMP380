@@ -20,6 +20,7 @@ import com.codered.ecomerce.model.Variant;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -183,6 +184,24 @@ public class ItemViewController extends App{
                 stage.setScene(new Scene(root));
                 stage.setTitle("Checkout Page");
                 stage.show();
+    }
+
+        /**
+     * Method to handle the click event on the view cart button and returns the 
+     * cart page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
+    public void cartView(ActionEvent event) throws IOException
+    {
+        System.out.println("Taking you to your cart!");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**

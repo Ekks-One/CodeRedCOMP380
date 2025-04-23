@@ -22,6 +22,7 @@ import com.codered.ecomerce.sql.SearchProducts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -83,7 +84,13 @@ public class searchResultsController extends App{
     public void cartView(ActionEvent event) throws IOException
     {
         System.out.println("Taking you to your cart!");
-        App.setRoot("cartView");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**

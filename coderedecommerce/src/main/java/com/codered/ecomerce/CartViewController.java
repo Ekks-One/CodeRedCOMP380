@@ -21,6 +21,7 @@ import com.codered.ecomerce.model.Variant;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -178,7 +179,12 @@ public class CartViewController extends App {
     public void checkoutView(ActionEvent event) throws IOException
     {
         System.out.println("Taking you to order checkout!");
-        App.setRoot("checkoutView");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**
@@ -191,7 +197,12 @@ public class CartViewController extends App {
     public void cartView(ActionEvent event) throws IOException
     {
         System.out.println("Taking you to your cart!");
-        App.setRoot("cartView");
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
 

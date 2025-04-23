@@ -204,7 +204,12 @@ public class PrimaryController extends App{
     public void cartView(ActionEvent event) throws IOException
     {
         System.out.println("Taking you to your cart!");
-        App.setRoot("cartView");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     //TO DO: Add the functionality to the menu items: Tops and Bottoms

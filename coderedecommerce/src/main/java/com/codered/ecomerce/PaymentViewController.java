@@ -25,6 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -291,7 +292,6 @@ public class PaymentViewController extends App implements Initializable{
 
                 // Set the new scene
                 stage.setScene(new Scene(root));
-                stage.setTitle("Checkout Page");
                 stage.show();
                 //test(successful)
             System.out.println("Searching for: " + searchItem);
@@ -324,7 +324,12 @@ public class PaymentViewController extends App implements Initializable{
     public void cartView(ActionEvent event) throws IOException
     {
         System.out.println("Taking you to your cart!");
-        App.setRoot("cartView");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
     
 }

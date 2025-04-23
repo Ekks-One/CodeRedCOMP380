@@ -26,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -63,12 +64,6 @@ public class CheckoutController extends App implements Initializable {
     @FXML
     private Label totalCostLabel;
 
-    private String selectedState;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String email;
-    private String zipCode;
     private double totalCost = 0.0;
    
 
@@ -203,11 +198,12 @@ public class CheckoutController extends App implements Initializable {
             String address = addressTextBox.getText();
             String selectedState = statesChoiceBox.getValue();
             String email = emailTextBox.getText();
+            String city = cityTextBox.getText();
             String zipCode = zipCodeTextBox.getText();
     
             // Validate inputs
             if (!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() &&
-                !selectedState.equals("Select State") && !email.isEmpty() && !zipCode.isEmpty()) {
+                !selectedState.equals("Select State") && !email.isEmpty() && !city.isEmpty() && !zipCode.isEmpty()) {
     
                 System.out.println("All required fields are filled. Proceeding to load payment view...");
 
@@ -245,6 +241,7 @@ public class CheckoutController extends App implements Initializable {
         }
     }
 
+
     /**
      * Method to return the user to the primary view when the title card is clicked
      * @param event
@@ -267,7 +264,12 @@ public class CheckoutController extends App implements Initializable {
     public void cartView(ActionEvent event) throws IOException
     {
         System.out.println("Taking you to your cart!");
-        App.setRoot("cartView");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**
@@ -314,7 +316,6 @@ public class CheckoutController extends App implements Initializable {
 
                 // Set the new scene
                 stage.setScene(new Scene(root));
-                stage.setTitle("Checkout Page");
                 stage.show();
                 //test(successful)
             System.out.println("Searching for: " + searchItem);
