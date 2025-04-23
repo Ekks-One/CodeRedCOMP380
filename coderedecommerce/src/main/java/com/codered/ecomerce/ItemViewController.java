@@ -11,6 +11,11 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
+import java.util.List;
+
+import com.codered.ecomerce.model.CentralShoppingSystem;
+import com.codered.ecomerce.model.Product;
+import com.codered.ecomerce.model.Variant;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -27,7 +33,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -37,9 +42,7 @@ import javafx.stage.Stage;
 public class ItemViewController extends App{
 
     @FXML
-    private Text itemNameText;
-    @FXML
-    private Text itemPriceText;
+    private Label itemNameText, itemPriceText;
     @FXML
     private Button searchButton, checkoutButton; 
     @FXML
@@ -64,6 +67,7 @@ public class ItemViewController extends App{
      */
     public void initialize()
     {
+        
         itemImageView.fitWidthProperty().bind(imageStackPane.widthProperty());
         itemImageView.fitHeightProperty().bind(imageStackPane.heightProperty());    
     }
@@ -132,6 +136,13 @@ public class ItemViewController extends App{
         Button selctedButton = (Button) event.getSource();
         selectedSize = selctedButton.getText();
         System.out.println("Size " + selectedSize + " selected!");
+    }
+
+
+    public void setVariant(Variant variant) {
+        List<Product> products = CentralShoppingSystem.getProducts();
+        itemNameText.setText(products.get(variant.getID()).getName());
+        itemPriceText.setText("$" + variant.getPrice());
     }
 
     /** 

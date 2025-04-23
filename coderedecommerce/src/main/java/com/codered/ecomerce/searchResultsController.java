@@ -129,7 +129,14 @@ public class searchResultsController extends App{
         productImageView.setOnMouseClicked(event -> {
             
                 try {
-                    App.switchScene("itemView", event);
+                    FXMLLoader loader = new FXMLLoader(App.class.getResource("itemView.fxml"));
+                    Parent root = loader.load();
+                    ItemViewController itemViewController = loader.getController();
+                    itemViewController.setVariant(variant); 
+                    Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Item View");
+                    stage.show();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

@@ -11,7 +11,6 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.codered.ecomerce.model.CartManager;
@@ -76,10 +75,9 @@ public class CartViewController extends App {
         CartManager.getInstance();
         List<Variant> cartItems = CartManager.getCartItems();
         List<Product> products = CentralShoppingSystem.getProducts();
-        ArrayList<Variant> variants = new ArrayList<>();
-
 
         int row = 0;
+        int col = 0;
         
         cartGridPane.getChildren().clear(); // Clear the grid pane before populating it
         
@@ -144,10 +142,14 @@ public class CartViewController extends App {
         productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, removeButton);
 
         // Add the product pane to the grid
-        cartGridPane.add(productPane, 0, row);
+        cartGridPane.add(productPane, col, row);
         
         
         row++;
+            if(row >= 4) {
+                row = 0;
+                col++; 
+            }
 
         }
     }

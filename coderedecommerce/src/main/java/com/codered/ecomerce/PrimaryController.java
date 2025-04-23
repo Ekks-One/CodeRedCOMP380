@@ -188,9 +188,6 @@ public class PrimaryController extends App{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("itemView.fxml"));
         Parent root = loader.load();
 
-        ItemViewController controller = loader.getController();
-        controller.setItemImage(clickedImage.getImage());
-
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

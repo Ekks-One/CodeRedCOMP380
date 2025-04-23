@@ -102,14 +102,16 @@
               <content>
                 <AnchorPane fx:id="checkoutVBox" prefHeight="562.0">
                      <children>
-                        <GridPane fx:id="cartGridPane" gridLinesVisible="true" layoutX="22.0" layoutY="55.0" prefHeight="398.0" prefWidth="555.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="422.0" AnchorPane.topAnchor="55.0">
+                        <GridPane fx:id="cartGridPane" gridLinesVisible="true" layoutX="22.0" layoutY="55.0" prefHeight="482.0" prefWidth="408.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="569.2">
                           <columnConstraints>
                             <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                           </rowConstraints>
                         </GridPane>
                         <Text layoutX="22.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Cart" wrappingWidth="111.375">

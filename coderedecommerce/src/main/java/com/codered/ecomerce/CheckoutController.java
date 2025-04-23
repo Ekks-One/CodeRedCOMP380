@@ -100,7 +100,7 @@ public class CheckoutController extends App implements Initializable {
         List<Product> products = CentralShoppingSystem.getProducts();
 
 
-        
+        int maxCol= 2;
         int row = 0;
         int col = 0;
         
@@ -170,12 +170,15 @@ public class CheckoutController extends App implements Initializable {
         // Add the product pane to the grid
         cartGridPane.add(productPane, col, row);
         
-        if(row == 2) {
-            row = 0; // Reset column index to 0
-            col++; // Move to the next row
-        } else {
-            row++; // Move to the next column
-        }
+        row++;
+            if(row > 2) {
+                row = 0;
+                col++; 
+            }
+            if(col > maxCol) {
+                break;
+            }
+
 
         }
         totalCost = CartManager.getTotalPrice(); // Get the total cost label from the CartManager
