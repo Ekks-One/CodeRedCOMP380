@@ -164,7 +164,7 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <ChoiceBox fx:id="statesChoiceBox" layoutX="24.0" layoutY="313.0" prefHeight="26.0" prefWidth="82.0" />
+                        <ChoiceBox fx:id="statesChoiceBox" layoutX="24.0" layoutY="313.0" prefHeight="26.0" prefWidth="99.0" />
                         <HBox layoutX="443.0" layoutY="40.0" prefHeight="43.0" prefWidth="130.0" spacing="10.0" AnchorPane.bottomAnchor="479.2">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total: ">

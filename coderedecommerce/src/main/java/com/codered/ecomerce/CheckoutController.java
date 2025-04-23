@@ -49,7 +49,7 @@ import javafx.stage.Stage;
 public class CheckoutController extends App implements Initializable {
 
     @FXML
-    private TextField fnameTextBox, lnameTextBox, addressTextBox, cityTextBox, zipTextBox, emailTextBox, phoneTextBox;
+    private TextField fnameTextBox, lnameTextBox, addressTextBox, cityTextBox, zipTextBox, emailTextBox, phoneTextBox, zipCodeTextBox;
 
 	//Population of the Choice Box
     @FXML
@@ -68,6 +68,7 @@ public class CheckoutController extends App implements Initializable {
     private String lastName;
     private String address;
     private String email;
+    private String zipCode;
     private double totalCost = 0.0;
    
 
@@ -191,56 +192,58 @@ public class CheckoutController extends App implements Initializable {
      * @param event
      * @throws IOException
      */
-    public void returnPayment(ActionEvent event) throws IOException {
-        firstName = fnameTextBox.getText();
-        lastName = lnameTextBox.getText();
-        address = addressTextBox.getText();
-        selectedState = statesChoiceBox.getValue();
-        email = emailTextBox.getText();
-
+    @FXML
+    public void returnPayment(ActionEvent event) {
         try {
-            if(!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && 
-                !selectedState.equals("Select State") && !email.isEmpty()) {
+            System.out.println("Proceed to Payment button clicked.");
+    
+            // Retrieve values from the TextFields and ChoiceBox
+            String firstName = fnameTextBox.getText();
+            String lastName = lnameTextBox.getText();
+            String address = addressTextBox.getText();
+            String selectedState = statesChoiceBox.getValue();
+            String email = emailTextBox.getText();
+            String zipCode = zipCodeTextBox.getText();
+    
+            // Validate inputs
+            if (!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() &&
+                !selectedState.equals("Select State") && !email.isEmpty() && !zipCode.isEmpty()) {
+    
+                System.out.println("All required fields are filled. Proceeding to load payment view...");
 
-                // Test (successful)
-                System.out.println("Checkout Successful! \n" +
-                    "Name: " + firstName + " " + lastName + "\n" +
-                    "Address: " + address + ", " + selectedState + "\n" +
-                    "Email: " + email);
-
-                //Create new customer object and store the address and state as a string array
                 Customer customer = new Customer(firstName, lastName, address, selectedState, email);
-                //customer.setShippingAddress(new String[] {address, selectedState});
-
-                //Store the customer globally so that it can be accessed by other classes
                 CustomerManager.setCustomer(customer);
-
-                // Load the new FXML file
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("paymentView.fxml"));
+    
+                // Load the payment view
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/codered/ecomerce/paymentView.fxml"));
                 Parent root = loader.load();
-
+                System.out.println("Payment view loaded successfully.");
+    
                 // Get the current stage
                 Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
+    
                 // Set the new scene
                 stage.setScene(new Scene(root));
                 stage.setTitle("Order Confirmation");
                 stage.show();
-            } 
-            else {
+            } else {
                 System.out.println("Please fill in all required fields.");
-                        // Display an alert to inform the user that all fields are required
-                        Alert missingInfoAlert = new Alert(Alert.AlertType.WARNING);
-                        missingInfoAlert.setTitle("Missing Fields");
-                        missingInfoAlert.setHeaderText("Please complete all fields.");
-                        missingInfoAlert.setContentText("One or more fields are empty. Please fill them in before continuing.");
-                        missingInfoAlert.showAndWait();
+                Alert missingInfoAlert = new Alert(Alert.AlertType.WARNING);
+                missingInfoAlert.setTitle("Missing Fields");
+                missingInfoAlert.setHeaderText("Please complete all fields.");
+                missingInfoAlert.setContentText("One or more fields are empty. Please fill them in before continuing.");
+                missingInfoAlert.showAndWait();
             }
-            
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    } 
+        } catch (IOException e) {
+            System.out.println("Error loading payment view: " + e.getMessage());
+            e.printStackTrace();
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText("Unable to load payment view.");
+            errorAlert.setContentText("An error occurred while trying to load the payment view. Please try again.");
+            errorAlert.showAndWait();
+        }
+    }
 
     /**
      * Method to return the user to the primary view when the title card is clicked

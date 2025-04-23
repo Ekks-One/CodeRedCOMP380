@@ -194,6 +194,7 @@ public class PaymentViewController extends App implements Initializable{
  * @param ActionEvent event that triggers the method
  * @throws IOException 
  */    
+    @FXML
     public void confirmPayment(ActionEvent event) throws IOException {
 
         // Get the current customer from the CustomerManager
@@ -261,6 +262,7 @@ public class PaymentViewController extends App implements Initializable{
      * @param MouseEvent event that triggers the method
      * @throws IOException if there is an error loading the fxml file
      */
+    @FXML
     public void returnPrimary(MouseEvent event) throws IOException {
         // Get the current stage
         App.switchScene("primary", event);
@@ -310,6 +312,19 @@ public class PaymentViewController extends App implements Initializable{
         String searchItem = ((MenuItem)event.getSource()).getText();
         //test (successful)
         System.out.println("Searching for: " + searchItem);
+    }
+
+    /**
+     * Method to handle the click event on the view cart button and returns the 
+     * cart page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
+    public void cartView(ActionEvent event) throws IOException
+    {
+        System.out.println("Taking you to your cart!");
+        App.setRoot("cartView");
     }
     
 }
