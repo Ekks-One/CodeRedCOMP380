@@ -252,6 +252,19 @@ public class CheckoutController extends App implements Initializable {
     }
 
     /**
+     * Method to handle the click event on the view cart button and returns the 
+     * cart page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
+    public void cartView(ActionEvent event) throws IOException
+    {
+        System.out.println("Taking you to your cart!");
+        App.setRoot("cartView");
+    }
+
+    /**
      * Method to handle the action event when the user selects a state from the 
      * choice box. It retrieves the selected state and prints it to the console
      */

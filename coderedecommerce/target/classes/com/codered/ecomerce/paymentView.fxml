@@ -18,12 +18,12 @@
    <top>
       <AnchorPane style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="63.0" fitWidth="147.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="-1.0">
+            <ImageView fx:id="homeTitleCard" fitHeight="69.0" fitWidth="125.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="869.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <HBox layoutY="64.0" prefHeight="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox layoutY="64.0" prefHeight="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <MenuBar prefHeight="41.0" prefWidth="960.0" HBox.hgrow="ALWAYS">
                     <menus>
@@ -48,6 +48,7 @@
             </HBox>
             <TextField fx:id="searchTextBox" layoutX="748.0" layoutY="19.0" prefWidth="150.0" promptText="Search" AnchorPane.rightAnchor="102.0" />
             <Button fx:id="searchButton" layoutX="906.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="42.0" />
+            <Button fx:id="viewCartButton" layoutX="656.0" layoutY="19.0" mnemonicParsing="false" onAction="#cartView" text="View Cart" AnchorPane.rightAnchor="272.0" />
          </children>
       </AnchorPane>
    </top>

@@ -179,6 +179,19 @@ public class CartViewController extends App {
         App.setRoot("checkoutView");
     }
 
+    /**
+     * Method to handle the click event on the view cart button and returns the 
+     * cart page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
+    public void cartView(ActionEvent event) throws IOException
+    {
+        System.out.println("Taking you to your cart!");
+        App.setRoot("cartView");
+    }
+
 
     /**
      * method to perform a filtered search from the menu bar corresponding to the selected menu item
