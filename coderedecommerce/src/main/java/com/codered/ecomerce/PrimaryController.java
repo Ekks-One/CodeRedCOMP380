@@ -312,4 +312,7 @@ public class PrimaryController extends App{
         System.out.println("Taking you to your cart!");
         App.setRoot("cartView");
     }
+
+    //TO DO: Add the functionality to the menu items: Tops and Bottoms
+    //fxid: topsMenuItem, bottomsMenuItem
 }

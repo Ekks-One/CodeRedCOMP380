@@ -113,6 +113,7 @@ public class PaymentViewController extends App implements Initializable{
                     "Card Number: " + cardNumber + "\n" +
                     "Card Security Code: " + cardSecurityCode + "\n" +
                     "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
+                    "Card Zip Code: " + zipCode + "\n" +
                     "Card Type: " + cardType);
 
                     //Retrieves customer from Customer Class and formats the customer information to be displayed in the alert
