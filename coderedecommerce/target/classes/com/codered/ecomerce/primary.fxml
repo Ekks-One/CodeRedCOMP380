@@ -48,7 +48,7 @@
                   <Font name="Calibri Light Italic" size="16.0" />
                </font>
             </TextField>
-            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="160.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="147.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="-1.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
