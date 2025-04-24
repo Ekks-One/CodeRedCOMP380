@@ -57,7 +57,7 @@
   <children>
       <AnchorPane>
          <children>
-          <MenuBar layoutY="62.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+          <MenuBar fx:id="menuBar" layoutY="62.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <menus>
               <Menu mnemonicParsing="false" text="Tops">
                      <items>

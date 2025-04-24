@@ -32,7 +32,7 @@
             </ImageView>
             <HBox layoutY="68.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <MenuBar HBox.hgrow="ALWAYS">
+                  <MenuBar fx:id="menuBar" HBox.hgrow="ALWAYS">
                     <menus>
                       <Menu mnemonicParsing="false" text="Tops">
                      <items>

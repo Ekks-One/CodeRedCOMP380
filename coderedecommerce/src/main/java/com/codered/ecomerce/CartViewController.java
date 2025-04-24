@@ -29,6 +29,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -55,6 +56,7 @@ public class CartViewController extends App {
     private TextField searchTextBox;
     @FXML
     private GridPane cartGridPane;
+    @FXML private MenuBar menuBar;
 
 
 

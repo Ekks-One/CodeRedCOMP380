@@ -21,7 +21,7 @@
    <children>
       <AnchorPane fx:id="headerAnchorP" style="-fx-background-color: red;">
          <children>
-            <MenuBar layoutY="61.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <MenuBar fx:id="menuBar" layoutY="61.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <menus>
                   <Menu mnemonicParsing="false" text="Tops">
                      <items>

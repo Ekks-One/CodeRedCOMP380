@@ -27,6 +27,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -44,6 +45,7 @@ public class searchResultsController extends App{
     @FXML private TextField searchTextBox;
     @FXML private GridPane searchGridPane;
     @FXML private Label searchLabel;
+    @FXML private MenuBar menuBar;
 
     private String searchText;
 
@@ -233,11 +235,27 @@ public class searchResultsController extends App{
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void menuSearch(ActionEvent event) throws IOException
-    {
+    public void menuSearch(ActionEvent event) throws IOException {
         String searchItem = ((MenuItem)event.getSource()).getText();
-        //test (successful)
         System.out.println("Searching for: " + searchItem);
-    }
     
+        if (searchItem.equals("Tops")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("topsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tops Search Results");
+            stage.show();
+    
+        } else if (searchItem.equals("Bottoms")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bottomsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Bottoms Search Results");
+            stage.show();
+        }
+    }
 }
