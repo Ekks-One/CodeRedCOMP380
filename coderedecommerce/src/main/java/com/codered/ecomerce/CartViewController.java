@@ -11,6 +11,7 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.codered.ecomerce.model.CartManager;
@@ -84,14 +85,23 @@ public class CartViewController extends App {
         
         cartGridPane.getChildren().clear(); // Clear the grid pane before populating it
         
-        // Loop through the products and create a new AnchorPane for each product
-        for(Variant variant : cartItems) {
-
-            // Limit the number of products displayed to 24
+       
         
+        List<Variant> uniqueCartItems = new ArrayList<>();
+        for (Variant variant : cartItems) {
+            if (!uniqueCartItems.contains(variant)) {
+                uniqueCartItems.add(variant);
+            }
+        }
+
+        for(Variant variant : uniqueCartItems) {
+
+
+            
         // Create a new AnchorPane for each product
         AnchorPane productPane = new AnchorPane();
         productPane.setStyle("-fx-border-color: black; -fx-padding: 10 10 10 10;");
+
 
         //Create ImageView for the product image
         ImageView productImageView = new ImageView();
@@ -103,16 +113,22 @@ public class CartViewController extends App {
         AnchorPane.setLeftAnchor(productImageView, 10.0);
 
         // Create Label for the product name
-        // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
         Label nameLabel = new Label(products.get(variant.getID()).getName());
         AnchorPane.setTopAnchor(nameLabel,10.0);
         AnchorPane.setLeftAnchor(nameLabel, 120.0);
 
-        // To be added once Variants Situation is figured out: variant.getPrice()
+        //Create Label for product price
         Label priceLabel = new Label("$" + variant.getPrice());
         priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
         AnchorPane.setTopAnchor(priceLabel,40.0);
         AnchorPane.setLeftAnchor(priceLabel, 120.0);
+
+        // Create Label for the product quantity
+        Label quantityLabel = new Label("Quantity: " + CartManager.getItemCount(variant));
+        quantityLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(quantityLabel, 55.0);
+        AnchorPane.setLeftAnchor(quantityLabel, 120.0);
+
 
         // Create a "Remove" button
         Button removeButton = new Button("Remove from Cart");
@@ -126,6 +142,7 @@ public class CartViewController extends App {
             alert.setTitle("Remove Item");
             alert.showAndWait().ifPresent(response -> {
                 if(response ==  ButtonType.OK) {
+                    // Remove item form cart
                     CartManager.removeCartItem(variant);
                     // Refresh the GridPane
                     try {
@@ -142,13 +159,13 @@ public class CartViewController extends App {
         });
 
         // Add all elements to the product pane
-        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, removeButton);
+        productPane.getChildren().addAll(quantityLabel, productImageView, nameLabel, priceLabel, removeButton);
 
         // Add the product pane to the grid
         cartGridPane.add(productPane, col, row);
         
         
-        row++;
+            row++;
             if(row >= 4) {
                 row = 0;
                 col++; 

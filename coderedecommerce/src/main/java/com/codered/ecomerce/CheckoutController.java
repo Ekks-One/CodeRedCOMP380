@@ -12,6 +12,7 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -106,8 +107,16 @@ public class CheckoutController extends App implements Initializable {
         
         cartGridPane.getChildren().clear(); // Clear the grid pane before populating it
         
+        List<Variant> uniqueCartItems = new ArrayList<>();
         // Loop through the products and create a new AnchorPane for each product
         for(Variant variant : cartItems) {
+            if (!uniqueCartItems.contains(variant)) {
+                uniqueCartItems.add(variant);
+            }
+        }
+
+        for(Variant variant: uniqueCartItems) {
+            
 
         
         // Create a new AnchorPane for each product
@@ -128,6 +137,12 @@ public class CheckoutController extends App implements Initializable {
         Label nameLabel = new Label(products.get(variant.getID()).getName());
         AnchorPane.setTopAnchor(nameLabel,10.0);
         AnchorPane.setLeftAnchor(nameLabel, 120.0);
+
+        // Create Label for the product quantity
+        Label quantityLabel = new Label("Quantity: " + CartManager.getItemCount(variant));
+        quantityLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(quantityLabel, 55.0);
+        AnchorPane.setLeftAnchor(quantityLabel, 120.0);
 
         // To be added once Variants Situation is figured out: variant.getPrice()
         Label priceLabel = new Label("$" + variant.getPrice());
@@ -165,7 +180,7 @@ public class CheckoutController extends App implements Initializable {
         });
 
         // Add all elements to the product pane
-        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, removeButton);
+        productPane.getChildren().addAll(quantityLabel, productImageView, nameLabel, priceLabel, removeButton);
 
         // Add the product pane to the grid
         cartGridPane.add(productPane, col, row);

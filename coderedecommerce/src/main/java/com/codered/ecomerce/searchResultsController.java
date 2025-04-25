@@ -126,6 +126,24 @@ public class searchResultsController extends App{
         // Create a new AnchorPane for each product
         AnchorPane productPane = new AnchorPane();
         productPane.setStyle("-fx-border-color: black; -fx-padding: 10 10 10 10;");
+        productPane.setOnMouseClicked(event -> {
+            
+            try {
+                FXMLLoader loader = new FXMLLoader(App.class.getResource("itemView.fxml"));
+                Parent root = loader.load();
+                ItemViewController itemViewController = loader.getController();
+                itemViewController.setVariant(variant); 
+                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Item View");
+                stage.show();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            //test (successful)
+        System.out.println("Image clicked for product: " + products.get(variant.getID()).getName());
+    });
 
         //Create ImageView for the product image
         ImageView productImageView = new ImageView();
@@ -135,24 +153,6 @@ public class searchResultsController extends App{
         productImageView.setPreserveRatio(true);
         AnchorPane.setTopAnchor(productImageView, 10.0);
         AnchorPane.setLeftAnchor(productImageView, 10.0);
-        productImageView.setOnMouseClicked(event -> {
-            
-                try {
-                    FXMLLoader loader = new FXMLLoader(App.class.getResource("itemView.fxml"));
-                    Parent root = loader.load();
-                    ItemViewController itemViewController = loader.getController();
-                    itemViewController.setVariant(variant); 
-                    Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Item View");
-                    stage.show();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                //test (successful)
-            System.out.println("Image clicked for product: " + products.get(variant.getID()).getName());
-        });
 
         // Create Button for adding to cart
         Button addCartButton = new Button("Add to Cart");

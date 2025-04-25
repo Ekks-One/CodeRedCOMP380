@@ -94,7 +94,7 @@
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <Button fx:id="searchTextBox" layoutX="941.0" layoutY="18.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="21.0" />
+            <Button fx:id="searchButton" layoutX="941.0" layoutY="18.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="21.0" />
          </children>
       </AnchorPane>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="558.0" prefWidth="1014.0" VBox.vgrow="ALWAYS">

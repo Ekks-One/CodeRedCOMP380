@@ -143,6 +143,11 @@ public class ItemViewController extends App{
     }
 
 
+    /**
+     * Method to set the variant of the item selected from the homepage
+     * @param variant the variant of the item selected
+     */
+    // This method sets the item name and price based on the selected variant.
     public void setVariant(Variant variant) {
         List<Product> products = CentralShoppingSystem.getProducts();
         itemNameText.setText(products.get(variant.getID()).getName());
