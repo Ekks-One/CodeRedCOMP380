@@ -54,7 +54,7 @@
   <children>
       <AnchorPane>
          <children>
-          <MenuBar fx:id="menuBar" layoutY="62.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+          <MenuBar fx:id="menuBar" layoutY="61.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <menus>
               <Menu mnemonicParsing="false" text="Tops">
                      <items>
@@ -89,7 +89,7 @@
                   <Font name="Calibri Light Italic" size="16.0" />
                </font>
             </TextField>
-            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="125.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="0.0">
+           <ImageView fx:id="homeTitleCard" fitHeight="62.0" fitWidth="125.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="889.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
