@@ -26,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -46,11 +47,89 @@ public class searchResultsController extends App{
     @FXML private GridPane searchGridPane;
     @FXML private Label searchLabel;
     @FXML private MenuBar menuBar;
+    @FXML private CheckBox tshirtCheckBox, shortsCheckBox, pantsCheckBox, sweaterCheckBox, otherCheckBox;
 
     private String searchText;
+    private List<Variant> searchResults;
 
+    @FXML
     public void initialize() throws IOException {
-        populateGridPane();
+        if(searchResults == null)
+        {
+            searchResults = new ArrayList<>();
+        }
+        //listeners for the checkboxes, the listeners will call the applyFilters method when selected/unselected
+        tshirtCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        shortsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        pantsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        sweaterCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        otherCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+
+        //populates the grid pane with the search results
+        populateGridPane(searchResults);
+    }
+
+    /**
+     * Method to apply filters based on the selected checkboxes.
+     * It filters the search results and updates the grid pane.
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
+    private void applyFilters()
+    {
+        List<Variant> filteredResults = new ArrayList<>(searchResults);
+
+        try{
+            // Get the selected checkboxes
+            boolean tshirtSelected = tshirtCheckBox.isSelected();
+            boolean shortsSelected = shortsCheckBox.isSelected();
+            boolean pantsSelected = pantsCheckBox.isSelected();
+            boolean sweaterSelected = sweaterCheckBox.isSelected();
+            boolean otherSelected = otherCheckBox.isSelected();
+
+            // If no checkboxes are selected, show all results
+            if(!tshirtSelected && !shortsSelected && !pantsSelected && !sweaterSelected && !otherSelected) {
+                filteredResults = searchResults;
+            }
+
+        // Filter by category based on the selected checkboxes
+        if (tshirtCheckBox.isSelected()) {
+            System.out.println("Filtering for T-shirts");
+
+            filteredResults.removeIf(variant -> 
+                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("T-shirt"));
+        }
+        if (shortsCheckBox.isSelected()) {
+            System.out.println("Filtering for shorts");
+            filteredResults.removeIf(variant -> 
+                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Shorts"));
+        }
+        if (pantsCheckBox.isSelected()) {
+            System.out.println("Filtering for pants");
+            filteredResults.removeIf(variant -> 
+                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Pants"));
+        }
+        if (sweaterCheckBox.isSelected()) {
+            System.out.println("Filtering for sweaters");
+            filteredResults.removeIf(variant -> 
+                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Sweater"));
+        }
+        if (otherCheckBox.isSelected()) {
+            System.out.println("Filtering for other");
+            filteredResults.removeIf(variant -> 
+                variant.getCategory() == null || 
+                variant.getCategory().equalsIgnoreCase("Tshirt") || 
+                variant.getCategory().equalsIgnoreCase("Shorts") || 
+                variant.getCategory().equalsIgnoreCase("Pants") || 
+                variant.getCategory().equalsIgnoreCase("Sweater"));
+        }
+
+        searchGridPane.getChildren().clear();
+        populateGridPane(filteredResults);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
     }
 
     /// Method to set the search item text in the label
@@ -59,6 +138,17 @@ public class searchResultsController extends App{
 
         if(searchLabel != null) {
             searchLabel.setText(searchText);
+        }
+    }
+
+    public void setSearchResults(List<Variant> searchResults)
+    {
+        this.searchResults = searchResults;
+        try 
+        {
+            populateGridPane(searchResults);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -100,7 +190,14 @@ public class searchResultsController extends App{
      * @throws IOException if there is an error loading the fxml file
      */
 
-    public void populateGridPane() throws IOException {
+    public void populateGridPane(List<Variant> results) throws IOException {
+        searchGridPane.getChildren().clear();
+
+        if(results == null || results.isEmpty()) {
+            System.out.println("No search results found.");
+            return;
+        }
+
         List<Product> products = CentralShoppingSystem.getProducts();
         ArrayList<Variant> variants = new ArrayList<>();
         CartManager cart = CartManager.getInstance();
@@ -204,29 +301,9 @@ public class searchResultsController extends App{
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void search(ActionEvent event) throws IOException
-    {
-        if(!searchTextBox.getText().isEmpty()) {
-            System.out.println("Taking you to Search Results!");
-            String searchItem = searchTextBox.getText();
-            searchResults = SearchProducts.Search(searchItem);
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-                Parent root = loader.load();
-
-                // Get the current stage
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-                // Set the new scene
-                stage.setScene(new Scene(root));
-                stage.setTitle("Checkout Page");
-                stage.show();
-                //test(successful)
-            System.out.println("Searching for: " + searchItem);
-        }
-        else{
-            System.out.println("Please enter a search term.");
-        }
+    public void search(ActionEvent event) throws IOException {
+        String searchItem = searchTextBox.getText().trim();
+        App.search(searchItem, event);
     }
 
     /**

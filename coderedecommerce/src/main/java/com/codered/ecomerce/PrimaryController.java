@@ -16,7 +16,9 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
+import java.util.List;
 
+import com.codered.ecomerce.model.Variant;
 import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.event.ActionEvent;
@@ -77,34 +79,9 @@ public class PrimaryController extends App{
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void search(ActionEvent event) throws IOException
-    {
-        if(!searchTextBox.getText().isEmpty()) {
-            System.out.println("Taking you to Search Results!");
-            String searchItem = searchTextBox.getText();
-            searchResults = SearchProducts.Search(searchItem);
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-            Parent root = loader.load();
-
-            // Get the controller instance
-            searchResultsController controller = loader.getController();
-
-            // Pass the searchItem to the controller
-            controller.setSearchItem(searchItem);
-            // Get the current stage
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-            // Set the new scene
-            stage.setScene(new Scene(root));
-            stage.setTitle("Checkout Page");
-            stage.show();
-            //test(successful)
-            System.out.println("Searching for: " + searchItem);
-        }
-        else{
-            System.out.println("Please enter a search term.");
-        }
+    public void search(ActionEvent event) throws IOException {
+        String searchItem = searchTextBox.getText().trim();
+        App.search(searchItem, event);
     }
 
     /**

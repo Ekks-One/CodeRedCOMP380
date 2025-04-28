@@ -28,7 +28,12 @@ public class Variant {
     private Size sz;
     private int stock;
     private double price;
+    private String category;
 
+    /**
+     * construtor to create a variant object with only the ID, color, material, size, stock, and price.
+     * @param id, @param cl, @param mt, @param sz, @param stock, @param price
+     */
     public Variant(int id, Color cl, Material mt, Size sz, int stock, double price){
         this.id = id;
         this.cl = cl;
@@ -36,6 +41,26 @@ public class Variant {
         this.sz = sz;
         this.stock = stock;
         this.price = price;
+    }
+
+    /**
+     * Overloaded constructor to create a variant object with the category as a parameter.
+     * @param id, @param cl, @param mt, @param sz, @param stock, @param price, @param category
+     */
+    public Variant(int id, Color cl, Material mt, Size sz, int stock, double price, String category)
+    {
+        this.id = id;
+        this.cl = cl;
+        this.mt = mt;
+        this.sz = sz;
+        this.stock = stock;
+        this.price = price;
+        this.category = category;
+    }
+
+    public void setCategory(String category)
+    {
+        this.category = category;
     }
 
     /**
@@ -87,6 +112,10 @@ public class Variant {
     }
     public double getPrice(){
         return price;
+    }
+    public String getCategory()
+    {
+        return category;
     }
 
 
