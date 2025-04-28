@@ -339,27 +339,9 @@ public class CheckoutController extends App implements Initializable {
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void search(ActionEvent event) throws IOException
-    {
-        if(!searchTextBox.getText().isEmpty()) {
-            System.out.println("Taking you to Search Results!");
-            String searchItem = searchTextBox.getText();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-                Parent root = loader.load();
-
-                // Get the current stage
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-                // Set the new scene
-                stage.setScene(new Scene(root));
-                stage.show();
-                //test(successful)
-            System.out.println("Searching for: " + searchItem);
-        }
-        else{
-            System.out.println("Please enter a search term.");
-        }
+    public void search(ActionEvent event) throws IOException {
+        String searchItem = searchTextBox.getText().trim();
+        App.search(searchItem, event);
     }
 
 }
