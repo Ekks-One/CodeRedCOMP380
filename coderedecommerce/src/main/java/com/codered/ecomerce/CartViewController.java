@@ -18,10 +18,12 @@ import com.codered.ecomerce.model.CartManager;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
+import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -29,6 +31,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -55,6 +58,7 @@ public class CartViewController extends App {
     private TextField searchTextBox;
     @FXML
     private GridPane cartGridPane;
+    @FXML private MenuBar menuBar;
 
 
 
@@ -76,21 +80,29 @@ public class CartViewController extends App {
         CartManager.getInstance();
         List<Variant> cartItems = CartManager.getCartItems();
         List<Product> products = CentralShoppingSystem.getProducts();
-        ArrayList<Variant> variants = new ArrayList<>();
-
 
         int row = 0;
+        int col = 0;
         
         cartGridPane.getChildren().clear(); // Clear the grid pane before populating it
         
-        // Loop through the products and create a new AnchorPane for each product
-        for(Variant variant : cartItems) {
-
-            // Limit the number of products displayed to 24
+       
         
+        List<Variant> uniqueCartItems = new ArrayList<>();
+        for (Variant variant : cartItems) {
+            if (!uniqueCartItems.contains(variant)) {
+                uniqueCartItems.add(variant);
+            }
+        }
+
+        for(Variant variant : uniqueCartItems) {
+
+
+            
         // Create a new AnchorPane for each product
         AnchorPane productPane = new AnchorPane();
         productPane.setStyle("-fx-border-color: black; -fx-padding: 10 10 10 10;");
+
 
         //Create ImageView for the product image
         ImageView productImageView = new ImageView();
@@ -102,16 +114,22 @@ public class CartViewController extends App {
         AnchorPane.setLeftAnchor(productImageView, 10.0);
 
         // Create Label for the product name
-        // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
         Label nameLabel = new Label(products.get(variant.getID()).getName());
         AnchorPane.setTopAnchor(nameLabel,10.0);
         AnchorPane.setLeftAnchor(nameLabel, 120.0);
 
-        // To be added once Variants Situation is figured out: variant.getPrice()
+        //Create Label for product price
         Label priceLabel = new Label("$" + variant.getPrice());
         priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
         AnchorPane.setTopAnchor(priceLabel,40.0);
         AnchorPane.setLeftAnchor(priceLabel, 120.0);
+
+        // Create Label for the product quantity
+        Label quantityLabel = new Label("Quantity: " + CartManager.getItemCount(variant));
+        quantityLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(quantityLabel, 55.0);
+        AnchorPane.setLeftAnchor(quantityLabel, 120.0);
+
 
         // Create a "Remove" button
         Button removeButton = new Button("Remove from Cart");
@@ -125,6 +143,7 @@ public class CartViewController extends App {
             alert.setTitle("Remove Item");
             alert.showAndWait().ifPresent(response -> {
                 if(response ==  ButtonType.OK) {
+                    // Remove item form cart
                     CartManager.removeCartItem(variant);
                     // Refresh the GridPane
                     try {
@@ -141,13 +160,17 @@ public class CartViewController extends App {
         });
 
         // Add all elements to the product pane
-        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, removeButton);
+        productPane.getChildren().addAll(quantityLabel, productImageView, nameLabel, priceLabel, removeButton);
 
         // Add the product pane to the grid
-        cartGridPane.add(productPane, 0, row);
+        cartGridPane.add(productPane, col, row);
         
         
-        row++;
+            row++;
+            if(row >= 4) {
+                row = 0;
+                col++; 
+            }
 
         }
     }
@@ -176,7 +199,30 @@ public class CartViewController extends App {
     public void checkoutView(ActionEvent event) throws IOException
     {
         System.out.println("Taking you to order checkout!");
-        App.setRoot("checkoutView");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    /**
+     * Method to handle the click event on the view cart button and returns the 
+     * cart page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
+    public void cartView(ActionEvent event) throws IOException
+    {
+        System.out.println("Taking you to your cart!");
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
 
@@ -185,12 +231,29 @@ public class CartViewController extends App {
      * @param event the mouse event that triggers the method
      * @throws IOException if there is an error loading the fxml file
      */ 
-    @FXML
-    public void menuSearch(ActionEvent event) throws IOException
-    {
+@FXML
+    public void menuSearch(ActionEvent event) throws IOException {
         String searchItem = ((MenuItem)event.getSource()).getText();
-        //test (successful)
         System.out.println("Searching for: " + searchItem);
+    
+        if (searchItem.equals("Tops")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("topsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tops Search Results");
+            stage.show();
+    
+        } else if (searchItem.equals("Bottoms")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bottomsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Bottoms Search Results");
+            stage.show();
+        }
     }
 
     /**
@@ -200,28 +263,9 @@ public class CartViewController extends App {
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void search(ActionEvent event) throws IOException
-    {
-        if(!searchTextBox.getText().isEmpty()) {
-            System.out.println("Taking you to Search Results!");
-            String searchItem = searchTextBox.getText();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-                Parent root = loader.load();
-
-                // Get the current stage
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-                // Set the new scene
-                stage.setScene(new Scene(root));
-                stage.setTitle("Checkout Page");
-                stage.show();
-                //test(successful)
-            System.out.println("Searching for: " + searchItem);
-        }
-        else{
-            System.out.println("Please enter a search term.");
-        }
+    public void search(ActionEvent event) throws IOException {
+        String searchItem = searchTextBox.getText().trim();
+        App.search(searchItem, event);
     }
 
 }

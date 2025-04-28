@@ -50,11 +50,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="checkOutVBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.CartViewController">
+<VBox fx:id="checkOutVBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.CartViewController">
   <children>
       <AnchorPane>
          <children>
-          <MenuBar layoutY="62.0" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+          <MenuBar fx:id="menuBar" layoutY="61.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <menus>
               <Menu mnemonicParsing="false" text="Tops">
                      <items>
@@ -84,16 +84,17 @@
                   <ColorAdjust brightness="-0.02" contrast="0.26" saturation="1.0" />
                </effect>
             </TextField>
-            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="706.0" layoutY="15.0" onAction="#search" prefHeight="30.0" prefWidth="201.0" promptText="Search" AnchorPane.rightAnchor="14.799999999999955">
+            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="727.0" layoutY="16.0" prefHeight="30.0" prefWidth="201.0" promptText="Search" AnchorPane.rightAnchor="85.66666666666663">
                <font>
                   <Font name="Calibri Light Italic" size="16.0" />
                </font>
             </TextField>
-            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="147.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="-1.0">
+           <ImageView fx:id="homeTitleCard" fitHeight="62.0" fitWidth="125.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="889.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
+            <Button fx:id="searchButton" layoutX="941.0" layoutY="18.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="21.0" />
          </children>
       </AnchorPane>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="558.0" prefWidth="1014.0" VBox.vgrow="ALWAYS">
@@ -102,14 +103,16 @@
               <content>
                 <AnchorPane fx:id="checkoutVBox" prefHeight="562.0">
                      <children>
-                        <GridPane fx:id="cartGridPane" gridLinesVisible="true" layoutX="22.0" layoutY="55.0" prefHeight="398.0" prefWidth="555.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="422.0" AnchorPane.topAnchor="55.0">
+                        <GridPane fx:id="cartGridPane" gridLinesVisible="true" layoutX="22.0" layoutY="55.0" prefHeight="482.0" prefWidth="408.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="569.2">
                           <columnConstraints>
                             <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                           </rowConstraints>
                         </GridPane>
                         <Text layoutX="22.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Cart" wrappingWidth="111.375">

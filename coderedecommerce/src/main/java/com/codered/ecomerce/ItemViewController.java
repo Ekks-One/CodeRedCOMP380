@@ -11,13 +11,22 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
+import java.util.List;
+
+import com.codered.ecomerce.model.CentralShoppingSystem;
+import com.codered.ecomerce.model.Product;
+import com.codered.ecomerce.model.Variant;
+import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -27,7 +36,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -37,9 +45,7 @@ import javafx.stage.Stage;
 public class ItemViewController extends App{
 
     @FXML
-    private Text itemNameText;
-    @FXML
-    private Text itemPriceText;
+    private Label itemNameText, itemPriceText;
     @FXML
     private Button searchButton, checkoutButton; 
     @FXML
@@ -52,11 +58,13 @@ public class ItemViewController extends App{
     private StackPane imageStackPane;
     @FXML 
     private AnchorPane leftAnchorPane;
+    @FXML private MenuBar menuBar;
     
     private String selectedColor;
     private String selectedSize;
     private String itemName;
     private int quantityAmmount;
+    
     private String itemID;
 
     /*
@@ -64,6 +72,7 @@ public class ItemViewController extends App{
      */
     public void initialize()
     {
+        
         itemImageView.fitWidthProperty().bind(imageStackPane.widthProperty());
         itemImageView.fitHeightProperty().bind(imageStackPane.heightProperty());    
     }
@@ -134,6 +143,18 @@ public class ItemViewController extends App{
         System.out.println("Size " + selectedSize + " selected!");
     }
 
+
+    /**
+     * Method to set the variant of the item selected from the homepage
+     * @param variant the variant of the item selected
+     */
+    // This method sets the item name and price based on the selected variant.
+    public void setVariant(Variant variant) {
+        List<Product> products = CentralShoppingSystem.getProducts();
+        itemNameText.setText(products.get(variant.getID()).getName());
+        itemPriceText.setText("$" + variant.getPrice());
+    }
+
     /** 
      * Method to add 1 to the current quantity in the TextField
      * @throws IOException if there is an error loading the fxml file 
@@ -174,16 +195,52 @@ public class ItemViewController extends App{
                 stage.show();
     }
 
+        /**
+     * Method to handle the click event on the view cart button and returns the 
+     * cart page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
+    public void cartView(ActionEvent event) throws IOException
+    {
+        System.out.println("Taking you to your cart!");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
     /**
      * Method to add functionality of the menu serch bar within the itemView page
      * @param even the mouse event that triggers the method
      * @throws IOException if there is an error loading the fxml file
      */
-        public void menuSearch(ActionEvent event) throws IOException
-    {
+    @FXML
+    public void menuSearch(ActionEvent event) throws IOException {
         String searchItem = ((MenuItem)event.getSource()).getText();
-        //test (successful)
         System.out.println("Searching for: " + searchItem);
+    
+        if (searchItem.equals("Tops")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("topsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tops Search Results");
+            stage.show();
+    
+        } else if (searchItem.equals("Bottoms")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bottomsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Bottoms Search Results");
+            stage.show();
+        }
     }
 
     /**
@@ -193,27 +250,9 @@ public class ItemViewController extends App{
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void search(ActionEvent event) throws IOException
-    {
-        if(!searchTextBox.getText().isEmpty()) {
-            System.out.println("Taking you to Search Results!");
-            String searchItem = searchTextBox.getText();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-                Parent root = loader.load();
-
-                // Get the current stage
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-                // Set the new scene
-                stage.setScene(new Scene(root));
-                stage.setTitle("Checkout Page");
-                stage.show();
-                //test(successful)
-            System.out.println("Searching for: " + searchItem);
-        }
-        else{
-            System.out.println("Please enter a search term.");
-        }
+    public void search(ActionEvent event) throws IOException {
+        String searchItem = searchTextBox.getText().trim();
+        App.search(searchItem, event);
     }
+    
 }

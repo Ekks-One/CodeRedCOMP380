@@ -12,12 +12,15 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.codered.ecomerce.model.CartManager;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Variant;
+import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -96,6 +99,48 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
+
+public static void search(String searchItem, ActionEvent event) throws IOException {
+    if (searchItem == null || searchItem.trim().isEmpty()) {
+        System.out.println("Please enter a valid search term.");
+        return;
+    }
+
+    System.out.println("Taking you to Search Results!");
+    searchItem = searchItem.toLowerCase(); // Normalize the search term
+
+    // Perform the search
+    List<Variant> searchResults = SearchProducts.Search(searchItem);
+
+    if (searchResults == null || searchResults.isEmpty()) {
+        System.out.println("No results found for: " + searchItem);
+        // Optionally, show an alert or message to the user
+        return;
+    }
+
+    try {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("searchResultsView.fxml"));
+        Parent root = loader.load();
+
+        // Get the controller instance
+        searchResultsController controller = loader.getController();
+
+        // Pass the searchItem and searchResults to the controller
+        controller.setSearchItem(searchItem);
+        controller.setSearchResults(searchResults);
+
+        // Get the current stage
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Set the new scene
+        stage.setScene(new Scene(root));
+        stage.show();
+        System.out.println("Searching for: " + searchItem);
+    } catch (IOException e) {
+        e.printStackTrace();
+        System.out.println("Error loading search results page.");
+    }
+}
 
     public static void main(String[] args) {
         launch();

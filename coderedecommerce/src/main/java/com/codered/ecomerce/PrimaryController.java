@@ -16,13 +16,8 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
-import com.codered.ecomerce.enums.Color;
-import com.codered.ecomerce.enums.Material;
-import com.codered.ecomerce.enums.Size;
-import com.codered.ecomerce.model.CentralShoppingSystem;
-import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
 import com.codered.ecomerce.sql.SearchProducts;
 
@@ -33,10 +28,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -74,6 +68,8 @@ public class PrimaryController extends App{
                      kidsTops, kidsBottoms,
                      aboutUs, ordersMenuItem;
 
+    @FXML private MenuBar menuBar;
+
     
 
     /**
@@ -83,34 +79,9 @@ public class PrimaryController extends App{
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void search(ActionEvent event) throws IOException
-    {
-        if(!searchTextBox.getText().isEmpty()) {
-            System.out.println("Taking you to Search Results!");
-            String searchItem = searchTextBox.getText();
-            searchResults = SearchProducts.Search(searchItem);
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-            Parent root = loader.load();
-
-            // Get the controller instance
-            searchResultsController controller = loader.getController();
-
-            // Pass the searchItem to the controller
-            controller.setSearchItem(searchItem);
-            // Get the current stage
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-            // Set the new scene
-            stage.setScene(new Scene(root));
-            stage.setTitle("Checkout Page");
-            stage.show();
-            //test(successful)
-            System.out.println("Searching for: " + searchItem);
-        }
-        else{
-            System.out.println("Please enter a search term.");
-        }
+    public void search(ActionEvent event) throws IOException {
+        String searchItem = searchTextBox.getText().trim();
+        App.search(searchItem, event);
     }
 
     /**
@@ -131,11 +102,28 @@ public class PrimaryController extends App{
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void menuSearch(ActionEvent event) throws IOException
-    {
+    public void menuSearch(ActionEvent event) throws IOException {
         String searchItem = ((MenuItem)event.getSource()).getText();
-        //test (successful)
         System.out.println("Searching for: " + searchItem);
+    
+        if (searchItem.equals("Tops")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("topsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tops Search Results");
+            stage.show();
+    
+        } else if (searchItem.equals("Bottoms")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bottomsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Bottoms Search Results");
+            stage.show();
+        }
     }
 
     @FXML
@@ -197,109 +185,12 @@ public class PrimaryController extends App{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("itemView.fxml"));
         Parent root = loader.load();
 
-        ItemViewController controller = loader.getController();
-        controller.setItemImage(clickedImage.getImage());
-
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
-    /** A method to populate the GridPane
-     *  Method to populate the primary grid pane with product items from the database,
-     *  If we decide to keep the stackPanes, then we will remove or edit this method
-     *  @throws IOException if there is an error loading the fxml file
-     *  */
-    public void populateGridPane() throws IOException {
-        ArrayList<Product> products = CentralShoppingSystem.getProducts();
-        ArrayList<Variant> variants = new ArrayList<>();
-        
-        //Added as a Test to figure out Variant situation
-        
-            variants.add(new Variant(1, Color.RED, Material.COTTON, Size.S, 50, 19.99));
-            variants.add(new Variant(2, Color.BLUE, Material.POLYESTER, Size.M, 30, 24.99));
-            variants.add(new Variant(3, Color.BLACK, Material.DENIM, Size.L, 40, 49.99));
-            variants.add(new Variant(4, Color.WHITE, Material.COTTON, Size.XL, 25, 29.99));
-            variants.add(new Variant(5, Color.GREEN, Material.LINEN, Size.M, 60, 34.99));
-            variants.add(new Variant(6, Color.YELLOW, Material.SILK, Size.S, 20, 39.99));
-            variants.add(new Variant(7, Color.GREY, Material.WOOL, Size.L, 70, 59.99));
-            variants.add(new Variant(8, Color.BROWN, Material.LEATHER, Size.XL, 10, 89.99));
-            variants.add(new Variant(9, Color.PURPLE, Material.COTTON, Size.S, 35, 21.99));
-            variants.add(new Variant(10, Color.ORANGE, Material.POLYESTER, Size.M, 80, 27.99));
-            
-
-        int row = 0;
-        int col = 0;
-        int maxCols = 3;
-        int prodCount = 0;
-        
-        // Loop through the products and create a new AnchorPane for each product
-        for(Variant variant : searchResults) {
-            if(variant == null) {
-                System.out.println("Null product found! Skipping...");
-                continue;
-            }
-
-            // Limit the number of products displayed to 24
-            if(prodCount >= 9) {
-                break;
-            }
-        
-        // Create a new AnchorPane for each product
-        AnchorPane productPane = new AnchorPane();
-        productPane.setStyle("-fx-border-color: black; -fx-padding: 10 10 10 10;");
-
-        //Create ImageView for the product image
-        ImageView productImageView = new ImageView();
-        productImageView.setImage(new Image(getClass().getResource("/com/codered/ecomerce/images/Item 0-1.png").toExternalForm()));
-        productImageView.setFitWidth(100);
-        productImageView.setFitHeight(100);
-        productImageView.setPreserveRatio(true);
-        AnchorPane.setTopAnchor(productImageView, 10.0);
-        AnchorPane.setLeftAnchor(productImageView, 10.0);
-
-        // Create Button for adding to cart
-        Button addCartButton = new Button("Add to Cart");
-        AnchorPane.setTopAnchor(addCartButton, 120.0);
-        AnchorPane.setLeftAnchor(addCartButton, 10.0);
-        addCartButton.setOnAction(event -> {
-            // Add the product to the cart
-
-            // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
-            System.out.println("Added " + products.get(variant.getID()).getName() + " to cart.");
-        });
-
-
-        // Create Label for the product name
-        // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
-        Label nameLabel = new Label(products.get(variant.getID()).getName());
-        AnchorPane.setTopAnchor(nameLabel,10.0);
-        AnchorPane.setLeftAnchor(nameLabel, 120.0);
-
-        // To be added once Variants Situation is figured out: variant.getPrice()
-        Label priceLabel = new Label("$" + variant.getPrice());
-        priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
-        AnchorPane.setTopAnchor(priceLabel,40.0);
-        AnchorPane.setLeftAnchor(priceLabel, 120.0);
-
-        // Add all elements to the product pane
-        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, addCartButton);
-
-        // Add the product pane to the grid
-        productGridPane.add(productPane, col, row);
-        
-        // Update the row and column for the next product
-        col++;
-        if(col>= maxCols) {
-            col = 0;
-            row++;
-        }
-        //Increment the product count
-        prodCount++;
-
-        }
-    }
-
+    
     /**
      * Method to handle the click event on the view cart button and returns the 
      * cart page
@@ -310,6 +201,14 @@ public class PrimaryController extends App{
     public void cartView(ActionEvent event) throws IOException
     {
         System.out.println("Taking you to your cart!");
-        App.setRoot("cartView");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
+
+    //TO DO: Add the functionality to the menu items: Tops and Bottoms
+    //fxid: topsMenuItem, bottomsMenuItem
 }
