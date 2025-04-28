@@ -17,11 +17,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PrimaryController">
+<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.PrimaryController">
    <children>
       <AnchorPane fx:id="headerAnchorP" style="-fx-background-color: red;">
          <children>
-            <MenuBar layoutY="61.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <MenuBar fx:id="menuBar" layoutY="61.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <menus>
                   <Menu mnemonicParsing="false" text="Tops">
                      <items>
@@ -43,18 +43,18 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </MenuBar>
-            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="1263.0" layoutY="30.0" promptText="Search" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="30.0">
+            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="1263.0" layoutY="16.0" promptText="Search" AnchorPane.rightAnchor="88.33333333333326" AnchorPane.topAnchor="16.0">
                <font>
                   <Font name="Calibri Light Italic" size="16.0" />
                </font>
             </TextField>
-            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="160.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="homeTitleCard" fitHeight="60.0" fitWidth="125.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <Button fx:id="cartViewButton" layoutX="1183.0" layoutY="31.0" mnemonicParsing="false" onAction="#cartView" text="View Cart" AnchorPane.rightAnchor="287.39999999999986" AnchorPane.topAnchor="31.0" />
-            <Button fx:id="searchButton" layoutX="1471.0" layoutY="31.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="13.799999999999955" AnchorPane.topAnchor="31.0" />
+            <Button fx:id="cartViewButton" layoutX="1185.0" layoutY="18.0" mnemonicParsing="false" onAction="#cartView" text="View Cart" AnchorPane.rightAnchor="287.0" AnchorPane.topAnchor="18.0" />
+            <Button fx:id="searchButton" layoutX="1473.0" layoutY="17.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="17.0" />
          </children>
       </AnchorPane>
       <ScrollPane VBox.vgrow="ALWAYS">

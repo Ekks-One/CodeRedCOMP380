@@ -24,7 +24,7 @@
             </ImageView>
             <HBox layoutY="65.0" prefHeight="20.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <MenuBar prefHeight="41.0" prefWidth="960.0" HBox.hgrow="ALWAYS">
+                  <MenuBar fx:id="menuBar" prefHeight="41.0" prefWidth="960.0" HBox.hgrow="ALWAYS">
                     <menus>
                       <Menu mnemonicParsing="false" text="Men's Clothing">
                         <items>

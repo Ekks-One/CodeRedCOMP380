@@ -52,10 +52,28 @@ public class CartManager {
         return cartItems;
     }
     
+    public static double getTotalPrice() {
+        double totalPrice = 0.0;
+        for (Variant item : cartItems) {
+            totalPrice += item.getPrice();
+        }
+        return totalPrice;
+    }
+
+    // This method returns the number of items in the cart for a specific variant.
+    // It iterates through the cartItems list and counts the occurrences of the specified variant.
+    public static int getItemCount(Variant variant) {
+        int count = 0;
+        for (Variant item : cartItems) {
+            if (item.equals(variant)) {
+                count++;
+            }
+        }
+        return count;
+    }
 
     public static void clearCart() {
         cartItems.clear();
     }
-
 
 }

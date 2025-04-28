@@ -12,6 +12,7 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -21,11 +22,13 @@ import com.codered.ecomerce.model.Customer;
 import com.codered.ecomerce.model.CustomerManager;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
+import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,6 +36,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -49,23 +53,25 @@ import javafx.stage.Stage;
 public class CheckoutController extends App implements Initializable {
 
     @FXML
-    private TextField fnameTextBox, lnameTextBox, addressTextBox, cityTextBox, zipTextBox, emailTextBox, phoneTextBox;
+    private TextField fnameTextBox, lnameTextBox, addressTextBox, cityTextBox, zipTextBox, emailTextBox, phoneTextBox, zipCodeTextBox;
 
 	//Population of the Choice Box
     @FXML
     private ChoiceBox<String> statesChoiceBox;
     @FXML
-    private Button placeOrderButton;
+    private Button placeOrderButton, cartViewButton;
     @FXML 
     private TextField searchTextBox;
+    @FXML private MenuBar menuBar;
     @FXML
     private GridPane cartGridPane;
+    @FXML
+    private Label totalCostLabel;
 
-    private String selectedState;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String email;
+    private double totalCost = 0.0;
+
+    
+   
 
     /**
      * Method to initialize the drop down menu that contains the states that are deliverable to the user
@@ -95,16 +101,24 @@ public class CheckoutController extends App implements Initializable {
         List<Variant> cartItems = CartManager.getCartItems();
         List<Product> products = CentralShoppingSystem.getProducts();
 
-        
+
+        int maxCol= 2;
         int row = 0;
         int col = 0;
         
         cartGridPane.getChildren().clear(); // Clear the grid pane before populating it
         
+        List<Variant> uniqueCartItems = new ArrayList<>();
         // Loop through the products and create a new AnchorPane for each product
         for(Variant variant : cartItems) {
+            if (!uniqueCartItems.contains(variant)) {
+                uniqueCartItems.add(variant);
+            }
+        }
 
-            // Limit the number of products displayed to 24
+        for(Variant variant: uniqueCartItems) {
+            
+
         
         // Create a new AnchorPane for each product
         AnchorPane productPane = new AnchorPane();
@@ -125,6 +139,12 @@ public class CheckoutController extends App implements Initializable {
         AnchorPane.setTopAnchor(nameLabel,10.0);
         AnchorPane.setLeftAnchor(nameLabel, 120.0);
 
+        // Create Label for the product quantity
+        Label quantityLabel = new Label("Quantity: " + CartManager.getItemCount(variant));
+        quantityLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(quantityLabel, 55.0);
+        AnchorPane.setLeftAnchor(quantityLabel, 120.0);
+
         // To be added once Variants Situation is figured out: variant.getPrice()
         Label priceLabel = new Label("$" + variant.getPrice());
         priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
@@ -144,6 +164,8 @@ public class CheckoutController extends App implements Initializable {
             alert.showAndWait().ifPresent(response -> {
                 if(response ==  ButtonType.OK) {
                     CartManager.removeCartItem(variant);
+                    // Update the total cost
+                    totalCost -= variant.getPrice();
                     // Refresh the GridPane
                     try {
                         populateGridPane();
@@ -159,19 +181,25 @@ public class CheckoutController extends App implements Initializable {
         });
 
         // Add all elements to the product pane
-        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, removeButton);
+        productPane.getChildren().addAll(quantityLabel, productImageView, nameLabel, priceLabel, removeButton);
 
         // Add the product pane to the grid
         cartGridPane.add(productPane, col, row);
         
-        if(row == 2) {
-            row = 0; // Reset column index to 0
-            col++; // Move to the next row
-        } else {
-            row++; // Move to the next column
-        }
+        row++;
+            if(row > 2) {
+                row = 0;
+                col++; 
+            }
+            if(col > maxCol) {
+                break;
+            }
+
 
         }
+        totalCost = CartManager.getTotalPrice(); // Get the total cost label from the CartManager
+        totalCostLabel.setText(totalCost + ""); // Set the total cost label to the total cost of the cart
+
     }
     /**
      * Method to handle the checkout process when the user clicks the place order button
@@ -179,56 +207,60 @@ public class CheckoutController extends App implements Initializable {
      * @param event
      * @throws IOException
      */
-    public void returnPayment(ActionEvent event) throws IOException {
-        firstName = fnameTextBox.getText();
-        lastName = lnameTextBox.getText();
-        address = addressTextBox.getText();
-        selectedState = statesChoiceBox.getValue();
-        email = emailTextBox.getText();
-
+    @FXML
+    public void returnPayment(ActionEvent event) {
         try {
-            if(!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && 
-                !selectedState.equals("Select State") && !email.isEmpty()) {
+            System.out.println("Proceed to Payment button clicked.");
+    
+            // Retrieve values from the TextFields and ChoiceBox
+            String firstName = fnameTextBox.getText();
+            String lastName = lnameTextBox.getText();
+            String address = addressTextBox.getText();
+            String selectedState = statesChoiceBox.getValue();
+            String email = emailTextBox.getText();
+            String city = cityTextBox.getText();
+            String zipCode = zipCodeTextBox.getText();
+    
+            // Validate inputs
+            if (!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() &&
+                !selectedState.equals("Select State") && !email.isEmpty() && !city.isEmpty() && !zipCode.isEmpty()) {
+    
+                System.out.println("All required fields are filled. Proceeding to load payment view...");
 
-                // Test (successful)
-                System.out.println("Checkout Successful! \n" +
-                    "Name: " + firstName + " " + lastName + "\n" +
-                    "Address: " + address + ", " + selectedState + "\n" +
-                    "Email: " + email);
-
-                //Create new customer object and store the address and state as a string array
                 Customer customer = new Customer(firstName, lastName, address, selectedState, email);
-                //customer.setShippingAddress(new String[] {address, selectedState});
-
-                //Store the customer globally so that it can be accessed by other classes
                 CustomerManager.setCustomer(customer);
-
-                // Load the new FXML file
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("paymentView.fxml"));
+    
+                // Load the payment view
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/codered/ecomerce/paymentView.fxml"));
                 Parent root = loader.load();
-
+                System.out.println("Payment view loaded successfully.");
+    
                 // Get the current stage
                 Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
+    
                 // Set the new scene
                 stage.setScene(new Scene(root));
                 stage.setTitle("Order Confirmation");
                 stage.show();
-            } 
-            else {
+            } else {
                 System.out.println("Please fill in all required fields.");
-                        // Display an alert to inform the user that all fields are required
-                        Alert missingInfoAlert = new Alert(Alert.AlertType.WARNING);
-                        missingInfoAlert.setTitle("Missing Fields");
-                        missingInfoAlert.setHeaderText("Please complete all fields.");
-                        missingInfoAlert.setContentText("One or more fields are empty. Please fill them in before continuing.");
-                        missingInfoAlert.showAndWait();
+                Alert missingInfoAlert = new Alert(Alert.AlertType.WARNING);
+                missingInfoAlert.setTitle("Missing Fields");
+                missingInfoAlert.setHeaderText("Please complete all fields.");
+                missingInfoAlert.setContentText("One or more fields are empty. Please fill them in before continuing.");
+                missingInfoAlert.showAndWait();
             }
-            
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    } 
+        } catch (IOException e) {
+            System.out.println("Error loading payment view: " + e.getMessage());
+            e.printStackTrace();
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText("Unable to load payment view.");
+            errorAlert.setContentText("An error occurred while trying to load the payment view. Please try again.");
+            errorAlert.showAndWait();
+        }
+    }
+
 
     /**
      * Method to return the user to the primary view when the title card is clicked
@@ -240,6 +272,24 @@ public class CheckoutController extends App implements Initializable {
         App.switchScene("primary", event);
         // Test (successful)
         System.out.println("Returning to homepage...");
+    }
+
+    /**
+     * Method to handle the click event on the view cart button and returns the 
+     * cart page
+     * @param event the mouse event that triggers the method
+     * @throws IOException if there is an error loading the fxml file
+     */
+    @FXML
+    public void cartView(ActionEvent event) throws IOException
+    {
+        System.out.println("Taking you to your cart!");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**
@@ -257,12 +307,29 @@ public class CheckoutController extends App implements Initializable {
      * @param event the mouse event that triggers the method
      * @throws IOException if there is an error loading the fxml file
      */ 
-    @FXML
-    public void menuSearch(ActionEvent event) throws IOException
-    {
+   @FXML
+    public void menuSearch(ActionEvent event) throws IOException {
         String searchItem = ((MenuItem)event.getSource()).getText();
-        //test (successful)
         System.out.println("Searching for: " + searchItem);
+    
+        if (searchItem.equals("Tops")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("topsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Tops Search Results");
+            stage.show();
+    
+        } else if (searchItem.equals("Bottoms")) {
+            searchResults = SearchProducts.Search(searchItem);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bottomsSearchView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Bottoms Search Results");
+            stage.show();
+        }
     }
 
     /**
@@ -272,28 +339,9 @@ public class CheckoutController extends App implements Initializable {
      * @throws IOException if there is an error loading the fxml file
      */ 
     @FXML
-    public void search(ActionEvent event) throws IOException
-    {
-        if(!searchTextBox.getText().isEmpty()) {
-            System.out.println("Taking you to Search Results!");
-            String searchItem = searchTextBox.getText();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("searchResultsView.fxml"));
-                Parent root = loader.load();
-
-                // Get the current stage
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-                // Set the new scene
-                stage.setScene(new Scene(root));
-                stage.setTitle("Checkout Page");
-                stage.show();
-                //test(successful)
-            System.out.println("Searching for: " + searchItem);
-        }
-        else{
-            System.out.println("Please enter a search term.");
-        }
+    public void search(ActionEvent event) throws IOException {
+        String searchItem = searchTextBox.getText().trim();
+        App.search(searchItem, event);
     }
 
 }

@@ -21,16 +21,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.searchResultsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.searchResultsController">
    <top>
       <AnchorPane style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="homeTitleCard" fitHeight="60.0" fitWidth="125.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="889.4" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="147.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="-1.0">
                <image>
                   <Image url="@images/CodeRedBanner.png" />
                </image>
             </ImageView>
-            <HBox layoutY="64.0" prefHeight="20.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox layoutY="64.0" prefHeight="20.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <MenuBar fx:id="menuBar" HBox.hgrow="ALWAYS">
                     <menus>
@@ -55,7 +55,6 @@
             </HBox>
             <TextField fx:id="searchTextBox" layoutX="748.0" layoutY="19.0" prefWidth="150.0" promptText="Search" AnchorPane.rightAnchor="102.0" />
             <Button fx:id="searchButton" layoutX="906.0" layoutY="19.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="42.0" />
-            <Button fx:id="viewCartButton" layoutX="675.0" layoutY="19.0" mnemonicParsing="false" onAction="#cartView" text="View Cart" AnchorPane.rightAnchor="273.0" />
          </children>
       </AnchorPane>
    </top>
@@ -68,11 +67,11 @@
                      <children>
                         <VBox layoutX="34.0" layoutY="111.0" prefHeight="211.0" prefWidth="100.0" spacing="20.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="111.0">
                            <children>
-                              <CheckBox fx:id="tshirtCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Tshirts" />
-                              <CheckBox fx:id="shortsCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Shorts" />
-                              <CheckBox fx:id="pantsCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Pants" />
-                              <CheckBox fx:id="sweaterCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Sweaters" />
-                              <CheckBox fx:id="otherCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Other" />
+                              <CheckBox fx:id="teesCheckBox" mnemonicParsing="false" text="Tees" />
+                              <CheckBox fx:id="shortsCheckBox" mnemonicParsing="false" text="Shorts" />
+                              <CheckBox fx:id="pantsCheckbox" mnemonicParsing="false" text="Pants" />
+                              <CheckBox fx:id="sweaterCheckBox" mnemonicParsing="false" text="Sweaters" />
+                              <CheckBox fx:id="thingsCheckBox" mnemonicParsing="false" text="Things" />
                            </children>
                            <opaqueInsets>
                               <Insets />
@@ -88,7 +87,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="searchLabel" text="search">
+                              <Label fx:id="searchLabel" text="Tops">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
