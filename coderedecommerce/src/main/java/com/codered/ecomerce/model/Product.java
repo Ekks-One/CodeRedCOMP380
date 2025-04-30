@@ -65,6 +65,16 @@ public class Product {
         fetchVariants();
     }
 
+    public void addColor(Color c){
+        this.cl.add(c);
+    }
+    public void addMaterial(Material m){
+        this.mt.add(m);
+    }
+    public void addSize(Size s){
+        this.sz.add(s);
+    }
+
     /**
      * Getter method for the product ID.
      * @return color, @return materials, @return name, @return brandID,
