@@ -16,8 +16,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.codered.ecomerce.model.*;
-import com.codered.ecomerce.enums.*;
+import com.codered.ecomerce.enums.Color;
+import com.codered.ecomerce.enums.Material;
+import com.codered.ecomerce.enums.Size;
+import com.codered.ecomerce.model.CentralShoppingSystem;
+import com.codered.ecomerce.model.Product;
+import com.codered.ecomerce.model.Variant;
 
 /**
  * Read from product tables (selects)
@@ -101,9 +105,9 @@ public class QuerySeProduct extends SwagConnection {
                     }
 
                     variants.set(index, new Variant(prodID, cl, mt, sz, stock, price));
-                    products.get(prodID).addColor(cl);
-                    products.get(prodID).addMaterial(mt);
-                    products.get(prodID).addSize(sz);
+                    // products.get(prodID).addColor(cl);
+                    // products.get(prodID).addMaterial(mt);
+                    // products.get(prodID).addSize(sz);
                     variants.get(index).print();
                 }
             }

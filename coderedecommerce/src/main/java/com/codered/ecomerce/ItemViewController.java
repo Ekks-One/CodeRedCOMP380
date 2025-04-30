@@ -11,8 +11,11 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.codered.ecomerce.enums.Color;
+import com.codered.ecomerce.model.CartManager;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
@@ -30,7 +33,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -57,15 +62,20 @@ public class ItemViewController extends App{
     @FXML 
     private StackPane imageStackPane;
     @FXML 
-    private AnchorPane leftAnchorPane;
-    @FXML private MenuBar menuBar;
+    private AnchorPane leftAnchorPane, colorAnchorPane;
+    @FXML 
+    private MenuBar menuBar;
     
     private String selectedColor;
     private String selectedSize;
     private String itemName;
     private int quantityAmmount;
     
-    private String itemID;
+    private int itemID;
+    private ArrayList<Color> itemColors = new ArrayList<>();
+    
+    private Variant currentVariant;
+    private CartManager cartItems = CartManager.getInstance();
 
     /*
      * Method to initialize the page and set the default values for the item view page
@@ -74,7 +84,9 @@ public class ItemViewController extends App{
     {
         
         itemImageView.fitWidthProperty().bind(imageStackPane.widthProperty());
-        itemImageView.fitHeightProperty().bind(imageStackPane.heightProperty());    
+        itemImageView.fitHeightProperty().bind(imageStackPane.heightProperty());
+        createColorToggleButtons(itemColors);
+        
     }
 
     /**
@@ -83,12 +95,52 @@ public class ItemViewController extends App{
      */
     @FXML
     public void AddtoCart() throws Exception {
+        
+        
         itemName = itemNameText.getText();
         quantityAmmount = Integer.parseInt(quantityTextField.getText());
         if(selectedColor != null && selectedSize != null && quantityAmmount != 0) {
             System.out.println(quantityTextField.getText() +": "+ itemName + " added to cart! \n"+ "Color:"+ selectedColor + "\nSize: " + selectedSize);
         } else {
             System.out.println("Please select a color and size before adding to cart.");
+        }
+        for(int i = 0; i < quantityAmmount; i++) {
+
+            CartManager.addCartItem(currentVariant);
+        }
+        
+        
+    }
+
+
+    private void createColorToggleButtons(ArrayList<Color> colors) {
+        if(colors == null || colors.isEmpty()) {
+            System.out.println("No Colors available"); // Default color if none are available
+        }
+        
+    
+
+        ToggleGroup toggleGroup = new ToggleGroup();
+        double layoutX = 0;
+        for (Color color : colors) {
+            ToggleButton colorButton = new ToggleButton(color.toString());
+            colorButton.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white;");
+            colorButton.setPrefHeight(52);
+            colorButton.setPrefWidth(47);
+            colorButton.setLayoutX(layoutX);
+            colorButton.setLayoutY(0);
+            colorButton.setToggleGroup(toggleGroup);
+
+            colorButton.setOnAction(event -> {
+
+                Toggle selectedToggle = toggleGroup.getSelectedToggle();
+                if (selectedToggle != null) {
+                    selectedColor = ((ToggleButton) selectedToggle).getText();
+                    System.out.println("Color " + selectedColor + " selected!");
+                }
+            });
+            colorAnchorPane.getChildren().add(colorButton);
+            layoutX += 60;
         }
     }
 
@@ -109,7 +161,7 @@ public class ItemViewController extends App{
      * Helper method to switch to the itemView of a particular item selected from the homepage 
      * and to return the image of the selected item
      */
-    public void setItemID(String itemID)
+    public void setItemID(int itemID)
     {
         this.itemID = itemID;
     }
@@ -119,17 +171,6 @@ public class ItemViewController extends App{
         itemImageView.setImage(image);
     }
 
-    /**
-     *  Method to select the color of the item the customer has selected
-     * @param event the action event that triggers the method
-     * @throws IOException if there is an error loading the fxml file
-     */
-    @FXML
-    public void colorSelect(ActionEvent event) throws Exception {
-        ToggleButton selectedButton = (ToggleButton) event.getSource();
-        selectedColor = selectedButton.getText();
-        System.out.println("Color " + selectedColor + " selected!");
-    }
     
     /** 
      * Method to select the size of the item the customer has selected
@@ -150,9 +191,17 @@ public class ItemViewController extends App{
      */
     // This method sets the item name and price based on the selected variant.
     public void setVariant(Variant variant) {
+        currentVariant = variant;
         List<Product> products = CentralShoppingSystem.getProducts();
         itemNameText.setText(products.get(variant.getID()).getName());
         itemPriceText.setText("$" + variant.getPrice());
+        itemColors = products.get(variant.getID()).getColors();
+        setItemID(variant.getID());
+        if(itemColors == null) {
+            itemColors = new ArrayList<>();
+            itemColors.add(Color.PINK); // Default color if none are available
+        }
+        createColorToggleButtons(itemColors);
     }
 
     /** 
