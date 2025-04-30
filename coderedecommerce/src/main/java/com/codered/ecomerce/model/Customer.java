@@ -142,11 +142,11 @@ public class Customer
      * @param newEmailAddress
      * @param newPhoneNumber
      */
-    public void updateInfo(String[] newShippingAddress, String newEmailAddress, String newPhoneNumber)
+    public void updateInfo(String[] newEmailAddress)
     {
-        setShippingAddress(newShippingAddress);
-        setCustomerEmail(newEmailAddress);
-        setPhoneNumber(newPhoneNumber);
+        
+        setCustomerEmail(newEmailAddress[0]);
+    
     }
 
     /**
