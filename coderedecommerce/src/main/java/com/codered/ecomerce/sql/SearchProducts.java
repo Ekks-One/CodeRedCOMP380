@@ -9,7 +9,6 @@
  */
 package com.codered.ecomerce.sql;
 
-import java.sql.*;
 import java.util.*;
 
 import com.codered.ecomerce.model.*;
@@ -25,19 +24,13 @@ public class SearchProducts extends SwagConnection {
 
     private SearchProducts() {}
 
-    /*public static void main(String[] args) {
-        ArrayList<Variant> results = Search("black L cotton");
-        System.out.println("Final search results: " + results);
-    }
-*/
-
     // holds the search logic parsing/search appends
     public static ArrayList<Variant> Search(String srh) {
         search = srh.toUpperCase().trim();
         System.out.println("Search term: " + search);
         
         ArrayList<Variant> searchResults = new ArrayList<>();
-    
+
         // Parse enums
         for (Brand B : Brand.values()) {
             String label = B.getLabel().toUpperCase();
@@ -94,7 +87,24 @@ public class SearchProducts extends SwagConnection {
                 System.out.println("After CompoundSearchHelper for Size " + value + ", searchResults size: " + searchResults.size());
             }
         }
-    
+
+        // Check if remaining search term looks like a brand but doesn't match any Brand enum
+        if (!search.isEmpty()) {
+            boolean looksLikeBrand = true;
+            for (Brand B : Brand.values()) {
+                if (search.equals(B.getLabel().toUpperCase())) {
+                    looksLikeBrand = false; // It matched a brand earlier
+                    break;
+                }
+            }
+            if (looksLikeBrand) {
+                // If it looks like a brand but didn't match, assume it's not a valid brand and clear results
+                System.out.println("Term '" + search + "' looks like a brand but doesn't match any known Brand enum. Clearing results.");
+                searchResults.clear();
+                search = "";
+            }
+        }
+
         // Search remaining string
         if (!search.isEmpty()) {
             System.out.println("Searching remaining term: " + search);
@@ -102,9 +112,11 @@ public class SearchProducts extends SwagConnection {
             NameSearchHelper(search, searchResults);
             System.out.println("After NameSearchHelper for term " + search + ", searchResults size: " + searchResults.size());
         } else {
-            System.out.println("No remaining term to search by name, final searchResults size: " + searchResults.size());
+            System.out.println("No remaining term to search by name, final searchResults size before reduction: " + searchResults.size());
         }
-    
+
+        // Reduce to one variant per product at the end
+        searchResults = reduceToOneVariantPerProduct(searchResults);
         return searchResults;
     }
 
@@ -113,13 +125,14 @@ public class SearchProducts extends SwagConnection {
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
         System.out.println("Total products from productMap: " + (productMap != null ? productMap.size() : "null"));
         String type = token.getClass().getSimpleName();
-    
+
         if (productMap == null || productMap.isEmpty()) {
             searchResults.clear();
             return;
         }
-    
+
         ArrayList<Variant> filter = new ArrayList<>();
+
         if (searchResults.isEmpty()) {
             for (Product prod : productMap.values()) {
                 if (prod == null) continue; // Skip null products
@@ -127,9 +140,6 @@ public class SearchProducts extends SwagConnection {
                 if (variants == null) continue; // Skip products with null variants
                 for (Variant var : variants) {
                     if (var == null) continue; // Skip null variants
-                    if (filter.size() >= limit) {
-                        break;
-                    }
                     switch (type) {
                         case "Brand":
                             if (products.get(var.getID()).getBrandID() == token.ordinal()) {
@@ -160,16 +170,10 @@ public class SearchProducts extends SwagConnection {
                             break;
                     }
                 }
-                if (filter.size() >= limit) {
-                    break;
-                }
             }
         } else {
             for (Variant var : searchResults) {
                 if (var == null) continue; // Skip null variants
-                if (filter.size() >= limit) {
-                    break;
-                }
                 Product prod = productMap.get(var.getID());
                 if (prod == null) continue;
                 switch (type) {
@@ -203,21 +207,47 @@ public class SearchProducts extends SwagConnection {
                 }
             }
         }
-    
+
         searchResults.clear();
         searchResults.addAll(filter);
+    }
+
+    private static ArrayList<Variant> reduceToOneVariantPerProduct(ArrayList<Variant> variants) {
+        if (variants == null || variants.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Map<Integer, Variant> productToVariant = new HashMap<>();
+        for (Variant var : variants) {
+            if (var == null) continue;
+            int productId = var.getID();
+            // Keep the first variant for each product ID
+            productToVariant.putIfAbsent(productId, var);
+            if (productToVariant.size() >= limit) {
+                break; // Stop once we have 'limit' unique products
+            }
+        }
+
+        ArrayList<Variant> reducedResults = new ArrayList<>(productToVariant.values());
+        System.out.println("Reduced to one variant per product, final size: " + reducedResults.size());
+        return reducedResults;
     }
 
     private static void NameSearchHelper(String token, ArrayList<Variant> searchResults) {
         Map<Integer, Product> productMap = getProductMap();
         System.out.println("Total products from productMap: " + (productMap != null ? productMap.size() : "null"));
-    
+
         if (productMap == null || productMap.isEmpty()) {
             searchResults.clear();
             return;
         }
-    
+
         ArrayList<Variant> filter = new ArrayList<>();
+        // Track variants per product, per color, per material: productId -> color -> material -> count
+        Map<Integer, Map<Color, Map<Material, Integer>>> variantCounts = new HashMap<>();
+        // Track which products matched the name search
+        Set<Integer> matchedProductIds = new HashSet<>();
+
         if (searchResults.isEmpty()) {
             for (Product prod : productMap.values()) {
                 if (prod == null) continue; // Skip null products
@@ -225,33 +255,165 @@ public class SearchProducts extends SwagConnection {
                 if (variants == null) continue; // Skip products with null variants
                 for (Variant var : variants) {
                     if (var == null) continue; // Skip null variants
-                    if (filter.size() >= limit) {
-                        break;
-                    }
-                    if (prod.getName().toUpperCase().contains(token.toUpperCase())) {
+                    // Use fuzzy matching instead of exact contains
+                    String productName = prod.getName().toUpperCase();
+                    if (isFuzzyMatch(productName, token.toUpperCase())) {
+                        int productId = var.getID();
+                        matchedProductIds.add(productId); // Track matched product
+                        Color color = var.getColor();
+                        Material material = var.getMaterial();
+
+                        // Initialize nested maps if not present
+                        variantCounts.computeIfAbsent(productId, k -> new HashMap<>());
+                        Map<Color, Map<Material, Integer>> colorMap = variantCounts.get(productId);
+                        colorMap.computeIfAbsent(color, k -> new HashMap<>());
+                        Map<Material, Integer> materialMap = colorMap.get(color);
+
+                        // Count total variants for this product and color
+                        int totalVariantsForColor = materialMap.values().stream().mapToInt(Integer::intValue).sum();
+                        if (totalVariantsForColor >= 2 && search.isEmpty()) {
+                            System.out.println("Skipping variant for productId " + productId + ", color " + color + ": already have 2 variants for this color");
+                            continue; // Already have 2 variants for this color
+                        }
+
+                        // Check if we already have a variant with this material
+                        materialMap.compute(material, (k, v) -> v == null ? 1 : v + 1);
+                        if (materialMap.get(material) > 1) {
+                            // Undo the count since we can't add this variant (same material)
+                            materialMap.put(material, materialMap.get(material) - 1);
+                            System.out.println("Skipping variant for productId " + productId + ", color " + color + ": already have a variant with material " + material);
+                            continue;
+                        }
+
                         filter.add(var);
+                        System.out.println("Added variant for productId " + productId + ", color " + color + ", material " + material + ", productName '" + prod.getName() + "'");
                     }
-                }
-                if (filter.size() >= limit) {
-                    break;
                 }
             }
         } else {
             for (Variant var : searchResults) {
                 if (var == null) continue; // Skip null variants
-                if (filter.size() >= limit) {
-                    break;
-                }
                 Product prod = productMap.get(var.getID());
                 if (prod == null) continue;
-                if (prod.getName().toUpperCase().contains(token.toUpperCase())) {
+                // Use fuzzy matching instead of exact contains
+                String productName = prod.getName().toUpperCase();
+                if (isFuzzyMatch(productName, token.toUpperCase())) {
+                    int productId = var.getID();
+                    matchedProductIds.add(productId); // Track matched product
+                    Color color = var.getColor();
+                    Material material = var.getMaterial();
+
+                    // Initialize nested maps if not present
+                    variantCounts.computeIfAbsent(productId, k -> new HashMap<>());
+                    Map<Color, Map<Material, Integer>> colorMap = variantCounts.get(productId);
+                    colorMap.computeIfAbsent(color, k -> new HashMap<>());
+                    Map<Material, Integer> materialMap = colorMap.get(color);
+
+                    // Count total variants for this product and color
+                    int totalVariantsForColor = materialMap.values().stream().mapToInt(Integer::intValue).sum();
+                    if (totalVariantsForColor >= 2 && search.isEmpty()) {
+                        System.out.println("Skipping variant for productId " + productId + ", color " + color + ": already have 2 variants for this color");
+                        continue; // Already have 2 variants for this color
+                    }
+
+                    // Check if we already have a variant with this material
+                    materialMap.compute(material, (k, v) -> v == null ? 1 : v + 1);
+                    if (materialMap.get(material) > 1) {
+                        // Undo the count since we can't add this variant (same material)
+                        materialMap.put(material, materialMap.get(material) - 1);
+                        System.out.println("Skipping variant for productId " + productId + ", color " + color + ": already have a variant with material " + material);
+                        continue;
+                    }
+
                     filter.add(var);
+                    System.out.println("Added variant for productId " + productId + ", color " + color + ", material " + material + ", productName '" + prod.getName() + "'");
                 }
             }
         }
-    
+
+        System.out.println("Number of products matched by name search: " + matchedProductIds.size());
         searchResults.clear();
         searchResults.addAll(filter);
+    }
+
+    // Compute Levenshtein distance between two strings
+    private static int levenshteinDistance(String s1, String s2) {
+        int len1 = s1.length();
+        int len2 = s2.length();
+        int[][] dp = new int[len1 + 1][len2 + 1];
+
+        for (int i = 0; i <= len1; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= len2; j++) {
+            dp[0][j] = j;
+        }
+
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                int cost = (s1.charAt(i - 1) == s2.charAt(j - 1)) ? 0 : 1;
+                dp[i][j] = Math.min(
+                    Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1),
+                    dp[i - 1][j - 1] + cost
+                );
+            }
+        }
+
+        return dp[len1][len2];
+    }
+
+    // Check if two strings are a fuzzy match based on Levenshtein distance
+    private static boolean isFuzzyMatch(String productName, String token) {
+        // If the token is a substring (exact match), accept it immediately
+        if (productName.contains(token)) {
+            System.out.println("Exact match: productName '" + productName + "' contains token '" + token + "'");
+            return true;
+        }
+
+        // Split product name into words once
+        String[] words = productName.split("\\s+");
+        int tokenLen = token.length();
+        int threshold = Math.max(2, tokenLen / 3); // Stricter threshold
+        System.out.println("Fuzzy matching: productName '" + productName + "', token '" + token + "', threshold " + threshold);
+
+        // Check individual words
+        for (String word : words) {
+            // Skip if lengths differ too much
+            int wordLen = word.length();
+            if (wordLen < tokenLen / 2 || wordLen > tokenLen * 2) {
+                System.out.println("Skipping word '" + word + "' due to length mismatch with token '" + token + "'");
+                continue;
+            }
+            int distance = levenshteinDistance(word, token);
+            System.out.println("Distance between word '" + word + "' and token '" + token + "': " + distance);
+            if (distance <= threshold) {
+                System.out.println("Fuzzy match on word: '" + word + "' matches token '" + token + "'");
+                return true;
+            }
+        }
+
+        // Check combinations of words
+        for (int i = 0; i < words.length; i++) {
+            StringBuilder combined = new StringBuilder(words[i]);
+            for (int j = i + 1; j < words.length; j++) {
+                combined.append(" ").append(words[j]);
+                String combinedStr = combined.toString();
+                int combinedLen = combinedStr.length();
+                if (combinedLen < tokenLen / 2 || combinedLen > tokenLen * 2) {
+                    System.out.println("Skipping combined '" + combinedStr + "' due to length mismatch with token '" + token + "'");
+                    continue;
+                }
+                int distance = levenshteinDistance(combinedStr, token);
+                System.out.println("Distance between combined '" + combinedStr + "' and token '" + token + "': " + distance);
+                if (distance <= threshold) {
+                    System.out.println("Fuzzy match on combined: '" + combinedStr + "' matches token '" + token + "'");
+                    return true;
+                }
+            }
+        }
+
+        System.out.println("No fuzzy match for productName '" + productName + "' and token '" + token + "'");
+        return false;
     }
 
     // creates a hash map of the products in the system for faster access
