@@ -101,9 +101,9 @@ public class QuerySeProduct extends SwagConnection {
                     }
 
                     variants.set(index, new Variant(prodID, cl, mt, sz, stock, price));
-                    products.get(prodID).addColor(cl);
-                    products.get(prodID).addMaterial(mt);
-                    products.get(prodID).addSize(sz);
+                    //products.get(prodID).addColor(cl);
+                    //products.get(prodID).addMaterial(mt);
+                    //products.get(prodID).addSize(sz);
                     variants.get(index).print();
                 }
             }
