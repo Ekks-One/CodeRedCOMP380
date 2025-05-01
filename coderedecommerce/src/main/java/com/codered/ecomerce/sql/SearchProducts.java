@@ -148,6 +148,7 @@ public class SearchProducts extends SwagConnection {
                             break;
                         case "Category":
                             if (products.get(var.getID()).getCategoryID() == token.ordinal()) {
+                                var.setCategory(token.toString());
                                 filter.add(var);
                             }
                             break;
@@ -184,6 +185,7 @@ public class SearchProducts extends SwagConnection {
                         break;
                     case "Category":
                         if (products.get(var.getID()).getCategoryID() == token.ordinal()) {
+                            
                             filter.add(var);
                         }
                         break;
