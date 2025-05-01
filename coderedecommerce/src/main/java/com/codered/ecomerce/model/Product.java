@@ -23,9 +23,9 @@ import com.codered.ecomerce.sql.*;
  * It also contains methods to fetch variants of the product.
  */
 public class Product {
-    private ArrayList<Color> cl;
-    private ArrayList<Material> mt;
-    private ArrayList<Size> sz;
+    private ArrayList<Color> cl = new ArrayList<Color>();
+    private ArrayList<Material> mt = new ArrayList<Material>();
+    private ArrayList<Size> sz = new ArrayList<Size>();
     private String name;
     private int brandID;
     private int categoryID;
@@ -61,6 +61,10 @@ public class Product {
         this.name = Name;
         this.brandID = BrandID;
         this.categoryID = CategoryID;
+        this.cl = new ArrayList<Color>();
+        this.mt = new ArrayList<Material>();
+        this.sz = new ArrayList<Size>();
+        this.basePrice = 50;
 
         fetchVariants();
     }
@@ -112,7 +116,7 @@ public class Product {
      * Method to fetch the variants of the prodicts from the database
      */
     private void fetchVariants(){
-        QuerySeProduct.getVariants(ID, variants);
+        QuerySeProduct.getVariants(ID, variants, this.cl, this.mt, this.sz);
     }
 
     /**

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import com.codered.ecomerce.enums.Color;
 import com.codered.ecomerce.enums.Material;
 import com.codered.ecomerce.enums.Size;
-import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
 
@@ -64,9 +63,8 @@ public class QuerySeProduct extends SwagConnection {
      * @param prodID the product id, @param variants the arraylist to store the variants
      * @throws SQLException if there is an error with the SQL query
      */
-    public static void getVariants(int prodID, ArrayList<Variant> variants) {
+    public static void getVariants(int prodID, ArrayList<Variant> variants, ArrayList<Color> c, ArrayList<Material> m, ArrayList<Size> s) {
         String sql = "SELECT * FROM product_price_stock WHERE product_id = ?";
-        ArrayList<Product> products = CentralShoppingSystem.getProducts();
 
         int numColors = Color.values().length; // for unique indexing
         int numSizes = Size.values().length;
@@ -105,9 +103,9 @@ public class QuerySeProduct extends SwagConnection {
                     }
 
                     variants.set(index, new Variant(prodID, cl, mt, sz, stock, price));
-                    // products.get(prodID).addColor(cl);
-                    // products.get(prodID).addMaterial(mt);
-                    // products.get(prodID).addSize(sz);
+                    c.add(cl);
+                    m.add(mt);
+                    s.add(sz);
                     variants.get(index).print();
                 }
             }

@@ -26,7 +26,7 @@ public class SearchProducts extends SwagConnection {
 
     // holds the search logic parsing/search appends
     public static ArrayList<Variant> Search(String srh) {
-        search = srh.toUpperCase().trim();
+        search = srh.toUpperCase();
         System.out.println("Search term: " + search);
         
         ArrayList<Variant> searchResults = new ArrayList<>();
@@ -85,23 +85,6 @@ public class SearchProducts extends SwagConnection {
                 System.out.println("Before CompoundSearchHelper for Size " + value + ", searchResults size: " + searchResults.size());
                 CompoundSearchHelper(S, searchResults);
                 System.out.println("After CompoundSearchHelper for Size " + value + ", searchResults size: " + searchResults.size());
-            }
-        }
-
-        // Check if remaining search term looks like a brand but doesn't match any Brand enum
-        if (!search.isEmpty()) {
-            boolean looksLikeBrand = true;
-            for (Brand B : Brand.values()) {
-                if (search.equals(B.getLabel().toUpperCase())) {
-                    looksLikeBrand = false; // It matched a brand earlier
-                    break;
-                }
-            }
-            if (looksLikeBrand) {
-                // If it looks like a brand but didn't match, assume it's not a valid brand and clear results
-                System.out.println("Term '" + search + "' looks like a brand but doesn't match any known Brand enum. Clearing results.");
-                searchResults.clear();
-                search = "";
             }
         }
 
