@@ -64,6 +64,12 @@
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
+    
+      <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-swing</artifactId>
+        <version>25-ea+14</version>
+      </dependency>
     </dependencies>
 
 <!-- JavaFX Swing -->
