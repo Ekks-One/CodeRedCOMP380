@@ -68,7 +68,7 @@
                      <children>
                         <VBox layoutX="34.0" layoutY="111.0" prefHeight="211.0" prefWidth="100.0" spacing="20.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="111.0">
                            <children>
-                              <CheckBox fx:id="tshirtCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Tshirts" />
+                              <CheckBox fx:id="shirtCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Shirts" />
                               <CheckBox fx:id="shortsCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Shorts" />
                               <CheckBox fx:id="pantsCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Pants" />
                               <CheckBox fx:id="sweaterCheckBox" mnemonicParsing="false" onAction="#applyFilters" text="Sweaters" />

@@ -47,7 +47,7 @@ public class searchResultsController extends App{
     @FXML private GridPane searchGridPane;
     @FXML private Label searchLabel;
     @FXML private MenuBar menuBar;
-    @FXML private CheckBox tshirtCheckBox, shortsCheckBox, pantsCheckBox, sweaterCheckBox, otherCheckBox;
+    @FXML private CheckBox shirtCheckBox, shortsCheckBox, pantsCheckBox, sweaterCheckBox, otherCheckBox;
 
     private String searchText;
     private List<Variant> searchResults;
@@ -59,7 +59,7 @@ public class searchResultsController extends App{
             searchResults = new ArrayList<>();
         }
         //listeners for the checkboxes, the listeners will call the applyFilters method when selected/unselected
-        tshirtCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        shirtCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
         shortsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
         pantsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
         sweaterCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
@@ -81,23 +81,23 @@ public class searchResultsController extends App{
 
         try{
             // Get the selected checkboxes
-            boolean tshirtSelected = tshirtCheckBox.isSelected();
+            boolean shirtSelected = shirtCheckBox.isSelected();
             boolean shortsSelected = shortsCheckBox.isSelected();
             boolean pantsSelected = pantsCheckBox.isSelected();
             boolean sweaterSelected = sweaterCheckBox.isSelected();
             boolean otherSelected = otherCheckBox.isSelected();
 
             // If no checkboxes are selected, show all results
-            if(!tshirtSelected && !shortsSelected && !pantsSelected && !sweaterSelected && !otherSelected) {
+            if(!shirtSelected && !shortsSelected && !pantsSelected && !sweaterSelected && !otherSelected) {
                 filteredResults = searchResults;
             }
 
         // Filter by category based on the selected checkboxes
-        if (tshirtCheckBox.isSelected()) {
-            System.out.println("Filtering for T-shirts");
+        if (shirtCheckBox.isSelected()) {
+            System.out.println("Filtering for Shirts");
 
             filteredResults.removeIf(variant -> 
-                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("T-shirt"));
+                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Shirts"));
         }
         if (shortsCheckBox.isSelected()) {
             System.out.println("Filtering for shorts");
@@ -118,7 +118,7 @@ public class searchResultsController extends App{
             System.out.println("Filtering for other");
             filteredResults.removeIf(variant -> 
                 variant.getCategory() == null || 
-                variant.getCategory().equalsIgnoreCase("Tshirt") || 
+                variant.getCategory().equalsIgnoreCase("Shirt") || 
                 variant.getCategory().equalsIgnoreCase("Shorts") || 
                 variant.getCategory().equalsIgnoreCase("Pants") || 
                 variant.getCategory().equalsIgnoreCase("Sweater"));

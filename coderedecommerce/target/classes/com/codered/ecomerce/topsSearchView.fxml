@@ -67,11 +67,11 @@
                      <children>
                         <VBox layoutX="34.0" layoutY="111.0" prefHeight="211.0" prefWidth="100.0" spacing="20.0" style="-fx-border-color: black;" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="111.0">
                            <children>
-                              <CheckBox fx:id="teesCheckBox" mnemonicParsing="false" text="Tees" />
+                              <CheckBox fx:id="shirtCheckBox" mnemonicParsing="false" text="Shirts" />
                               <CheckBox fx:id="shortsCheckBox" mnemonicParsing="false" text="Shorts" />
-                              <CheckBox fx:id="pantsCheckbox" mnemonicParsing="false" text="Pants" />
+                              <CheckBox fx:id="pantsCheckBox" mnemonicParsing="false" text="Pants" />
                               <CheckBox fx:id="sweaterCheckBox" mnemonicParsing="false" text="Sweaters" />
-                              <CheckBox fx:id="thingsCheckBox" mnemonicParsing="false" text="Things" />
+                              <CheckBox fx:id="otherCheckBox" mnemonicParsing="false" text="Other" />
                            </children>
                            <opaqueInsets>
                               <Insets />
