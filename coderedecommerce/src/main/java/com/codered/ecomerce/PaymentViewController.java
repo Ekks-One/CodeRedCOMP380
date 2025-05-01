@@ -333,5 +333,34 @@ public class PaymentViewController extends App implements Initializable{
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+    //Setter for confirmPayment
+    public void setCardNumTextBox(TextField cardNumTextBox) {
+        this.cardNumTextBox = cardNumTextBox;
+    }
+
+    public void setSecurityNumTextBox(TextField securityNumTextBox) {
+        this.securityNumTextBox = securityNumTextBox;
+    }
+
+    public void setCardHolderTextBox(TextField cardHolderTextBox) {
+        this.cardHolderTextBox = cardHolderTextBox;
+    }
+
+    public void setCardTypeChoiceBox(ChoiceBox<String> cardTypeChoiceBox) {
+        this.cardTypeChoiceBox = cardTypeChoiceBox;
+    }
+
+    public void setCardDateMonthChoiceBox(ChoiceBox<String> cardDateMonthChoiceBox) {
+        this.cardDateMonthChoiceBox = cardDateMonthChoiceBox;
+    }
+
+    public void setCardDateYearChoiceBox(ChoiceBox<String> cardDateYearChoiceBox) {
+        this.cardDateYearChoiceBox = cardDateYearChoiceBox;
+    }
+
+    public void setZipCodeTextBox(TextField zipCodeTextBox) {
+        this.zipCodeTextBox = zipCodeTextBox;
+    }
     
 }
