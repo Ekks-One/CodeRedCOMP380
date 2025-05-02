@@ -26,10 +26,14 @@ public class SearchProducts extends SwagConnection {
 
     // holds the search logic parsing/search appends
     public static ArrayList<Variant> Search(String srh) {
-        search = srh.toUpperCase();
+        search = srh.toUpperCase().trim();
         System.out.println("Search term: " + search);
         
         ArrayList<Variant> searchResults = new ArrayList<>();
+        NameSearchHelper(search, searchResults);
+        if (search.isEmpty()){
+            return searchResults;
+        }
 
         // Parse enums
         for (Brand B : Brand.values()) {
@@ -79,7 +83,7 @@ public class SearchProducts extends SwagConnection {
         for (Size S : Size.values()) {
             String value = S.toString().toUpperCase();
             System.out.println("Checking Size: " + value);
-            if (search.contains(value)) {
+            if ((search.contains(value) && (value != "S" || value != "M" || value != "L")) || (search.contains("SMALL") || search.contains("MEDIUM") || search.contains("LARGE"))) {
                 search = search.replace(value, "").trim();
                 System.out.println("After Size match, search: " + search);
                 System.out.println("Before CompoundSearchHelper for Size " + value + ", searchResults size: " + searchResults.size());
@@ -94,6 +98,8 @@ public class SearchProducts extends SwagConnection {
             System.out.println("Before NameSearchHelper for term " + search + ", searchResults size: " + searchResults.size());
             NameSearchHelper(search, searchResults);
             System.out.println("After NameSearchHelper for term " + search + ", searchResults size: " + searchResults.size());
+
+            return searchResults;
         } else {
             System.out.println("No remaining term to search by name, final searchResults size before reduction: " + searchResults.size());
         }
@@ -247,6 +253,7 @@ public class SearchProducts extends SwagConnection {
                         matchedProductIds.add(productId); // Track matched product
                         Color color = var.getColor();
                         Material material = var.getMaterial();
+                        search = search.replace(token, "").trim();
 
                         // Initialize nested maps if not present
                         variantCounts.computeIfAbsent(productId, k -> new HashMap<>());
@@ -287,6 +294,7 @@ public class SearchProducts extends SwagConnection {
                     matchedProductIds.add(productId); // Track matched product
                     Color color = var.getColor();
                     Material material = var.getMaterial();
+                    search = search.replace(token, "").trim();
 
                     // Initialize nested maps if not present
                     variantCounts.computeIfAbsent(productId, k -> new HashMap<>());
