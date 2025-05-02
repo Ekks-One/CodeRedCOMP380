@@ -1,5 +1,6 @@
 package com.codered.ecomerce;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -21,9 +22,12 @@ public class PaymentViewControllerTest {
     private TextField zipCodeTextBox;
 
     @BeforeAll
-    static void initToolkit() {
-        // Initializes JavaFX runtime
-        new JFXPanel();
+    static void initToolkit() throws Exception {
+        try {
+            Platform.startup(() -> {});
+        } catch (IllegalStateException ignored) {
+            // JavaFX already initialized
+        }
     }
 
     @BeforeEach
@@ -67,5 +71,6 @@ public class PaymentViewControllerTest {
             e.printStackTrace();
             assert false : "confirmPayment threw an exception";
         }
-    }
-}
+    }//end testConfirmPayment
+    
+}//end class PaymentViewControllerTest
