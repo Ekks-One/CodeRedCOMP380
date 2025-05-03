@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.codered.ecomerce.PaymentViewController;
 
-public class PaymentViewControllerTest {
+class PaymentViewControllerTest {
 
     private PaymentViewController controller;
 

@@ -30,7 +30,7 @@ public class Order
     private int orderCount = 0;
     private LocalDateTime orderDate;
 
-    /*
+    /**
     * constructor to initialize order with the appropriate details
     */
     public Order(Customer customer, List<Variant> orderItems, int orderCount, LocalDateTime orderDate)
@@ -40,6 +40,14 @@ public class Order
         this.orderCount = orderCount;
         this.orderDate = orderDate;
     }
+
+        // No-argument constructor
+        public Order() {
+            this.customer = null; // Default to null
+            this.orderItems = new LinkedList<>(); // Initialize an empty list
+            this.orderCount = 0; // Default to 0
+            this.orderDate = LocalDateTime.now(); // Default to the current date and time
+        }
 
     /**
      * getters responsible for retrieving all pertinent info about the order.

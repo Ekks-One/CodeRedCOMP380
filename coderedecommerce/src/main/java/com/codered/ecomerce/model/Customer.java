@@ -142,11 +142,20 @@ public class Customer
      * @param newEmailAddress
      * @param newPhoneNumber
      */
-    public void updateInfo(String[] newEmailAddress)
-    {
-        
-        setCustomerEmail(newEmailAddress[0]);
+    public void updateInfo(String[] newEmailAddress) {
+        if (newEmailAddress == null || newEmailAddress.length == 0) {
+            System.out.println("Error: Email address array is null or empty.");
+            return;
+        }
     
+        if (newEmailAddress[0] == null || newEmailAddress[0].isEmpty()) {
+            System.out.println("Error: Email address is null or empty.");
+            return;
+        }
+    
+        // Update the email address if valid
+        setCustomerEmail(newEmailAddress[0]);
+        System.out.println("Customer email updated to: " + newEmailAddress[0]);
     }
 
     /**
