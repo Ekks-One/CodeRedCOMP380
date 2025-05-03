@@ -115,7 +115,7 @@ public class Product {
     /**
      * Method to fetch the variants of the prodicts from the database
      */
-    private void fetchVariants(){
+    public void fetchVariants(){
         QuerySeProduct.getVariants(ID, variants, this.cl, this.mt, this.sz);
     }
 

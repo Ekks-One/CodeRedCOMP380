@@ -109,7 +109,7 @@ public class SearchProducts extends SwagConnection {
         return searchResults;
     }
 
-    private static <E extends Enum<E>> void CompoundSearchHelper(E token, ArrayList<Variant> searchResults) {
+    public static <E extends Enum<E>> void CompoundSearchHelper(E token, ArrayList<Variant> searchResults) {
         Map<Integer, Product> productMap = getProductMap();
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
         System.out.println("Total products from productMap: " + (productMap != null ? productMap.size() : "null"));
@@ -203,7 +203,7 @@ public class SearchProducts extends SwagConnection {
         searchResults.addAll(filter);
     }
 
-    private static ArrayList<Variant> reduceToOneVariantPerProduct(ArrayList<Variant> variants) {
+    public static ArrayList<Variant> reduceToOneVariantPerProduct(ArrayList<Variant> variants) {
         if (variants == null || variants.isEmpty()) {
             return new ArrayList<>();
         }
@@ -224,7 +224,7 @@ public class SearchProducts extends SwagConnection {
         return reducedResults;
     }
 
-    private static void NameSearchHelper(String token, ArrayList<Variant> searchResults) {
+    public static void NameSearchHelper(String token, ArrayList<Variant> searchResults) {
         Map<Integer, Product> productMap = getProductMap();
         System.out.println("Total products from productMap: " + (productMap != null ? productMap.size() : "null"));
 
@@ -330,7 +330,7 @@ public class SearchProducts extends SwagConnection {
     }
 
     // Compute Levenshtein distance between two strings
-    private static int levenshteinDistance(String s1, String s2) {
+    public static int levenshteinDistance(String s1, String s2) {
         int len1 = s1.length();
         int len2 = s2.length();
         int[][] dp = new int[len1 + 1][len2 + 1];
@@ -356,7 +356,7 @@ public class SearchProducts extends SwagConnection {
     }
 
     // Check if two strings are a fuzzy match based on Levenshtein distance
-    private static boolean isFuzzyMatch(String productName, String token) {
+    public static boolean isFuzzyMatch(String productName, String token) {
         // If the token is a substring (exact match), accept it immediately
         if (productName.contains(token)) {
             System.out.println("Exact match: productName '" + productName + "' contains token '" + token + "'");
@@ -410,7 +410,7 @@ public class SearchProducts extends SwagConnection {
     }
 
     // creates a hash map of the products in the system for faster access
-    private static Map<Integer, Product> getProductMap() {
+    public static Map<Integer, Product> getProductMap() {
         ArrayList<Product> products = CentralShoppingSystem.getProducts();
         Map<Integer, Product> productMap = new HashMap<>();
 
