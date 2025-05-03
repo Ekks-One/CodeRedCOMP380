@@ -92,13 +92,7 @@
                                  <children>
                                     <AnchorPane layoutX="20.0" layoutY="239.0" AnchorPane.leftAnchor="20.0">
                                        <children>
-                                          <HBox layoutY="53.0" prefHeight="23.0" prefWidth="386.0" spacing="15.0">
-                                             <children>
-                                                <Button fx:id="smallButton" mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="SMALL" />
-                                                <Button fx:id="mediumButton" mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="MEDIUM" />
-                                                <Button fx:id="largeButton" mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="LARGE" />
-                                                <Button mnemonicParsing="false" onAction="#sizeSelect" prefHeight="24.0" prefWidth="99.0" styleClass="sizeButton" stylesheets="@CSS.css" text="X-LARGE" fx:id="xlButton" />
-                                             </children>
+                                          <HBox fx:id="sizeHbox" layoutY="53.0" prefHeight="23.0" prefWidth="386.0" spacing="15.0">
                                              <opaqueInsets>
                                                 <Insets />
                                              </opaqueInsets>

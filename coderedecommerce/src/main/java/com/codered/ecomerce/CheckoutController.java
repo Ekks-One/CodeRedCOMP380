@@ -4,7 +4,7 @@
  * it contains methods that initializes the checkout view, handles the checkout process,
  * and returns the user to the primary view.
  * 
- * @author CodeRed Team (Miguel)
+ * @author CodeRed Team (Miguel, Xavier)
  * @version 1.0
  * @see checkoutView.fxml
  */
@@ -220,10 +220,59 @@ public class CheckoutController extends App implements Initializable {
             String email = emailTextBox.getText();
             String city = cityTextBox.getText();
             String zipCode = zipCodeTextBox.getText();
-    
+            
+
             // Validate inputs
-            if (!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() &&
-                !selectedState.equals("Select State") && !email.isEmpty() && !city.isEmpty() && !zipCode.isEmpty()) {
+
+            if(firstName.isEmpty() && lastName.isEmpty()) {
+                Alert missingNameAlert = new Alert(Alert.AlertType.WARNING);
+                missingNameAlert.setTitle("Missing Name Fields");
+                missingNameAlert.setHeaderText("Please complete the name fields.");
+                missingNameAlert.setContentText("One or more name fields are empty. Please fill them in before continuing.");
+                missingNameAlert.showAndWait();
+                return;
+            }
+
+            if (email.isEmpty()) {
+                Alert emptyEmailAlert = new Alert(Alert.AlertType.WARNING);
+                emptyEmailAlert.setTitle("Missing Email");
+                emptyEmailAlert.setHeaderText("Email field is empty.");
+                emptyEmailAlert.setContentText("Please enter your email address before continuing.");
+                emptyEmailAlert.showAndWait();
+                return;
+            }
+            
+            if (!email.contains("@")) {
+                Alert missingAtSymbolAlert = new Alert(Alert.AlertType.WARNING);
+                missingAtSymbolAlert.setTitle("Invalid Email");
+                missingAtSymbolAlert.setHeaderText("Missing '@' symbol.");
+                missingAtSymbolAlert.setContentText(email+ " must contain an '@' symbol. Please correct it before continuing.");
+                missingAtSymbolAlert.showAndWait();
+                return;
+            }
+
+            String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+            if (!email.matches(emailRegex)) {
+                Alert invalidEmailAlert = new Alert(Alert.AlertType.WARNING);
+                invalidEmailAlert.setTitle("Invalid Email");
+                invalidEmailAlert.setHeaderText("Please enter a valid email address.");
+                invalidEmailAlert.setContentText(email+ " is not valid. Please correct it before continuing.");
+                invalidEmailAlert.showAndWait();
+                return;
+            }
+
+            if(address.isEmpty() && selectedState.equals("Select State") && city.isEmpty() && zipCode.isEmpty()) {
+                Alert missingAddressAlert = new Alert(Alert.AlertType.WARNING);
+                missingAddressAlert.setTitle("Missing Address Fields");
+                missingAddressAlert.setHeaderText("Please complete the address fields.");
+                missingAddressAlert.setContentText("One or more address fields are empty. Please fill them in before continuing.");
+                missingAddressAlert.showAndWait();
+                return;
+            }
+
+            // Checks all fields are filled
+
+            if (!firstName.isEmpty() && !lastName.isEmpty() && !address.isEmpty() && !selectedState.equals("Select State") && !email.isEmpty() && !city.isEmpty() && !zipCode.isEmpty()) {
     
                 System.out.println("All required fields are filled. Proceeding to load payment view...");
 
@@ -233,7 +282,17 @@ public class CheckoutController extends App implements Initializable {
                 // Load the payment view
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/codered/ecomerce/paymentView.fxml"));
                 Parent root = loader.load();
-                System.out.println("Payment view loaded successfully.");
+                Alert informationAlert = new Alert(Alert.AlertType.INFORMATION);
+                informationAlert.setTitle("Current Customer Information");
+                informationAlert.setHeaderText("Customer Information");
+                informationAlert.setContentText("firstName: " + firstName + "\n" +
+                        "lastName: " + lastName + "\n" +
+                        "address: " + address + "\n" +
+                        "selectedState: " + selectedState + "\n" +
+                        "email: " + email + "\n" +
+                        "city: " + city + "\n" +
+                        "zipCode: " + zipCode);
+                informationAlert.showAndWait();
     
                 // Get the current stage
                 Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();

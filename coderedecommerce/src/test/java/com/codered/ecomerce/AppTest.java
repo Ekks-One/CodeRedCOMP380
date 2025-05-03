@@ -1,5 +1,17 @@
 package com.codered.ecomerce;
 
+/**
+ * CodeRed E-Commerce System
+ * This {@code AppTest} class is a test class for the {@code App} class
+ * and contains unit tests to verify the functionality of the App class.
+ * It includes test for the search method with valid term, empty term, and no results.
+ * 
+ * @author CodeRed Team (Alfredo, Xavier)
+ * @version 1.0
+ * @see customer
+ * created 04/29/2025
+ */
+
 import com.codered.ecomerce.enums.Color;
 import com.codered.ecomerce.enums.Material;
 import com.codered.ecomerce.enums.Size;

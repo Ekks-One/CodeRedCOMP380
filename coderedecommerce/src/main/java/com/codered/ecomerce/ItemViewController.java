@@ -12,9 +12,12 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.codered.ecomerce.enums.Color;
+import com.codered.ecomerce.enums.Size;
 import com.codered.ecomerce.model.CartManager;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Product;
@@ -40,6 +43,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -65,14 +69,18 @@ public class ItemViewController extends App{
     private AnchorPane leftAnchorPane, colorAnchorPane;
     @FXML 
     private MenuBar menuBar;
+    @FXML
+    private HBox sizeHbox;
+    
     
     private String selectedColor;
     private String selectedSize;
     private String itemName;
     private int quantityAmmount;
-    
     private int itemID;
+
     private ArrayList<Color> itemColors = new ArrayList<>();
+    private ArrayList<Size> itemSizes = new ArrayList<>();
     
     private Variant currentVariant;
     private CartManager cartItems = CartManager.getInstance();
@@ -86,6 +94,7 @@ public class ItemViewController extends App{
         itemImageView.fitWidthProperty().bind(imageStackPane.widthProperty());
         itemImageView.fitHeightProperty().bind(imageStackPane.heightProperty());
         createColorToggleButtons(itemColors);
+        createSizeToggleButtons(itemSizes);
         
     }
 
@@ -113,32 +122,88 @@ public class ItemViewController extends App{
     }
 
 
-    private void createColorToggleButtons(ArrayList<Color> colors) {
-        if(colors == null || colors.isEmpty()) {
-            System.out.println("No Colors available"); // Default color if none are available
+    private void createSizeToggleButtons(ArrayList<Size> sizes) {
+        if(sizes == null || sizes.isEmpty()) {
+            System.out.println("No Sizes available"); // Default color if none are available
+            return;
         }
-        
-    
+        ToggleGroup toggleGroupSize = new ToggleGroup();
+        sizeHbox.getChildren().clear();
+        for (Size size : sizes) {
+            if(size == null) {
+                System.out.println("Skipping Null Size"); // Default color if none are available
+                continue;
+            }
+            
+            String currentSize =  
+                switch (size.toString()) {
+                case "S" -> "Small";
+                case "M" -> "Medium";
+                case "L" -> "Large";
+                case "XL" -> "X-Large";
+                default -> size.toString();
+            };
+            
+            ToggleButton sizeButton = new ToggleButton(currentSize);
+            sizeButton.setStyle("-fx-text-fill: white; -fx-font-style: bold;");
+            sizeButton.setPrefHeight(99);
+            sizeButton.setPrefWidth(24);
+            sizeButton.setToggleGroup(toggleGroupSize);
 
-        ToggleGroup toggleGroup = new ToggleGroup();
+            
+            sizeButton.setOnAction(event -> {
+                Toggle selectedToggle = toggleGroupSize.getSelectedToggle();
+                if (selectedToggle != null) {
+                    selectedSize = ((ToggleButton) selectedToggle).getText();
+                    System.out.println("Size " + selectedSize + " selected!");
+                }
+            });
+            
+            sizeHbox.getChildren().add(sizeButton);
+        }
+        sizeHbox.spacingProperty().set(15);
+    }
+    /**
+     * Method to create color toggle buttons for the item view page
+     * @param colors the list of colors to be displayed as toggle buttons
+     */
+    // This method creates toggle buttons for each color in the provided list and adds them to the colorAnchorPane.
+    private void createColorToggleButtons(ArrayList<Color> colors) {
+        
+        ToggleGroup toggleGroupColor = new ToggleGroup();
         double layoutX = 0;
+
+        Set<Color> generatedColors = new HashSet<>();
         for (Color color : colors) {
+            if(colors == null || colors.isEmpty()) {
+                System.out.println("No Colors available"); // Default color if none are available
+                break;
+            }
+            if(generatedColors.contains(color)) {
+                System.out.println("Skipping already generated color: " + color);
+                continue;
+            }
+            generatedColors.add(color);
+
+           
             ToggleButton colorButton = new ToggleButton(color.toString());
             colorButton.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white;");
             colorButton.setPrefHeight(52);
-            colorButton.setPrefWidth(47);
+            colorButton.setPrefWidth(52);
             colorButton.setLayoutX(layoutX);
             colorButton.setLayoutY(0);
-            colorButton.setToggleGroup(toggleGroup);
+            colorButton.setToggleGroup(toggleGroupColor);
 
+            
             colorButton.setOnAction(event -> {
 
-                Toggle selectedToggle = toggleGroup.getSelectedToggle();
+                Toggle selectedToggle = toggleGroupColor.getSelectedToggle();
                 if (selectedToggle != null) {
                     selectedColor = ((ToggleButton) selectedToggle).getText();
                     System.out.println("Color " + selectedColor + " selected!");
                 }
             });
+            
             colorAnchorPane.getChildren().add(colorButton);
             layoutX += 60;
         }
@@ -172,18 +237,6 @@ public class ItemViewController extends App{
     }
 
     
-    /** 
-     * Method to select the size of the item the customer has selected
-     * @param event the action event that triggers the method
-     * @throws IOException if there is an error loading the fxml file
-     */
-    @FXML
-    public void sizeSelect(ActionEvent event) throws Exception {
-        Button selctedButton = (Button) event.getSource();
-        selectedSize = selctedButton.getText();
-        System.out.println("Size " + selectedSize + " selected!");
-    }
-
 
     /**
      * Method to set the variant of the item selected from the homepage
@@ -196,12 +249,14 @@ public class ItemViewController extends App{
         itemNameText.setText(products.get(variant.getID()).getName());
         itemPriceText.setText("$" + variant.getPrice());
         itemColors = products.get(variant.getID()).getColors();
+        itemSizes = products.get(variant.getID()).getSizes();
         setItemID(variant.getID());
         if(itemColors == null) {
             itemColors = new ArrayList<>();
             itemColors.add(Color.PINK); // Default color if none are available
         }
         createColorToggleButtons(itemColors);
+        createSizeToggleButtons(itemSizes);
     }
 
     /** 

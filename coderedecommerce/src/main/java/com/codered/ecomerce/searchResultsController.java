@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.codered.ecomerce.model.CartManager;
+import com.codered.ecomerce.enums.Brand;
+import com.codered.ecomerce.enums.Category;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
@@ -25,7 +26,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -199,8 +199,6 @@ public class searchResultsController extends App{
         }
 
         List<Product> products = CentralShoppingSystem.getProducts();
-        ArrayList<Variant> variants = new ArrayList<>();
-        CartManager cart = CartManager.getInstance();
         
             
         int row = 0;
@@ -251,19 +249,24 @@ public class searchResultsController extends App{
         AnchorPane.setTopAnchor(productImageView, 10.0);
         AnchorPane.setLeftAnchor(productImageView, 10.0);
 
-        // Create Button for adding to cart
-        Button addCartButton = new Button("Add to Cart");
-        AnchorPane.setTopAnchor(addCartButton, 120.0);
-        AnchorPane.setLeftAnchor(addCartButton, 10.0);
-        addCartButton.setOnAction(event -> {
-            // Add the product to the car
+        
+        Label categoryLabel = new Label("Category: " + Category.values()[products.get(variant.getID()).getCategoryID()].getLabel().toLowerCase());
+        categoryLabel.setStyle("-fx-font-size: 12px;");
+        AnchorPane.setTopAnchor(categoryLabel, 120.0);
+        AnchorPane.setLeftAnchor(categoryLabel, 10.0);
 
-            CartManager.addCartItem(variant); // Directly call the method without assignment
-            
-            // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
-            System.out.println("Added " + products.get(variant.getID()).getName() + " to cart.");
-        });
+        Label stockLabel = new Label("Stock: " + variant.getStock());
+        stockLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: red;");
+        AnchorPane.setTopAnchor(stockLabel, 80.0);
+        AnchorPane.setLeftAnchor(stockLabel, 10.0);
 
+        Label brandLabel = new Label("Brand: " + Brand.values()[products.get(variant.getID()).getBrandID()].getLabel().toLowerCase());
+        brandLabel.setStyle("-fx-font-size: 12px;");
+        AnchorPane.setTopAnchor(brandLabel, 100.0);
+        AnchorPane.setLeftAnchor(brandLabel, 10.0);
+
+
+        
 
         // Create Label for the product name
         // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
@@ -278,7 +281,7 @@ public class searchResultsController extends App{
         AnchorPane.setLeftAnchor(priceLabel, 120.0);
 
         // Add all elements to the product pane
-        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, addCartButton);
+        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, categoryLabel,stockLabel, brandLabel);
 
         // Add the product pane to the grid
         searchGridPane.add(productPane, col, row);
