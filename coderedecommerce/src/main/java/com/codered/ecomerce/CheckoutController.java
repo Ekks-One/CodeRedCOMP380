@@ -124,6 +124,7 @@ public class CheckoutController extends App implements Initializable {
         AnchorPane productPane = new AnchorPane();
         productPane.setStyle("-fx-border-color: black; -fx-padding: 10 10 10 10;");
 
+        productPane.setPrefSize(200, 150); // Set preferred size for the product pane
         //Create ImageView for the product image
         ImageView productImageView = new ImageView();
         productImageView.setImage(new Image(getClass().getResource("/com/codered/ecomerce/images/Item 0-1.png").toExternalForm()));
