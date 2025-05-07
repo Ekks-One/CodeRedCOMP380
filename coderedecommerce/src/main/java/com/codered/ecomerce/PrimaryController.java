@@ -16,8 +16,10 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
+import com.codered.ecomerce.model.CentralShoppingSystem;
+import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
 import com.codered.ecomerce.sql.SearchProducts;
 
@@ -31,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -181,13 +184,81 @@ public class PrimaryController extends App{
     public void itemView(MouseEvent event) throws IOException
     {
         ImageView clickedImage = (ImageView) event.getSource();
+        
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("itemView.fxml"));
         Parent root = loader.load();
+        ItemViewController controller = loader.getController();
+
+        Image clickedImageContent = clickedImage.getImage();
+        controller.setImage(clickedImageContent);
+
+
+        ArrayList<Product> products = CentralShoppingSystem.getProducts();
+        ArrayList<Variant> variants = new ArrayList<>();
+
+
+
+        if (products == null) {
+            System.out.println("the database was not reached");
+            return;
+        }
+        for (Product p : products) {
+                if (p != null) {
+                    ArrayList<Variant> var = p.getVariants();
+                try {
+                    for (Variant v : var) {
+                        if (v != null) {
+                            variants.add(v);
+                        }
+                    }
+                
+                if(clickedImage == imageV00)
+                {
+                    controller.setVariant(variants.get(p.getID()));
+                }
+                else if(clickedImage == imageV10)
+                {
+                    controller.setVariant(variants.get(1));
+                }
+                else if(clickedImage == imageV20)
+                {
+                    controller.setVariant(variants.get(0));
+                }
+                else if(clickedImage == imageV01)
+                {
+                    controller.setVariant(variants.get(0));
+                }
+                else if(clickedImage == imageV11)
+                {
+                    controller.setVariant(variants.get(0));
+                }
+                else if(clickedImage == imageV21)
+                {
+                    controller.setVariant(variants.get(0));
+                }
+                else if(clickedImage == imageV02)
+                {
+                    controller.setVariant(variants.get(0));
+                }
+                else if(clickedImage == imageV12)
+                {
+                    controller.setVariant(variants.get(0));
+                }
+                else if(clickedImage == imageV22)
+                {
+                    controller.setVariant(variants.get(0));
+                }
+            } catch (NullPointerException e) {
+                System.out.println("Null pointer exception: " + e.getMessage());
+            }
+        }
+    
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+        }
     }
 
     

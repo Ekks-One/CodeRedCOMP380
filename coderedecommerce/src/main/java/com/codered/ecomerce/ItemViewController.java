@@ -179,11 +179,15 @@ public class ItemViewController extends App{
                 System.out.println("Skipping already generated color: " + color);
                 continue;
             }
+            if (color.toString().equalsIgnoreCase("RAINBOW")) {
+                System.out.println("Skipping color: RAINBOW");
+                continue;
+            }
             generatedColors.add(color);
 
            
             ToggleButton colorButton = new ToggleButton(color.toString());
-            colorButton.setStyle("-fx-background-color: " + color + "; -fx-text-fill: white;");
+            colorButton.setStyle("-fx-background-color: " + color + "; -fx-text-fill: black;");
             colorButton.setPrefHeight(52);
             colorButton.setPrefWidth(52);
             colorButton.setLayoutX(layoutX);
@@ -232,7 +236,13 @@ public class ItemViewController extends App{
         itemImageView.setImage(image);
     }
 
-    
+    public void setImage(Image image) {
+        if (image != null) {
+            itemImageView.setImage(image);
+        } else {
+            System.out.println("Image is null!");
+        }
+    }
 
     /**
      * Method to set the variant of the item selected from the homepage
@@ -244,6 +254,7 @@ public class ItemViewController extends App{
         List<Product> products = CentralShoppingSystem.getProducts();
         itemNameText.setText(products.get(variant.getID()).getName());
         itemPriceText.setText("$" + variant.getPrice());
+
         itemColors = products.get(variant.getID()).getColors();
         itemSizes = products.get(variant.getID()).getSizes();
         setItemID(variant.getID());
