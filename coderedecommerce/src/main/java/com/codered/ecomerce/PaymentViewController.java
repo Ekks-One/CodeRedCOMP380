@@ -11,6 +11,7 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -118,10 +119,17 @@ public class PaymentViewController extends App implements Initializable{
         
         cartGridPane.getChildren().clear(); // Clear the grid pane before populating it
         
-        // Loop through the products and create a new AnchorPane for each product
-        for(Variant variant : cartItems) {
+        //Keep track of unique cart items to avoid duplicates
+        List<Variant> uniqueCartItems = new ArrayList<>();
+        for (Variant variant : cartItems) {
+            if (!uniqueCartItems.contains(variant)) {
+                uniqueCartItems.add(variant);
+            }
+        }
 
-            // Limit the number of products displayed to 24
+        // Loop through the products and create a new AnchorPane for each product
+        for(Variant variant : uniqueCartItems) {
+
         
         // Create a new AnchorPane for each product
         AnchorPane productPane = new AnchorPane();
@@ -135,6 +143,12 @@ public class PaymentViewController extends App implements Initializable{
         productImageView.setPreserveRatio(true);
         AnchorPane.setTopAnchor(productImageView, 10.0);
         AnchorPane.setLeftAnchor(productImageView, 10.0);
+
+        // Create Label for the quantity of the product in the cart
+        Label quantityLabel = new Label("Quantity: " + CartManager.getItemCount(variant));
+        quantityLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(quantityLabel, 55.0);
+        AnchorPane.setLeftAnchor(quantityLabel, 120.0);
 
         // Create Label for the product name
         // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
@@ -176,7 +190,7 @@ public class PaymentViewController extends App implements Initializable{
         });
 
         // Add all elements to the product pane
-        productPane.getChildren().addAll(productImageView, nameLabel, priceLabel, removeButton);
+        productPane.getChildren().addAll(quantityLabel,productImageView, nameLabel, priceLabel, removeButton);
 
         // Add the product pane to the grid
         cartGridPane.add(productPane, col, row);
