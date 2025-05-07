@@ -32,11 +32,10 @@ public class QuerySeProduct extends SwagConnection {
      * @param products the arraylist to store the products
      * @throws SQLException if there is an error with the SQL query
      */ 
-    public static void getProducts(ArrayList<Product> products) {
+    public static void getProducts(ArrayList<Product> products, Connection conn) {
         String sql = "SELECT * FROM product";
 
-        try (Connection connection = DriverManager.getConnection(properties.getProperty("url"), properties);
-             PreparedStatement pstm = connection.prepareStatement(sql);
+        try (PreparedStatement pstm = conn.prepareStatement(sql);
              ResultSet rt = pstm.executeQuery()) {
             
             while (rt.next()) { // reads the returned table from the query
@@ -50,7 +49,7 @@ public class QuerySeProduct extends SwagConnection {
                     products.add(null);
                 }
 
-                products.set(id, new Product(id, name, brandId, categoryId));
+                products.set(id, new Product(id, name, brandId, categoryId, conn));
                 products.get(id).print(); // visualizes the testing
             }
         } catch (SQLException e) {
@@ -63,14 +62,13 @@ public class QuerySeProduct extends SwagConnection {
      * @param prodID the product id, @param variants the arraylist to store the variants
      * @throws SQLException if there is an error with the SQL query
      */
-    public static void getVariants(int prodID, ArrayList<Variant> variants, ArrayList<Color> c, ArrayList<Material> m, ArrayList<Size> s) {
+    public static void getVariants(int prodID, ArrayList<Variant> variants, ArrayList<Color> c, ArrayList<Material> m, ArrayList<Size> s, Connection conn) {
         String sql = "SELECT * FROM product_price_stock WHERE product_id = ?";
 
         int numColors = Color.values().length; // for unique indexing
         int numSizes = Size.values().length;
 
-        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);
-             PreparedStatement pstm = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstm = conn.prepareStatement(sql)) {
             
             pstm.setInt(1, prodID); // Set the product_id parameter
             try (ResultSet rt = pstm.executeQuery()) {

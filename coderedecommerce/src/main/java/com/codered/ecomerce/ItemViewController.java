@@ -76,13 +76,11 @@ public class ItemViewController extends App{
     private String selectedColor;
     private String selectedSize;
     private String itemName;
-    private int quantityAmmount;
     private int itemID;
 
     private ArrayList<Color> itemColors = new ArrayList<>();
     private ArrayList<Size> itemSizes = new ArrayList<>();
     
-    private Variant currentVariant;
     private CartManager cartItems = CartManager.getInstance();
 
     /*
@@ -107,18 +105,16 @@ public class ItemViewController extends App{
         
         
         itemName = itemNameText.getText();
-        quantityAmmount = Integer.parseInt(quantityTextField.getText());
-        if(selectedColor != null && selectedSize != null && quantityAmmount != 0) {
+        productQuantity = Integer.parseInt(quantityTextField.getText());
+        if(selectedColor != null && selectedSize != null && productQuantity != 0 && productQuantity <= currentVariant.getStock()) {
             System.out.println(quantityTextField.getText() +": "+ itemName + " added to cart! \n"+ "Color:"+ selectedColor + "\nSize: " + selectedSize);
+            for(int i = 0; i < productQuantity; i++) {
+
+                CartManager.addCartItem(currentVariant);
+            }
         } else {
             System.out.println("Please select a color and size before adding to cart.");
         }
-        for(int i = 0; i < quantityAmmount; i++) {
-
-            CartManager.addCartItem(currentVariant);
-        }
-        
-        
     }
 
 

@@ -20,6 +20,7 @@ import com.codered.ecomerce.model.Customer;
 import com.codered.ecomerce.model.CustomerManager;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
+import com.codered.ecomerce.sql.QueryInProduct;
 import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.event.ActionEvent;
@@ -248,12 +249,13 @@ public class PaymentViewController extends App implements Initializable{
                     "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
                     "Card Type: " + cardType;
 
-                //Display an alert to confirm the order creation containing the payment details, order details
+                    //Display an alert to confirm the order creation containing the payment details, order details
                     Alert OrderCreatedAlert = new Alert(Alert.AlertType.INFORMATION); // Create an information alert
                     OrderCreatedAlert.setTitle("Order Created Successfully!");
                     OrderCreatedAlert.setHeaderText("Order Details");
                     OrderCreatedAlert.setContentText(confirmationText); // Set the content text
                     OrderCreatedAlert.showAndWait();
+                    currentVariant.updateStock(productQuantity);
             }//end else
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());

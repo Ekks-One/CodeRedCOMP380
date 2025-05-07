@@ -12,8 +12,12 @@ package com.codered.ecomerce.model;
 
 import com.codered.ecomerce.enums.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.sql.SQLException.*;
 
 import com.codered.ecomerce.sql.*;
 
@@ -22,7 +26,7 @@ import javafx.fxml.Initializable;
 /**
  * CentralShoppingSystem class is used to manage the product list and system operations.
  */
-public class CentralShoppingSystem 
+public class CentralShoppingSystem extends SwagConnection 
 {
     private static ArrayList<Product> products = new ArrayList<Product>();
     private static ArrayList<Variant> searchResults = new ArrayList<Variant>();
@@ -46,9 +50,12 @@ public class CentralShoppingSystem
         return instance;
     }
 
-    public static void main(String[] args) {
-        QuerySeProduct.getProducts((ArrayList<Product>) products);
-        
+    public static void main(String[] args) throws SQLException{
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);){
+            QuerySeProduct.getProducts((ArrayList<Product>) products, conn);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
 
         //test
         int countP = 0;
@@ -81,7 +88,11 @@ public class CentralShoppingSystem
      * Initialize the product list before loading products from database.
      */
     private void initializeProducts() {
-        QuerySeProduct.getProducts(products);
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);){
+            QuerySeProduct.getProducts((ArrayList<Product>) products, conn);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
         System.out.println("Success initializing: " + products.size());
     }
 

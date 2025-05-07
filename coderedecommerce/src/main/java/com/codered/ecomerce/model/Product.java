@@ -11,6 +11,9 @@
  */
 package com.codered.ecomerce.model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.*;
 //import java.util.ListIterator;
 
@@ -22,7 +25,7 @@ import com.codered.ecomerce.sql.*;
  * It contains methods to retrieve and update product information.
  * It also contains methods to fetch variants of the product.
  */
-public class Product {
+public class Product extends SwagConnection{
     private ArrayList<Color> cl = new ArrayList<Color>();
     private ArrayList<Material> mt = new ArrayList<Material>();
     private ArrayList<Size> sz = new ArrayList<Size>();
@@ -38,7 +41,7 @@ public class Product {
      * @param id, @param Name, @param BrandID, @param CategoryID, 
      * @param CL, @param MT, @param SZ, @param Price
      */
-    public Product(int id, String Name, int BrandID, int CategoryID, ArrayList<Color> CL, ArrayList<Material> MT, ArrayList<Size> SZ, double Price) {
+    public Product(int id, String Name, int BrandID, int CategoryID, ArrayList<Color> CL, ArrayList<Material> MT, ArrayList<Size> SZ, double Price) { // dummy constructor
         this.ID = id;
         this.name = Name;
         this.brandID = BrandID;
@@ -47,8 +50,6 @@ public class Product {
         this.mt = MT;
         this.sz = SZ;
         this.basePrice = Price;
-
-        fetchVariants();
     }
 
     /**
@@ -56,7 +57,7 @@ public class Product {
      * @param id, @param Name
      * @param BrandID, @param CategoryID    
      */
-    public Product(int id, String Name, int BrandID, int CategoryID){
+    public Product(int id, String Name, int BrandID, int CategoryID, Connection conn){
         this.ID = id;
         this.name = Name;
         this.brandID = BrandID;
@@ -66,7 +67,7 @@ public class Product {
         this.sz = new ArrayList<Size>();
         this.basePrice = 50;
 
-        fetchVariants();
+        fetchVariants(conn);
     }
 
     public void addColor(Color c){
@@ -115,8 +116,8 @@ public class Product {
     /**
      * Method to fetch the variants of the prodicts from the database
      */
-    public void fetchVariants(){
-        QuerySeProduct.getVariants(ID, variants, this.cl, this.mt, this.sz);
+    public void fetchVariants(Connection conn){
+        QuerySeProduct.getVariants(ID, variants, this.cl, this.mt, this.sz, conn);
     }
 
     /**

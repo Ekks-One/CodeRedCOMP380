@@ -21,7 +21,7 @@ import java.sql.*;
  * This class represents a product variant object in the e-commerce system.
  * It contains methods to retrieve and update variant information.
  */
-public class Variant {
+public class Variant extends SwagConnection{
     private int id;
     private Color cl;
     private Material mt;
@@ -77,7 +77,9 @@ public class Variant {
      * @throws SQLException
      */
     public void updateStock(int change) throws SQLException{
-        QueryInProduct.UpdateStock(this, change);
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);){
+            QueryInProduct.UpdateStock(this, change, conn);
+        }
         this.stock = this.stock - change;
     }
 
@@ -87,7 +89,9 @@ public class Variant {
      * @throws SQLException
      */
     public void changePrice(double newPrice) throws SQLException{
-        QueryInProduct.changeProductPrice(this, newPrice);
+        try (Connection conn = DriverManager.getConnection(properties.getProperty("url"), properties);){
+            QueryInProduct.changeProductPrice(this, newPrice, conn);
+        }
         this.price = newPrice;
     }
 

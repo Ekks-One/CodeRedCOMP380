@@ -36,6 +36,8 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
     public static ArrayList<Variant> searchResults;
+    public static int productQuantity;
+    public static Variant currentVariant;
 
     private static Scene scene;
     private static Parent primaryRoot; 
