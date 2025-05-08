@@ -19,9 +19,9 @@ import com.codered.ecomerce.model.CartManager;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Customer;
 import com.codered.ecomerce.model.CustomerManager;
+import com.codered.ecomerce.model.EmailSender;
 import com.codered.ecomerce.model.Product;
 import com.codered.ecomerce.model.Variant;
-import com.codered.ecomerce.sql.QueryInProduct;
 import com.codered.ecomerce.sql.SearchProducts;
 
 import javafx.event.ActionEvent;
@@ -33,7 +33,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -57,6 +56,8 @@ public class PaymentViewController extends App implements Initializable{
     private ChoiceBox<String> cardDateMonthChoiceBox;
     @FXML
     private ChoiceBox<String> cardDateYearChoiceBox;
+    @FXML
+    private Label cartTotal;
 
     @FXML
     private TextField cardNumTextBox, securityNumTextBox, zipCodeTextBox, cardHolderTextBox,
@@ -68,6 +69,8 @@ public class PaymentViewController extends App implements Initializable{
     @FXML
     private GridPane cartGridPane;
     @FXML private MenuBar menuBar;
+    
+    private double totalCost = 0.0;
     
 
 
@@ -159,38 +162,69 @@ public class PaymentViewController extends App implements Initializable{
         // To be added once Variants Situation is figured out: variant.getPrice()
         Label priceLabel = new Label("$" + variant.getPrice());
         priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
-        AnchorPane.setTopAnchor(priceLabel,40.0);
+        AnchorPane.setTopAnchor(priceLabel,23.0);
         AnchorPane.setLeftAnchor(priceLabel, 120.0);
+        
+        //Create Label for the product color
+        Label colorLabel = new Label("Color: " + variant.getColor());
+        colorLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(colorLabel, 10.0);
+        AnchorPane.setLeftAnchor(colorLabel, 250.0);
+
+        //Create Label for the product size
+        Label sizeLabel = new Label("Size: " + variant.getSize());
+        sizeLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(sizeLabel, 30.0);
+        AnchorPane.setLeftAnchor(sizeLabel, 250.0);
+
+        //Create Label for material
+        Label materialLabel = new Label("Material: " + variant.getMaterial());
+        materialLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(materialLabel, 50.0);
+        AnchorPane.setLeftAnchor(materialLabel, 250.0);
+
 
         // Create a "Remove" button
-        Button removeButton = new Button("Remove from Cart");
+        Button removeButton = new Button(" - ");
         removeButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
         AnchorPane.setTopAnchor(removeButton, 70.0);
         AnchorPane.setLeftAnchor(removeButton, 120.0);
+        // Add an event handler to the "Remove" button
+        removeButton.setOnAction(event -> {   
+            // Remove item form cart
+            CartManager.removeCartItem(variant);
+            // Refresh the GridPane
+            try {
+                populateGridPane();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (cartItems.isEmpty()) {
+                Label emptyCartLabel = new Label("Your cart is empty.");
+                cartGridPane.add(emptyCartLabel, 0, 0);
+            }
+        });
+
+        // Create a "Remove" button
+        Button addButton = new Button(" + ");
+        addButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+        AnchorPane.setTopAnchor(addButton, 70.0);
+        AnchorPane.setLeftAnchor(addButton, 140.0);
 
         // Add an event handler to the "Remove" button
-        removeButton.setOnAction(event -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove this item from the cart?");
-            alert.setTitle("Remove Item");
-            alert.showAndWait().ifPresent(response -> {
-                if(response ==  ButtonType.OK) {
-                    CartManager.removeCartItem(variant);
-                    // Refresh the GridPane
-                    try {
-                        populateGridPane();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (cartItems.isEmpty()) {
-                        Label emptyCartLabel = new Label("Your cart is empty.");
-                        cartGridPane.add(emptyCartLabel, 0, 0);
-                    }
-                }
-            });
+        addButton.setOnAction(event -> {   
+            // Remove item form cart
+            CartManager.addCartItem(variant);
+            // Refresh the GridPane
+            try {
+                populateGridPane();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         // Add all elements to the product pane
-        productPane.getChildren().addAll(quantityLabel,productImageView, nameLabel, priceLabel, removeButton);
+        productPane.getChildren().addAll(colorLabel, materialLabel, sizeLabel, quantityLabel,productImageView, nameLabel, priceLabel, removeButton, addButton);
 
         // Add the product pane to the grid
         cartGridPane.add(productPane, col, row);
@@ -204,8 +238,10 @@ public class PaymentViewController extends App implements Initializable{
             if(col > maxCol) {
                 break;
             }
-
         }
+        totalCost = CartManager.getTotalPrice(); // Get the total cost label from the CartManager
+        cartTotal.setText(totalCost + "");
+        
     }
 
 /**
@@ -241,35 +277,62 @@ public class PaymentViewController extends App implements Initializable{
             }else{
                 
                 // Test (successful)
-                    System.out.println("Payment Successful! \n" +
-                    "Card Holder Name: " + cardHolderName + "\n" +
-                    "Card Number: " + cardNumber + "\n" +
-                    "Card Security Code: " + cardSecurityCode + "\n" +
-                    "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
-                    "Card Zip Code: " + zipCode + "\n" +
-                    "Card Type: " + cardType);
+                System.out.println("Payment Successful! \n" +
+                "Card Holder Name: " + cardHolderName + "\n" +
+                "Card Number: " + cardNumber + "\n" +
+                "Card Security Code: " + cardSecurityCode + "\n" +
+                "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
+                "Card Zip Code: " + zipCode + "\n" +
+                "Card Type: " + cardType);
 
-                    //Retrieves customer from Customer Class and formats the customer information to be displayed in the alert
-                    String customerInfo = "Customer Name: " + customer.getFname() + " " + customer.getLname() + "\n" +
-                    "Email: " + customer.getCustomerEmail() + "\n" +
-                    "Shipping Address: " + String.join(", ", customer.getShippingAddress()) + "\n\n";
+                //Retrieves customer from Customer Class and formats the customer information to be displayed in the alert
+                String customerInfo = "Customer Name: " + customer.getFname() + " " + customer.getLname() + "\n" +
+                "Email: " + customer.getCustomerEmail() + "\n" +
+                "Shipping Address: " + String.join(", ", customer.getShippingAddress()) + "\n\n";
 
-                    // Combines the customer information and payment details into a single string
-                    // to be displayed in the alert
-                    String confirmationText = customerInfo +
-                    "Card Holder Name: " + cardHolderName + "\n" +
-                    "Card Number: " + cardNumber + "\n" +
-                    "Card Security Code: " + cardSecurityCode + "\n" +
-                    "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
-                    "Card Type: " + cardType;
+                // Combines the customer information and payment details into a single string
+                // to be displayed in the alert
+                String confirmationText = customerInfo +
+                "Card Holder Name: " + cardHolderName + "\n" +
+                "Card Number: " + cardNumber + "\n" +
+                "Card Security Code: " + cardSecurityCode + "\n" +
+                "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
+                "Card Type: " + cardType;
 
-                    //Display an alert to confirm the order creation containing the payment details, order details
-                    Alert OrderCreatedAlert = new Alert(Alert.AlertType.INFORMATION); // Create an information alert
-                    OrderCreatedAlert.setTitle("Order Created Successfully!");
-                    OrderCreatedAlert.setHeaderText("Order Details");
-                    OrderCreatedAlert.setContentText(confirmationText); // Set the content text
-                    OrderCreatedAlert.showAndWait();
-                    currentVariant.updateStock(productQuantity);
+                List<Product> products = CentralShoppingSystem.getProducts();
+                List<Variant> cartItems = CartManager.getCartItems();
+
+                StringBuilder cartDetails = new StringBuilder("Order Details:\n");
+                List<Variant> uniqueCartItems = new ArrayList<>();
+                for (Variant variant : cartItems) {
+                    if (!uniqueCartItems.contains(variant)) {
+                    uniqueCartItems.add(variant);
+                    }
+                }
+                    for (Variant variant : uniqueCartItems) {
+                    cartDetails.append("- ")
+                            .append(products.get(variant.getID()).getName()) 
+                            .append(" (Color: ").append(variant.getColor())
+                            .append(", Size: ").append(variant.getSize())
+                            .append(", Material: ").append(variant.getMaterial())
+                            .append(") x").append(CartManager.getItemCount(variant))
+                            .append(" - $").append(variant.getPrice())
+                            .append("\n");
+                }
+                String recipient = customer.getCustomerEmail(); // Recipient email address
+                String subject =  "Order Confirmation";
+                String messageBody = "Thank you for your order!\n\n" + customerInfo + "\n" + cartDetails.toString() + "\nTotal Cost: $" + CartManager.getTotalPrice();
+                
+
+
+                EmailSender.sendEmail(recipient, subject, messageBody);
+                //Display an alert to confirm the order creation containing the payment details, order details
+                Alert OrderCreatedAlert = new Alert(Alert.AlertType.INFORMATION); // Create an information alert
+                OrderCreatedAlert.setTitle("Order Created Successfully!");
+                OrderCreatedAlert.setHeaderText("Order Details");
+                OrderCreatedAlert.setContentText(confirmationText); // Set the content text
+                OrderCreatedAlert.showAndWait();
+                currentVariant.updateStock(productQuantity);
             }//end else
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());

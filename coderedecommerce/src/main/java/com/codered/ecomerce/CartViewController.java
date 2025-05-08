@@ -28,7 +28,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -118,49 +117,82 @@ public class CartViewController extends App {
         AnchorPane.setTopAnchor(nameLabel,10.0);
         AnchorPane.setLeftAnchor(nameLabel, 120.0);
 
+
         //Create Label for product price
         Label priceLabel = new Label("$" + variant.getPrice());
         priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
-        AnchorPane.setTopAnchor(priceLabel,40.0);
+        AnchorPane.setTopAnchor(priceLabel,23.0);
         AnchorPane.setLeftAnchor(priceLabel, 120.0);
+
+        //Create Label for the product color
+        Label colorLabel = new Label("Color: " + variant.getColor());
+        colorLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(colorLabel, 10.0);
+        AnchorPane.setLeftAnchor(colorLabel, 250.0);
+
+        //Create Label for the product size
+        Label sizeLabel = new Label("Size: " + variant.getSize());
+        sizeLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(sizeLabel, 30.0);
+        AnchorPane.setLeftAnchor(sizeLabel, 250.0);
+
+        //Create Label for material
+        Label materialLabel = new Label("Material: " + variant.getMaterial());
+        materialLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+        AnchorPane.setTopAnchor(materialLabel, 50.0);
+        AnchorPane.setLeftAnchor(materialLabel, 250.0);
 
         // Create Label for the product quantity
         Label quantityLabel = new Label("Quantity: " + CartManager.getItemCount(variant));
         quantityLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
-        AnchorPane.setTopAnchor(quantityLabel, 55.0);
+        AnchorPane.setTopAnchor(quantityLabel, 50.0);
         AnchorPane.setLeftAnchor(quantityLabel, 120.0);
 
 
         // Create a "Remove" button
-        Button removeButton = new Button("Remove from Cart");
+        Button removeButton = new Button(" - ");
         removeButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
         AnchorPane.setTopAnchor(removeButton, 70.0);
         AnchorPane.setLeftAnchor(removeButton, 120.0);
-
         // Add an event handler to the "Remove" button
-        removeButton.setOnAction(event -> {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove this item from the cart?");
-            alert.setTitle("Remove Item");
-            alert.showAndWait().ifPresent(response -> {
-                if(response ==  ButtonType.OK) {
-                    // Remove item form cart
-                    CartManager.removeCartItem(variant);
-                    // Refresh the GridPane
-                    try {
-                        populateGridPane();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (cartItems.isEmpty()) {
-                        Label emptyCartLabel = new Label("Your cart is empty.");
-                        cartGridPane.add(emptyCartLabel, 0, 0);
-                    }
-                }
-            });
+        removeButton.setOnAction(event -> {   
+            // Remove item form cart
+            CartManager.removeCartItem(variant);
+            // Refresh the GridPane
+            try {
+                populateGridPane();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (cartItems.isEmpty()) {
+                Label emptyCartLabel = new Label("Your cart is empty.");
+                cartGridPane.add(emptyCartLabel, 0, 0);
+            }
         });
 
+        // Create a "Remove" button
+        Button addButton = new Button(" + ");
+        addButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+        AnchorPane.setTopAnchor(addButton, 70.0);
+        AnchorPane.setLeftAnchor(addButton, 140.0);
+
+        // Add an event handler to the "Remove" button
+        addButton.setOnAction(event -> {   
+            // Remove item form cart
+            CartManager.addCartItem(variant);
+            // Refresh the GridPane
+            try {
+                populateGridPane();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        
+
         // Add all elements to the product pane
-        productPane.getChildren().addAll(quantityLabel, productImageView, nameLabel, priceLabel, removeButton);
+        productPane.getChildren().addAll(materialLabel,sizeLabel,colorLabel,quantityLabel, productImageView, nameLabel, priceLabel, addButton,removeButton);
 
         // Add the product pane to the grid
         cartGridPane.add(productPane, col, row);
@@ -198,13 +230,24 @@ public class CartViewController extends App {
     @FXML
     public void checkoutView(ActionEvent event) throws IOException
     {
-        System.out.println("Taking you to order checkout!");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
-        Parent root = loader.load();
+        CartManager.getInstance();
+        List<Variant> cartItems = CartManager.getCartItems();
+        if(cartItems.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Cart");
+            alert.setHeaderText(null);
+            alert.setContentText("Your cart is empty. Please add items to your cart before proceeding to checkout.");
+            alert.showAndWait();
+        }
+        else {
+            System.out.println("Taking you to order checkout!");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
+            Parent root = loader.load();
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     /**

@@ -43,11 +43,11 @@ public class Customer
         this.emailAddress = emailAddress;
     }
 
-    public Customer(String firstName, String lastName, String address, String state, String emailAddress) {
+    public Customer(String firstName, String lastName, String address, String City, String zipCode, String state, String emailAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
-        this.shippingAddress = new String[]{address, state};
+        this.shippingAddress = new String[]{address, City, state, zipCode};
     }
 
     //public Customer(String firstName2, String lastName2, String address, String selectedState, String email) {
