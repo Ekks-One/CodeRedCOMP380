@@ -106,7 +106,7 @@ public class ItemViewController extends App{
         
         itemName = itemNameText.getText();
         productQuantity = Integer.parseInt(quantityTextField.getText());
-        if(selectedColor != null && selectedSize != null && productQuantity != 0 && productQuantity <= currentVariant.getStock()) {
+        if(productQuantity != 0 && productQuantity <= currentVariant.getStock()) {
             System.out.println(quantityTextField.getText() +": "+ itemName + " added to cart! \n"+ "Color:"+ selectedColor + "\nSize: " + selectedSize);
             for(int i = 0; i < productQuantity; i++) {
 
@@ -151,6 +151,26 @@ public class ItemViewController extends App{
                 Toggle selectedToggle = toggleGroupSize.getSelectedToggle();
                 if (selectedToggle != null) {
                     selectedSize = ((ToggleButton) selectedToggle).getText();
+                    ArrayList<Product> products = CentralShoppingSystem.getProducts();
+                    for (Variant v : products.get(currentVariant.getID()).getVariants()){
+                        if (v != null){
+                            if (v.getMaterial() == currentVariant.getMaterial() && v.getColor() == currentVariant.getColor() && v.getSize() == Size.valueOf(selectedSize.toUpperCase())){
+                                try {
+                                    FXMLLoader loader = new FXMLLoader(App.class.getResource("itemView.fxml"));
+                                    Parent root = loader.load();
+                                    this.setVariant(v); 
+                                    Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                                    stage.setScene(new Scene(root));
+                                    stage.setTitle("Item View");
+                                    stage.show();
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                                break;
+                            }               
+                        }
+                    }
                     System.out.println("Size " + selectedSize + " selected!");
                 }
             });
@@ -196,9 +216,30 @@ public class ItemViewController extends App{
                 Toggle selectedToggle = toggleGroupColor.getSelectedToggle();
                 if (selectedToggle != null) {
                     selectedColor = ((ToggleButton) selectedToggle).getText();
-                    System.out.println("Color " + selectedColor + " selected!");
+                    ArrayList<Product> products = CentralShoppingSystem.getProducts();
+                    for (Variant v : products.get(currentVariant.getID()).getVariants()){
+                        if (v != null){
+                            if (v.getMaterial() == currentVariant.getMaterial() && v.getSize() == currentVariant.getSize() && v.getColor() == Color.valueOf(selectedColor.toUpperCase())){
+                                try {
+                                    FXMLLoader loader = new FXMLLoader(App.class.getResource("itemView.fxml"));
+                                    Parent root = loader.load();
+                                    this.setVariant(v); 
+                                    Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                                    stage.setScene(new Scene(root));
+                                    stage.setTitle("Item View");
+                                    stage.show();
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                   e.printStackTrace();
+                                }
+                                break;
+                            }               
+                        }
+                    }
                 }
-            });
+                System.out.println("Color " + selectedColor + " selected!");
+            }
+            );
             
             colorAnchorPane.getChildren().add(colorButton);
             layoutX += 60;

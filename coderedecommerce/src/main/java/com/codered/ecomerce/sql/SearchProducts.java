@@ -99,7 +99,7 @@ public class SearchProducts extends SwagConnection {
             NameSearchHelper(search, searchResults);
             System.out.println("After NameSearchHelper for term " + search + ", searchResults size: " + searchResults.size());
 
-            return searchResults;
+            //return searchResults;
         } else {
             System.out.println("No remaining term to search by name, final searchResults size before reduction: " + searchResults.size());
         }
