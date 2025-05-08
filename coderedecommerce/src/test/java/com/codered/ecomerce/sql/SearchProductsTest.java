@@ -94,10 +94,6 @@ class SearchProductsTest {
             ArrayList<Size> sizes = new ArrayList<>();
             sizes.add(Size.M);
             Product product = new Product(1, "Jacket", 0, 0, colors, materials, sizes, 31.0) {
-                @Override
-                public void fetchVariants() {
-                    this.getVariants().add(new Variant(1, Color.RED, Material.COTTON, Size.M, 5, 31.0));
-                }
             };
             products.add(product);
 

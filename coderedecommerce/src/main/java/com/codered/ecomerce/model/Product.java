@@ -12,8 +12,6 @@
 package com.codered.ecomerce.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.*;
 //import java.util.ListIterator;
 
@@ -41,15 +39,15 @@ public class Product extends SwagConnection{
      * @param id, @param Name, @param BrandID, @param CategoryID, 
      * @param CL, @param MT, @param SZ, @param Price
      */
-    public Product(int id, String Name, int BrandID, int CategoryID, ArrayList<Color> CL, ArrayList<Material> MT, ArrayList<Size> SZ, double Price) { // dummy constructor
+    public Product(int id, String Name, int BrandID, int CategoryID) { // dummy constructor
         this.ID = id;
         this.name = Name;
         this.brandID = BrandID;
         this.categoryID = CategoryID;
-        this.cl = CL;
-        this.mt = MT;
-        this.sz = SZ;
-        this.basePrice = Price;
+        this.cl = new ArrayList<Color>();
+        this.mt = new ArrayList<Material>();
+        this.sz = new ArrayList<Size>();
+        this.basePrice = 50;
     }
 
     /**

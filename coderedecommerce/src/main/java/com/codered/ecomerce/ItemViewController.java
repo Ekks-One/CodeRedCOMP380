@@ -1,8 +1,8 @@
 /**
  * CodeRed E-Commerce Application
  * This {@code ItemViewController} class is used to handle the item view of the application.
- * It contains methods to handle the item view functionality, including adding items to the cart, selecting colors and sizes, 
- * and navigating back to the homepage.
+ * It contains methods to handle the item view functionality, including adding items to the cart, selecting colors, sizes, 
+ * and materials, and navigating back to the homepage.
  * 
  * @authors CodeRed Team (Xavier, Miguel, Alfredo)
  * @version 1.0
@@ -11,13 +11,9 @@
 package com.codered.ecomerce;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import com.codered.ecomerce.enums.Color;
-import com.codered.ecomerce.enums.Size;
+import com.codered.ecomerce.enums.*;
 import com.codered.ecomerce.model.CartManager;
 import com.codered.ecomerce.model.CentralShoppingSystem;
 import com.codered.ecomerce.model.Product;
@@ -30,15 +26,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -47,14 +35,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-
 /**
  * ItemViewController controls the item view page of the application. It handles the item view functionality
  */
-public class ItemViewController extends App{
+public class ItemViewController extends App {
 
     @FXML
-    private Label itemNameText, itemPriceText;
+    private Label itemNameText, itemPriceText, itemStockText;
     @FXML
     private Button searchButton, checkoutButton; 
     @FXML
@@ -71,67 +58,56 @@ public class ItemViewController extends App{
     private MenuBar menuBar;
     @FXML
     private HBox sizeHbox;
-    
+    @FXML
+    private HBox materialHBox;
     
     private String selectedColor;
     private String selectedSize;
+    private String selectedMaterial;
     private String itemName;
     private int itemID;
+    private int productQuantity;
+    private Variant currentVariant;
 
     private ArrayList<Color> itemColors = new ArrayList<>();
     private ArrayList<Size> itemSizes = new ArrayList<>();
+    private ArrayList<Material> itemMaterials = new ArrayList<>();
     
     private CartManager cartItems = CartManager.getInstance();
 
-    /*
-     * Method to initialize the page and set the default values for the item view page
-     */
-    public void initialize()
-    {
-        
+    public void initialize() {
         itemImageView.fitWidthProperty().bind(imageStackPane.widthProperty());
         itemImageView.fitHeightProperty().bind(imageStackPane.heightProperty());
         createColorToggleButtons(itemColors);
         createSizeToggleButtons(itemSizes);
-        
+        createMaterialToggleButtons(itemMaterials);
     }
 
-    /**
-     * Method to add the selected item to the customers cart
-     * @throws IOException if there is an error loading the fxml file
-     */
     @FXML
     public void AddtoCart() throws Exception {
-        
-        
         itemName = itemNameText.getText();
         productQuantity = Integer.parseInt(quantityTextField.getText());
-        if(productQuantity != 0 && productQuantity <= currentVariant.getStock()) {
-            System.out.println(quantityTextField.getText() +": "+ itemName + " added to cart! \n"+ "Color:"+ selectedColor + "\nSize: " + selectedSize);
-            for(int i = 0; i < productQuantity; i++) {
-
+        if (productQuantity != 0 && productQuantity <= currentVariant.getStock()) {
+            System.out.println(quantityTextField.getText() + ": " + itemName + " added to cart! \n" +
+                "Color: " + selectedColor + "\nSize: " + selectedSize + "\nMaterial: " + selectedMaterial);
+            for (int i = 0; i < productQuantity; i++) {
                 CartManager.addCartItem(currentVariant);
             }
         } else {
-            System.out.println("Please select a color and size before adding to cart.");
+            System.out.println("Please select a valid quantity (1 to " + currentVariant.getStock() + ").");
         }
     }
 
-
     private void createSizeToggleButtons(ArrayList<Size> sizes) {
-        if(sizes == null || sizes.isEmpty()) {
-            System.out.println("No Sizes available"); // Default color if none are available
+        if (sizes == null || sizes.isEmpty()) {
+            System.out.println("No Sizes available");
             return;
         }
-        // Create a ToggleGroup for the size buttons
-        // This ToggleGroup allows only one button to be selected at a time.
         ToggleGroup toggleGroupSize = new ToggleGroup();
         sizeHbox.getChildren().clear();
 
-         // Define the custom order for sizes
         List<String> sizeOrder = List.of("Small", "Medium", "Large", "X-Large");
 
-        // Sort the sizes based on the custom order
         sizes.sort((size1, size2) -> {
             String sizeName1 = switch (size1.toString()) {
                 case "S" -> "Small";
@@ -140,9 +116,6 @@ public class ItemViewController extends App{
                 case "XL" -> "X-Large";
                 default -> size1.toString();
             };
-
-            // Use a switch expression to map the size to its name
-            // This is a more concise way to handle the mapping.
             String sizeName2 = switch (size2.toString()) {
                 case "S" -> "Small";
                 case "M" -> "Medium";
@@ -150,26 +123,21 @@ public class ItemViewController extends App{
                 case "XL" -> "X-Large";
                 default -> size2.toString();
             };
-
             return Integer.compare(sizeOrder.indexOf(sizeName1), sizeOrder.indexOf(sizeName2));
         });
 
-        // Create a Set to keep track of generated sizes
         Set<Size> generatedSizes = new HashSet<>();
-
-        // Iterate through the sorted sizes and create buttons for each size
         for (Size size : sizes) {
-            if(size == null) {
-                System.out.println("Skipping Null Size"); // Default color if none are available
+            if (size == null) {
+                System.out.println("Skipping Null Size");
                 continue;
             }
-            if(generatedSizes.contains(size)) {
+            if (generatedSizes.contains(size)) {
                 System.out.println("Skipping already generated size: " + size);
                 continue;
             }
             generatedSizes.add(size);
-            String currentSize =  
-                switch (size.toString()) {
+            String currentSize = switch (size.toString()) {
                 case "S" -> "Small";
                 case "M" -> "Medium";
                 case "L" -> "Large";
@@ -183,32 +151,29 @@ public class ItemViewController extends App{
             sizeButton.setPrefWidth(100);
             sizeButton.setToggleGroup(toggleGroupSize);
 
-            
             sizeButton.setOnAction(event -> {
                 Toggle selectedToggle = toggleGroupSize.getSelectedToggle();
                 if (selectedToggle != null) {
                     selectedSize = ((ToggleButton) selectedToggle).getText();
+                    String enumSize = switch (selectedSize) {
+                        case "Small" -> "S";
+                        case "Medium" -> "M";
+                        case "Large" -> "L";
+                        case "X-Large" -> "XL";
+                        default -> selectedSize;
+                    };
                     ArrayList<Product> products = CentralShoppingSystem.getProducts();
-                    for (Variant v : products.get(currentVariant.getID()).getVariants()){
-                        if (v != null){
-                            if (v.getMaterial() == currentVariant.getMaterial() && v.getColor() == currentVariant.getColor() && v.getSize() == Size.valueOf(selectedSize.toUpperCase())){
-                                try {
-                                    FXMLLoader loader = new FXMLLoader(App.class.getResource("itemView.fxml"));
-                                    Parent root = loader.load();
-                                    this.setVariant(v); 
-                                    Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                                    stage.setScene(new Scene(root));
-                                    stage.setTitle("Item View");
-                                    stage.show();
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                                break;
-                            }               
+                    Product product = products.get(currentVariant.getID());
+                    for (Variant v : product.getVariants()) {
+                        if (v != null &&
+                            v.getMaterial() == currentVariant.getMaterial() &&
+                            v.getColor() == currentVariant.getColor() &&
+                            v.getSize() == Size.valueOf(enumSize.toUpperCase())) {
+                            this.setVariant(v);
+                            System.out.println("Size " + selectedSize + " selected!");
+                            break;
                         }
                     }
-                    System.out.println("Size " + selectedSize + " selected!");
                 }
             });
             
@@ -216,34 +181,27 @@ public class ItemViewController extends App{
         }
         sizeHbox.spacingProperty().set(15);
     }
-    /**
-     * Method to create color toggle buttons for the item view page
-     * @param colors the list of colors to be displayed as toggle buttons
-     */
-    // This method creates toggle buttons for each color in the provided list and adds them to the colorAnchorPane.
+
     private void createColorToggleButtons(ArrayList<Color> colors) {
-        
+        if (colors == null || colors.isEmpty()) {
+            System.out.println("No Colors available");
+            return;
+        }
         ToggleGroup toggleGroupColor = new ToggleGroup();
         double layoutX = 0;
 
         Set<Color> generatedColors = new HashSet<>();
         for (Color color : colors) {
-            if(colors == null || colors.isEmpty()) {
-                System.out.println("No Colors available"); // Default color if none are available
-                break;
-            }
-            if(generatedColors.contains(color)) {
+            if (generatedColors.contains(color)) {
                 System.out.println("Skipping already generated color: " + color);
                 continue;
             }
-            //Takes care of case with rainbow color
             if (color.toString().equalsIgnoreCase("RAINBOW")) {
                 System.out.println("Skipping color: RAINBOW");
                 continue;
             }
             generatedColors.add(color);
 
-           
             ToggleButton colorButton = new ToggleButton(color.toString());
             colorButton.setStyle("-fx-background-color: " + color + "; -fx-text-fill: black;");
             colorButton.setPrefHeight(52);
@@ -252,66 +210,91 @@ public class ItemViewController extends App{
             colorButton.setLayoutY(0);
             colorButton.setToggleGroup(toggleGroupColor);
 
-            
             colorButton.setOnAction(event -> {
-
                 Toggle selectedToggle = toggleGroupColor.getSelectedToggle();
                 if (selectedToggle != null) {
                     selectedColor = ((ToggleButton) selectedToggle).getText();
                     ArrayList<Product> products = CentralShoppingSystem.getProducts();
-                    for (Variant v : products.get(currentVariant.getID()).getVariants()){
-                        if (v != null){
-                            if (v.getMaterial() == currentVariant.getMaterial() && v.getSize() == currentVariant.getSize() && v.getColor() == Color.valueOf(selectedColor.toUpperCase())){
-                                try {
-                                    FXMLLoader loader = new FXMLLoader(App.class.getResource("itemView.fxml"));
-                                    Parent root = loader.load();
-                                    this.setVariant(v); 
-                                    Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                                    stage.setScene(new Scene(root));
-                                    stage.setTitle("Item View");
-                                    stage.show();
-                                } catch (IOException e) {
-                                    // TODO Auto-generated catch block
-                                   e.printStackTrace();
-                                }
-                                break;
-                            }               
+                    Product product = products.get(currentVariant.getID());
+                    for (Variant v : product.getVariants()) {
+                        if (v != null &&
+                            v.getMaterial() == currentVariant.getMaterial() &&
+                            v.getSize() == currentVariant.getSize() &&
+                            v.getColor() == Color.valueOf(selectedColor.toUpperCase())) {
+                            this.setVariant(v);
+                            System.out.println("Color " + selectedColor + " selected!");
+                            break;
                         }
                     }
                 }
-                System.out.println("Color " + selectedColor + " selected!");
-            }
-            );
+            });
             
             colorAnchorPane.getChildren().add(colorButton);
             layoutX += 60;
         }
     }
 
-    /**
-     *  Method that returns the user to the homepage by clicking on the home title card
-     * @param MouseEvent "click" event that triggers the method
-     * @throws IOException if there is an error loading the fxml file
-     */
+    private void createMaterialToggleButtons(ArrayList<Material> materials) {
+        if (materials == null || materials.isEmpty()) {
+            System.out.println("No Materials available");
+            return;
+        }
+        ToggleGroup toggleGroupMaterial = new ToggleGroup();
+        materialHBox.getChildren().clear();
+
+        Set<Material> generatedMaterials = new HashSet<>();
+        for (Material m : materials) {
+            if (m == null) {
+                System.out.println("Skipping Null Material");
+                continue;
+            }
+            if (generatedMaterials.contains(m)) {
+                System.out.println("Skipping generated material: " + m);
+                continue;
+            }
+            generatedMaterials.add(m);
+
+            ToggleButton materialButton = new ToggleButton(m.toString());
+            materialButton.setStyle("-fx-text-fill: white; -fx-font-style: bold;");
+            materialButton.setPrefHeight(99);
+            materialButton.setPrefWidth(100);
+            materialButton.setToggleGroup(toggleGroupMaterial);
+
+            materialButton.setOnAction(event -> {
+                Toggle selectedToggle = toggleGroupMaterial.getSelectedToggle();
+                if (selectedToggle != null) {
+                    selectedMaterial = ((ToggleButton) selectedToggle).getText();
+                    ArrayList<Product> products = CentralShoppingSystem.getProducts();
+                    Product product = products.get(currentVariant.getID());
+                    for (Variant v : product.getVariants()) {
+                        if (v != null &&
+                            v.getColor() == currentVariant.getColor() &&
+                            v.getSize() == currentVariant.getSize() &&
+                            v.getMaterial() == Material.valueOf(selectedMaterial.toUpperCase())) {
+                            this.setVariant(v);
+                            System.out.println("Material " + selectedMaterial + " selected!");
+                            break;
+                        }
+                    }
+                }
+            });
+
+            materialHBox.getChildren().add(materialButton);
+        }
+        materialHBox.spacingProperty().set(15);
+    }
+
     @FXML
     public void returnPrimary(MouseEvent event) throws IOException {
-        // Get the current stage
         App.switchScene("primary", event);
-        // Test (successful)
         System.out.println("Returning to homepage...");
     }
 
-    /*
-     * Helper method to switch to the itemView of a particular item selected from the homepage 
-     * and to return the image of the selected item
-     */
-    public void setItemID(int itemID)
-    {
+    public void setItemID(int itemID) {
         this.itemID = itemID;
     }
 
-    public void setItemImage(Image image)
-    {
+    public void setItemImage(Image image) {
         itemImageView.setImage(image);
     }
 
@@ -323,91 +306,104 @@ public class ItemViewController extends App{
         }
     }
 
-    /**
-     * Method to set the variant of the item selected from the homepage
-     * @param variant the variant of the item selected
-     */
-    // This method sets the item name and price based on the selected variant.
     public void setVariant(Variant variant) {
         currentVariant = variant;
         List<Product> products = CentralShoppingSystem.getProducts();
-        itemNameText.setText(products.get(variant.getID()).getName());
+        Product product = products.get(variant.getID());
+        itemNameText.setText(product.getName());
         itemPriceText.setText("$" + variant.getPrice());
+        itemStockText.setText("Stock: " + variant.getStock());
 
-        itemColors = products.get(variant.getID()).getColors();
-        itemSizes = products.get(variant.getID()).getSizes();
+        itemColors = product.getColors();
+        itemSizes = product.getSizes();
+        itemMaterials = product.getMaterials();
+
         setItemID(variant.getID());
-        if(itemColors == null) {
+        if (itemColors == null) {
             itemColors = new ArrayList<>();
-            itemColors.add(Color.PINK); // Default color if none are available
+            itemColors.add(Color.PINK);
         }
+        if (itemMaterials == null) {
+            itemMaterials = new ArrayList<>();
+        }
+
+        selectedColor = variant.getColor().toString();
+        selectedSize = switch (variant.getSize().toString()) {
+            case "S" -> "Small";
+            case "M" -> "Medium";
+            case "L" -> "Large";
+            case "XL" -> "X-Large";
+            default -> variant.getSize().toString();
+        };
+        selectedMaterial = variant.getMaterial().toString();
+
         createColorToggleButtons(itemColors);
         createSizeToggleButtons(itemSizes);
+        createMaterialToggleButtons(itemMaterials);
+
+        for (Node node : colorAnchorPane.getChildren()) {
+            if (node instanceof ToggleButton tb) {
+                if (tb.getText().equals(selectedColor)) {
+                    tb.setStyle("-fx-background-color: " + tb.getText() + "; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 2;");
+                    tb.setSelected(true);
+                } else {
+                    tb.setStyle("-fx-background-color: " + tb.getText() + "; -fx-text-fill: black;");
+                }
+            }
+        }
+        for (Node node : sizeHbox.getChildren()) {
+            if (node instanceof ToggleButton tb) {
+                if (tb.getText().equals(selectedSize)) {
+                    tb.setStyle("-fx-text-fill: white; -fx-font-style: bold; -fx-border-color: black; -fx-border-width: 2;");
+                    tb.setSelected(true);
+                } else {
+                    tb.setStyle("-fx-text-fill: white; -fx-font-style: bold;");
+                }
+            }
+        }
+        for (Node node : materialHBox.getChildren()) {
+            if (node instanceof ToggleButton tb) {
+                if (tb.getText().equals(selectedMaterial)) {
+                    tb.setStyle("-fx-text-fill: white; -fx-font-style: bold; -fx-border-color: black; -fx-border-width: 2;");
+                    tb.setSelected(true);
+                } else {
+                    tb.setStyle("-fx-text-fill: white; -fx-font-style: bold;");
+                }
+            }
+        }
     }
 
-    /** 
-     * Method to add 1 to the current quantity in the TextField
-     * @throws IOException if there is an error loading the fxml file 
-     */
     public void addQuantity() throws Exception {
         quantityTextField.setText(String.valueOf(Integer.parseInt(quantityTextField.getText()) + 1));
     }
 
-    /**
-     * Method to subtract 1 from the current quantity in the TextField
-     * @throws IOException if there is an error loading the fxml file
-     */
     public void subtractQuantity() throws Exception {
-        if(Integer.parseInt(quantityTextField.getText()) > 0) {
+        if (Integer.parseInt(quantityTextField.getText()) > 0) {
             quantityTextField.setText(String.valueOf(Integer.parseInt(quantityTextField.getText()) - 1));
         } else {
             System.out.println("Quantity cannot be less than 0.");
         }
     }
 
-    /**
-     * Method to add functionality of the checkout button within the itemView page
-     * @param event the mouse event that triggers the method
-     * @throws IOException if there is an error loading the fxml file
-     * @see checkoutView.fxml
-     */
-    public void checkoutView(ActionEvent event) throws IOException
-    {
-       FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
-                Parent root = loader.load();
-
-                // Get the current stage
-                Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-                // Set the new scene
-                stage.setScene(new Scene(root));
-                stage.setTitle("Checkout Page");
-                stage.show();
+    public void checkoutView(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Checkout Page");
+        stage.show();
     }
 
-        /**
-     * Method to handle the click event on the view cart button and returns the 
-     * cart page
-     * @param event the mouse event that triggers the method
-     * @throws IOException if there is an error loading the fxml file
-     */
     @FXML
-    public void cartView(ActionEvent event) throws IOException
-    {
+    public void cartView(ActionEvent event) throws IOException {
         System.out.println("Taking you to your cart!");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
         Parent root = loader.load();
-
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
 
-    /**
-     * Method to add functionality of the menu serch bar within the itemView page
-     * @param even the mouse event that triggers the method
-     * @throws IOException if there is an error loading the fxml file
-     */
     @FXML
     public void menuSearch(ActionEvent event) throws IOException {
         String searchItem = ((MenuItem)event.getSource()).getText();
@@ -421,7 +417,6 @@ public class ItemViewController extends App{
             stage.setScene(new Scene(root));
             stage.setTitle("Tops Search Results");
             stage.show();
-    
         } else if (searchItem.equals("Bottoms")) {
             searchResults = SearchProducts.Search(searchItem);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("bottomsSearchView.fxml"));
@@ -433,16 +428,9 @@ public class ItemViewController extends App{
         }
     }
 
-    /**
-     * method to perform search from the search bar when the search button is clicked.
-     * This method retrieves the text from the searchTextBox and prints it to the console.
-     * Brings you to searchResults Page
-     * @throws IOException if there is an error loading the fxml file
-     */ 
     @FXML
     public void search(ActionEvent event) throws IOException {
         String searchItem = searchTextBox.getText().trim();
         App.search(searchItem, event);
     }
-    
 }

@@ -14,11 +14,13 @@ package com.codered.ecomerce.model;
 import com.codered.ecomerce.enums.Color;
 import com.codered.ecomerce.enums.Material;
 import com.codered.ecomerce.enums.Size;
+import com.codered.ecomerce.sql.SwagConnection;
+
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductTest {
+class ProductTest extends SwagConnection{
 
     @Test
     public void testFullConstructor() {
@@ -29,11 +31,7 @@ class ProductTest {
         ArrayList<Size> sizes = new ArrayList<>();
         sizes.add(Size.M);
 
-        Product product = new Product(1, "T-Shirt", 101, 201, colors, materials, sizes, 29.99) {
-            @Override
-            public void fetchVariants() {
-                this.getVariants().clear(); // Stub to avoid database call
-            }
+        Product product = new Product(1, "T-Shirt", 101, 201) {
         };
 
         System.out.println("Testing Full Constructor:");
@@ -59,10 +57,7 @@ class ProductTest {
     @Test
     public void testMinimalConstructor() {
         Product product = new Product(2, "Jeans", 102, 202) {
-            @Override
-            public void fetchVariants() {
-                this.getVariants().clear(); // Stub to avoid database call
-            }
+            
         };
 
         System.out.println("Testing Minimal Constructor:");
@@ -88,10 +83,6 @@ class ProductTest {
     @Test
     public void testAddMethods() {
         Product product = new Product(3, "Sweater", 103, 203) {
-            @Override
-            public void fetchVariants() {
-                this.getVariants().clear(); // Stub to avoid database call
-            }
         };
 
         product.addColor(Color.BLUE);
@@ -118,7 +109,6 @@ class ProductTest {
         Variant expectedVariant = new Variant(1, Color.BLACK, Material.COTTON, Size.M, 5, 31.0);
 
         // Call public fetchVariants and add the variant
-        product.fetchVariants(); // Assuming this can be called
         product.addVariantForTest(expectedVariant);
 
         ArrayList<Variant> variants = product.getVariants();
@@ -136,12 +126,6 @@ class ProductTest {
     private static class TestProduct extends Product {
         public TestProduct(int id, String name, int brandID, int categoryID) {
             super(id, name, brandID, categoryID);
-        }
-
-        @Override
-        public void fetchVariants() {
-            // Override to avoid database call, but keep it public as per your change
-            this.getVariants().clear();
         }
 
         public void addVariantForTest(Variant variant) {

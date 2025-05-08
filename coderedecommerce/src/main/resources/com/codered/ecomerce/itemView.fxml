@@ -20,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.ItemViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.ItemViewController">
    <top>
       <AnchorPane style="-fx-background-color: red;" BorderPane.alignment="CENTER">
          <children>
@@ -34,20 +34,20 @@
                   <MenuBar fx:id="menuBar" HBox.hgrow="ALWAYS">
                     <menus>
                       <Menu mnemonicParsing="false" text="Tops">
-                     <items>
-                        <MenuItem fx:id="topsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Bottoms">
-                     <items>
-                        <MenuItem fx:id="bottomsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="More">
-                     <items>
-                        <MenuItem fx:id="aboutUsMenuItem" mnemonicParsing="false" text="About Us" />
-                           </items>
-                        </Menu>
+                        <items>
+                           <MenuItem fx:id="topsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
+                        </items>
+                     </Menu>
+                     <Menu mnemonicParsing="false" text="Bottoms">
+                        <items>
+                           <MenuItem fx:id="bottomsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
+                        </items>
+                     </Menu>
+                     <Menu mnemonicParsing="false" text="More">
+                        <items>
+                           <MenuItem fx:id="aboutUsMenuItem" mnemonicParsing="false" text="About Us" />
+                        </items>
+                     </Menu>
                     </menus>
                   </MenuBar>
                </children>
@@ -75,7 +75,7 @@
                      </children>
                   </AnchorPane>
                   <HBox layoutY="387.0" minWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="385.6" />
-                  <TextArea fx:id="productDesciptionBox" layoutX="14.0" layoutY="370.0" text="Product Description:&#10;Elevate your everyday look with this versatile and stylish piece, designed&#10;for both comfort and flair. Crafted from high-quality, breathable fabric, this &#10;item offers a flattering fit that moves with you throughout the day. &#10;Whether you're dressing it up or keeping it casual, it's perfect for any &#10;occasion.&#10;Features:&#10;- Soft, durable material for all-day comfort&#10;- Modern fit with a timeless silhouette&#10;- Available in multiple colors and sizes&#10;- Easy to care for – machine washable&#10;- Great for layering or wearing on its own" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TextArea fx:id="productDesciptionBox" layoutX="14.0" layoutY="370.0" text="Product Description: Elevate your everyday look with this versatile and stylish piece, designed for both comfort and flair. Crafted from high-quality, breathable fabric, this  item offers a flattering fit that moves with you throughout the day.  Whether you're dressing it up or keeping it casual, it's perfect for any  occasion. Features: - Soft, durable material for all-day comfort - Modern fit with a timeless silhouette - Available in multiple colors and sizes - Easy to care for – machine washable - Great for layering or wearing on its own" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font size="12.5" />
                      </font>
@@ -86,9 +86,9 @@
                <children>
                   <ScrollPane fitToWidth="true" layoutX="-2.0" layoutY="-1.0" minViewportHeight="350.0" prefViewportHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
-                      <AnchorPane fx:id="leftAnchorPane">
+                      <AnchorPane>
                            <children>
-                              <AnchorPane layoutY="-4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane layoutY="-4.0" prefHeight="562.0" prefWidth="750.0" AnchorPane.bottomAnchor="-128.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="20.0" layoutY="239.0" AnchorPane.leftAnchor="20.0">
                                        <children>
@@ -107,19 +107,36 @@
                                           </Text>
                                           <Line endX="231.0" layoutX="153.0" layoutY="92.0" startX="-146.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="1.5" />
                                           <Line endX="231.0" layoutX="153.0" startX="-146.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="2.0" />
+                                          <!-- Added materialHBox -->
+                                          <HBox fx:id="materialHBox" layoutY="153.0" prefHeight="23.0" prefWidth="386.0" spacing="15.0">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets left="10.0" right="11.0" />
+                                             </padding>
+                                          </HBox>
+                                          <Text layoutX="7.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Material">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Line endX="231.0" layoutX="153.0" layoutY="192.0" startX="-146.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="1.5" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane fx:id="colorAnchorPane" layoutX="29.0" layoutY="149.0" prefHeight="58.0" prefWidth="276.0" AnchorPane.leftAnchor="29.0" />
-                                    <Button fx:id="minusButton" layoutX="21.0" layoutY="388.0" mnemonicParsing="false" onAction="#subtractQuantity" text="-">
+                                    <Button fx:id="minusButton" layoutX="18.0" layoutY="450.0" mnemonicParsing="false" onAction="#subtractQuantity" text="-">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></Button>
-                                    <TextField fx:id="quantityTextField" layoutX="42.0" layoutY="388.0" prefHeight="25.0" prefWidth="100.0" promptText="0" text="0" />
-                                    <Button fx:id="plusButton" layoutX="142.0" layoutY="388.0" mnemonicParsing="false" onAction="#addQuantity" text="+">
+                                       </font>
+                                    </Button>
+                                    <TextField fx:id="quantityTextField" layoutX="41.0" layoutY="450.0" prefHeight="25.0" prefWidth="100.0" promptText="0" text="0" />
+                                    <Button fx:id="plusButton" layoutX="141.0" layoutY="450.0" mnemonicParsing="false" onAction="#addQuantity" text="+">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
-                                       </font></Button>
-                                    <Button fx:id="addToCartButton" layoutX="199.0" layoutY="388.0" mnemonicParsing="false" onAction="#AddtoCart" text="Add to Cart" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="addToCartButton" layoutX="194.0" layoutY="450.0" mnemonicParsing="false" onAction="#AddtoCart" text="Add to Cart" />
                                     <Label fx:id="itemNameText" layoutX="21.0" layoutY="14.0" text="Code Red Tee">
                                        <font>
                                           <Font size="30.0" />
@@ -128,6 +145,12 @@
                                     <Label fx:id="itemPriceText" layoutX="21.0" layoutY="60.0" text="\$400.0">
                                        <font>
                                           <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <!-- Added itemStockText -->
+                                    <Label fx:id="itemStockText" layoutX="21.0" layoutY="90.0" text="Stock: 0">
+                                       <font>
+                                          <Font size="18.0" />
                                        </font>
                                     </Label>
                                     <Text layoutX="21.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color">
