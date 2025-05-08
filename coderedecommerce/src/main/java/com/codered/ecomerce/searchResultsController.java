@@ -95,9 +95,9 @@ public class searchResultsController extends App{
         // Filter by category based on the selected checkboxes
         if (shirtCheckBox.isSelected()) {
             System.out.println("Filtering for Shirts");
-
             filteredResults.removeIf(variant -> 
                 variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Shirts"));
+
         }
         if (shortsCheckBox.isSelected()) {
             System.out.println("Filtering for shorts");
@@ -214,7 +214,7 @@ public class searchResultsController extends App{
             }
 
             // Limit the number of products displayed to 24
-            if(prodCount >= 24) {
+            if(prodCount >= 52) {
                 break;
             }
         

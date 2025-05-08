@@ -123,14 +123,51 @@ public class ItemViewController extends App{
             System.out.println("No Sizes available"); // Default color if none are available
             return;
         }
+        // Create a ToggleGroup for the size buttons
+        // This ToggleGroup allows only one button to be selected at a time.
         ToggleGroup toggleGroupSize = new ToggleGroup();
         sizeHbox.getChildren().clear();
+
+         // Define the custom order for sizes
+        List<String> sizeOrder = List.of("Small", "Medium", "Large", "X-Large");
+
+        // Sort the sizes based on the custom order
+        sizes.sort((size1, size2) -> {
+            String sizeName1 = switch (size1.toString()) {
+                case "S" -> "Small";
+                case "M" -> "Medium";
+                case "L" -> "Large";
+                case "XL" -> "X-Large";
+                default -> size1.toString();
+            };
+
+            // Use a switch expression to map the size to its name
+            // This is a more concise way to handle the mapping.
+            String sizeName2 = switch (size2.toString()) {
+                case "S" -> "Small";
+                case "M" -> "Medium";
+                case "L" -> "Large";
+                case "XL" -> "X-Large";
+                default -> size2.toString();
+            };
+
+            return Integer.compare(sizeOrder.indexOf(sizeName1), sizeOrder.indexOf(sizeName2));
+        });
+
+        // Create a Set to keep track of generated sizes
+        Set<Size> generatedSizes = new HashSet<>();
+
+        // Iterate through the sorted sizes and create buttons for each size
         for (Size size : sizes) {
             if(size == null) {
                 System.out.println("Skipping Null Size"); // Default color if none are available
                 continue;
             }
-            
+            if(generatedSizes.contains(size)) {
+                System.out.println("Skipping already generated size: " + size);
+                continue;
+            }
+            generatedSizes.add(size);
             String currentSize =  
                 switch (size.toString()) {
                 case "S" -> "Small";
@@ -143,7 +180,7 @@ public class ItemViewController extends App{
             ToggleButton sizeButton = new ToggleButton(currentSize);
             sizeButton.setStyle("-fx-text-fill: white; -fx-font-style: bold;");
             sizeButton.setPrefHeight(99);
-            sizeButton.setPrefWidth(24);
+            sizeButton.setPrefWidth(100);
             sizeButton.setToggleGroup(toggleGroupSize);
 
             
@@ -179,6 +216,7 @@ public class ItemViewController extends App{
                 System.out.println("Skipping already generated color: " + color);
                 continue;
             }
+            //Takes care of case with rainbow color
             if (color.toString().equalsIgnoreCase("RAINBOW")) {
                 System.out.println("Skipping color: RAINBOW");
                 continue;
