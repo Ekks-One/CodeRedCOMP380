@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="checkOutVBox" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codered.ecomerce.CheckoutController">
+  <children>
+      <AnchorPane>
+         <children>
+          <MenuBar fx:id="menuBar" layoutY="62.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <menus>
+              <Menu mnemonicParsing="false" text="Tops">
+                     <items>
+                        <MenuItem fx:id="topsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Tops" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Bottoms">
+                     <items>
+                        <MenuItem fx:id="bottomsMenuItem" mnemonicParsing="false" onAction="#menuSearch" text="Bottoms" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="More">
+                     <items>
+                        <MenuItem fx:id="aboutUsMenuItem" mnemonicParsing="false" text="About Us" />
+                     </items>
+                  </Menu>
+            </menus>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+          </MenuBar>
+            <TextField blendMode="SRC_ATOP" editable="false" focusTraversable="false" layoutY="-8.0" prefHeight="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font name="Showcard Gothic" size="24.0" />
+               </font>
+               <effect>
+                  <ColorAdjust brightness="-0.02" contrast="0.26" saturation="1.0" />
+               </effect>
+            </TextField>
+            <TextField fx:id="searchTextBox" focusTraversable="false" layoutX="745.0" layoutY="16.0" prefHeight="30.0" prefWidth="187.0" promptText="Search" AnchorPane.rightAnchor="82.19999999999993">
+               <font>
+                  <Font name="Calibri Light Italic" size="16.0" />
+               </font>
+            </TextField>
+            <ImageView fx:id="homeTitleCard" fitHeight="63.0" fitWidth="125.0" layoutY="-1.0" onMouseClicked="#returnPrimary" pickOnBounds="true" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="867.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@images/CodeRedBanner.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="viewCartButton" layoutX="631.0" layoutY="17.0" mnemonicParsing="false" onAction="#cartView" prefHeight="26.0" prefWidth="99.0" text="View Cart" AnchorPane.rightAnchor="284.19999999999993" />
+            <Button fx:id="searchButton" layoutX="948.0" layoutY="18.0" mnemonicParsing="false" onAction="#search" text="Search" AnchorPane.rightAnchor="14.399999999999977" />
+         </children>
+      </AnchorPane>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="558.0" prefWidth="1014.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ScrollPane fx:id="productScrollPane" fitToWidth="true" prefHeight="558.0" prefWidth="1008.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <content>
+                <AnchorPane fx:id="checkoutVBox" prefHeight="562.0">
+                     <children>
+                        <GridPane fx:id="cartGridPane" gridLinesVisible="true" layoutX="443.0" layoutY="149.0" prefHeight="354.0" prefWidth="518.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                          </rowConstraints>
+                        </GridPane>
+                        <TextField fx:id="fnameTextBox" layoutX="22.0" layoutY="151.0" promptText="ex. John" AnchorPane.bottomAnchor="385.79999999999995" AnchorPane.leftAnchor="22.0" />
+                        <TextField fx:id="lnameTextBox" layoutX="190.0" layoutY="151.0" promptText="ex. Doe" AnchorPane.bottomAnchor="385.79999999999995" AnchorPane.leftAnchor="190.0" />
+                        <TextField fx:id="addressTextBox" layoutX="22.0" layoutY="248.0" prefHeight="26.0" prefWidth="319.0" promptText="ex. 5555 Elm Street" AnchorPane.bottomAnchor="288.0" AnchorPane.leftAnchor="22.0" />
+                        <Text layoutX="191.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Text>
+                        <Text layoutX="23.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" wrappingWidth="62.93669891357422">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Text>
+                        <Text layoutX="25.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shipping Address">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Text>
+                        <Text layoutX="21.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="State">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Text>
+                        <Text layoutX="19.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail Address">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Text>
+                        <Text layoutX="195.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ZIP Code">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="zipCodeTextBox" layoutX="190.0" layoutY="347.0" promptText="ex. 12345" />
+                        <TextField fx:id="emailTextBox" layoutX="23.0" layoutY="199.0" prefHeight="26.0" prefWidth="317.0" promptText="ex. johndoe15@hotmail.com" />
+                        <Button fx:id="placeOrderButton" layoutX="85.0" layoutY="384.0" mnemonicParsing="false" onAction="#returnPayment" prefHeight="62.0" prefWidth="210.0" text="Proceed to Payment" />
+                        <Text layoutX="25.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter your information">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="22.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHECKOUT">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="443.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Cart">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="statesChoiceBox" layoutX="24.0" layoutY="347.0" prefHeight="26.0" prefWidth="99.0" />
+                        <HBox layoutX="443.0" layoutY="40.0" prefHeight="43.0" prefWidth="130.0" spacing="10.0" AnchorPane.bottomAnchor="479.2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total: ">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Text>
+                              <Label fx:id="totalCostLabel" text="Label" textFill="#108e16">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <TextField fx:id="cityTextBox" layoutX="22.0" layoutY="301.0" prefHeight="25.0" prefWidth="187.0" promptText="ex. Los Angeles" />
+                        <Text layoutX="25.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </children></AnchorPane>
+  </children>
+</VBox>
