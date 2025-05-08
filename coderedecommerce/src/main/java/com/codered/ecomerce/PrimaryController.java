@@ -203,63 +203,66 @@ public class PrimaryController extends App{
             System.out.println("the database was not reached");
             return;
         }
-        for (Product p : products) {
-                if (p != null) {
+            for (Product p : products) {
+                if (p != null) 
+                {
                     ArrayList<Variant> var = p.getVariants();
-                try {
-                    for (Variant v : var) {
-                        if (v != null) {
-                            variants.add(v);
+                    try {
+                        for (Variant v : var) {
+                            if (v != null) {
+                                variants.add(v);
+                            }
                         }
+                    } catch (NullPointerException e) {
+                        System.out.println("Null pointer exception: " + e.getMessage());
                     }
-                
-                if(clickedImage == imageV00)
-                {
-                    controller.setVariant(variants.get(p.getID()));
                 }
-                else if(clickedImage == imageV10)
-                {
-                    controller.setVariant(variants.get(1));
-                }
-                else if(clickedImage == imageV20)
-                {
-                    controller.setVariant(variants.get(0));
-                }
-                else if(clickedImage == imageV01)
-                {
-                    controller.setVariant(variants.get(0));
-                }
-                else if(clickedImage == imageV11)
-                {
-                    controller.setVariant(variants.get(0));
-                }
-                else if(clickedImage == imageV21)
-                {
-                    controller.setVariant(variants.get(0));
-                }
-                else if(clickedImage == imageV02)
-                {
-                    controller.setVariant(variants.get(0));
-                }
-                else if(clickedImage == imageV12)
-                {
-                    controller.setVariant(variants.get(0));
-                }
-                else if(clickedImage == imageV22)
-                {
-                    controller.setVariant(variants.get(0));
-                }
-            } catch (NullPointerException e) {
-                System.out.println("Null pointer exception: " + e.getMessage());
             }
-        }
+                    
+                    if(clickedImage == imageV00)
+                    {
+                        controller.setVariant(variants.get(0));
+                    }
+                    else if(clickedImage == imageV10)
+                    {
+                        controller.setVariant(variants.get(100));
+                    }
+                    else if(clickedImage == imageV20)
+                    {
+                        controller.setVariant(variants.get(250));
+                    }
+                    else if(clickedImage == imageV01)
+                    {
+                        controller.setVariant(variants.get(300));
+                    }
+                    else if(clickedImage == imageV11)
+                    {
+                        controller.setVariant(variants.get(380));
+                    }
+                    else if(clickedImage == imageV21)
+                    {
+                        controller.setVariant(variants.get(400));
+                    }
+                    else if(clickedImage == imageV02)
+                    {
+                        controller.setVariant(variants.get(480));
+                    }
+                    else if(clickedImage == imageV12)
+                    {
+                        controller.setVariant(variants.get(30));
+                    }
+                    else if(clickedImage == imageV22)
+                    {
+                        controller.setVariant(variants.get(75));
+                    }
+        
     
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-        }
     }
+    
 
     
     /**
