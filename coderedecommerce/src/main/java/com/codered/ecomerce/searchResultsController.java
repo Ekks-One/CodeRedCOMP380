@@ -11,6 +11,7 @@ package com.codered.ecomerce;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.codered.ecomerce.enums.Brand;
@@ -297,6 +298,11 @@ public class searchResultsController extends App{
 
         }
     }
+
+    public void AppendSearch(ArrayList<Variant> result, String search){
+        result.addAll(SearchProducts.Search(search));
+        Collections.shuffle(result);
+    }
     /**
      * method to perform search from the search bar when the search button is clicked.
      * This method retrieves the text from the searchTextBox and prints it to the console.
@@ -320,7 +326,12 @@ public class searchResultsController extends App{
         System.out.println("Searching for: " + searchItem);
     
         if (searchItem.equals("Tops")) {
-            searchResults = SearchProducts.Search(searchItem);
+            ArrayList<Variant> tResults = SearchProducts.Search("Tops");
+            tResults.addAll(SearchProducts.Search("Shirts"));
+            tResults.addAll(SearchProducts.Search("Gown"));
+            Collections.shuffle(tResults);
+            searchResults.clear();
+            searchResults.addAll(tResults);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("topsSearchView.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) menuBar.getScene().getWindow();
@@ -329,7 +340,12 @@ public class searchResultsController extends App{
             stage.show();
     
         } else if (searchItem.equals("Bottoms")) {
-            searchResults = SearchProducts.Search(searchItem);
+            ArrayList<Variant> tResults = SearchProducts.Search("Pants");
+            tResults.addAll(SearchProducts.Search("Skirts"));
+            tResults.addAll(SearchProducts.Search("Sweatpants"));
+            Collections.shuffle(tResults);
+            searchResults.clear();
+            searchResults.addAll(tResults);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("bottomsSearchView.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) menuBar.getScene().getWindow();

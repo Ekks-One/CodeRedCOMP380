@@ -4,7 +4,7 @@
  * It contains methods to handle the item view functionality, including adding items to the cart, selecting colors, sizes, 
  * and materials, and navigating back to the homepage.
  * 
- * @authors CodeRed Team (Xavier, Miguel, Alfredo)
+ * @authors CodeRed Team (Xavier, Miguel, Alfredo, Jesus)
  * @version 1.0
  * @see itemView.fxml
  */
@@ -126,6 +126,9 @@ public class ItemViewController extends App {
             return Integer.compare(sizeOrder.indexOf(sizeName1), sizeOrder.indexOf(sizeName2));
         });
 
+        // Get valid sizes for the current color
+        Set<String> validSizes = getValidSizesForColor(selectedColor);
+
         Set<Size> generatedSizes = new HashSet<>();
         for (Size size : sizes) {
             if (size == null) {
@@ -151,6 +154,9 @@ public class ItemViewController extends App {
             sizeButton.setPrefWidth(100);
             sizeButton.setToggleGroup(toggleGroupSize);
 
+            // Disable if size is not valid for the current color
+            sizeButton.setDisable(!validSizes.contains(currentSize));
+
             sizeButton.setOnAction(event -> {
                 Toggle selectedToggle = toggleGroupSize.getSelectedToggle();
                 if (selectedToggle != null) {
@@ -164,15 +170,19 @@ public class ItemViewController extends App {
                     };
                     ArrayList<Product> products = CentralShoppingSystem.getProducts();
                     Product product = products.get(currentVariant.getID());
+                    Variant targetVariant = null;
+                    // Prioritize size and color, adjust material if needed
                     for (Variant v : product.getVariants()) {
                         if (v != null &&
-                            v.getMaterial() == currentVariant.getMaterial() &&
                             v.getColor() == currentVariant.getColor() &&
                             v.getSize() == Size.valueOf(enumSize.toUpperCase())) {
-                            this.setVariant(v);
-                            System.out.println("Size " + selectedSize + " selected!");
-                            break;
+                            targetVariant = v;
+                            break; // Take the first valid material for this color/size
                         }
+                    }
+                    if (targetVariant != null) {
+                        this.setVariant(targetVariant);
+                        System.out.println("Size " + selectedSize + " selected, material set to " + targetVariant.getMaterial());
                     }
                 }
             });
@@ -210,21 +220,30 @@ public class ItemViewController extends App {
             colorButton.setLayoutY(0);
             colorButton.setToggleGroup(toggleGroupColor);
 
+            // Color buttons are always enabled
+            colorButton.setDisable(false);
+
             colorButton.setOnAction(event -> {
                 Toggle selectedToggle = toggleGroupColor.getSelectedToggle();
                 if (selectedToggle != null) {
                     selectedColor = ((ToggleButton) selectedToggle).getText();
                     ArrayList<Product> products = CentralShoppingSystem.getProducts();
                     Product product = products.get(currentVariant.getID());
+                    // Find a variant with the selected color, preferring current size
+                    Variant targetVariant = null;
                     for (Variant v : product.getVariants()) {
-                        if (v != null &&
-                            v.getMaterial() == currentVariant.getMaterial() &&
-                            v.getSize() == currentVariant.getSize() &&
-                            v.getColor() == Color.valueOf(selectedColor.toUpperCase())) {
-                            this.setVariant(v);
-                            System.out.println("Color " + selectedColor + " selected!");
-                            break;
+                        if (v != null && v.getColor() == Color.valueOf(selectedColor.toUpperCase())) {
+                            if (v.getSize() == currentVariant.getSize()) {
+                                targetVariant = v; // Prefer current size
+                                break;
+                            } else if (targetVariant == null) {
+                                targetVariant = v; // Fallback
+                            }
                         }
+                    }
+                    if (targetVariant != null) {
+                        this.setVariant(targetVariant);
+                        System.out.println("Color " + selectedColor + " selected!");
                     }
                 }
             });
@@ -241,6 +260,9 @@ public class ItemViewController extends App {
         }
         ToggleGroup toggleGroupMaterial = new ToggleGroup();
         materialHBox.getChildren().clear();
+
+        // Get valid materials for the current color and size
+        Set<String> validMaterials = getValidMaterialsForColorAndSize(selectedColor, selectedSize);
 
         Set<Material> generatedMaterials = new HashSet<>();
         for (Material m : materials) {
@@ -259,6 +281,9 @@ public class ItemViewController extends App {
             materialButton.setPrefHeight(99);
             materialButton.setPrefWidth(100);
             materialButton.setToggleGroup(toggleGroupMaterial);
+
+            // Disable if material is not valid for the current color and size
+            materialButton.setDisable(!validMaterials.contains(m.toString()));
 
             materialButton.setOnAction(event -> {
                 Toggle selectedToggle = toggleGroupMaterial.getSelectedToggle();
@@ -282,6 +307,61 @@ public class ItemViewController extends App {
             materialHBox.getChildren().add(materialButton);
         }
         materialHBox.spacingProperty().set(15);
+    }
+
+    // Helper method to get valid sizes for a given color
+    private Set<String> getValidSizesForColor(String color) {
+        Set<String> validSizes = new HashSet<>();
+        ArrayList<Product> products = CentralShoppingSystem.getProducts();
+        Product product = products.get(currentVariant.getID());
+        for (Variant v : product.getVariants()) {
+            if (v != null && v.getColor().toString().equalsIgnoreCase(color)) {
+                String sizeText = switch (v.getSize().toString()) {
+                    case "S" -> "Small";
+                    case "M" -> "Medium";
+                    case "L" -> "Large";
+                    case "XL" -> "X-Large";
+                    default -> v.getSize().toString();
+                };
+                validSizes.add(sizeText);
+            }
+        }
+        return validSizes;
+    }
+
+    // Helper method to get valid materials for a given color
+    private Set<String> getValidMaterialsForColor(String color) {
+        Set<String> validMaterials = new HashSet<>();
+        ArrayList<Product> products = CentralShoppingSystem.getProducts();
+        Product product = products.get(currentVariant.getID());
+        for (Variant v : product.getVariants()) {
+            if (v != null && v.getColor().toString().equalsIgnoreCase(color)) {
+                validMaterials.add(v.getMaterial().toString());
+            }
+        }
+        return validMaterials;
+    }
+
+    // Helper method to get valid materials for a given color and size
+    private Set<String> getValidMaterialsForColorAndSize(String color, String size) {
+        Set<String> validMaterials = new HashSet<>();
+        ArrayList<Product> products = CentralShoppingSystem.getProducts();
+        Product product = products.get(currentVariant.getID());
+        String enumSize = switch (size) {
+            case "Small" -> "S";
+            case "Medium" -> "M";
+            case "Large" -> "L";
+            case "X-Large" -> "XL";
+            default -> size;
+        };
+        for (Variant v : product.getVariants()) {
+            if (v != null &&
+                v.getColor().toString().equalsIgnoreCase(color) &&
+                v.getSize().toString().equalsIgnoreCase(enumSize)) {
+                validMaterials.add(v.getMaterial().toString());
+            }
+        }
+        return validMaterials;
     }
 
     @FXML
@@ -337,10 +417,12 @@ public class ItemViewController extends App {
         };
         selectedMaterial = variant.getMaterial().toString();
 
+        // Recreate buttons with updated disabled states
         createColorToggleButtons(itemColors);
         createSizeToggleButtons(itemSizes);
         createMaterialToggleButtons(itemMaterials);
 
+        // Apply black outline and selection
         for (Node node : colorAnchorPane.getChildren()) {
             if (node instanceof ToggleButton tb) {
                 if (tb.getText().equals(selectedColor)) {

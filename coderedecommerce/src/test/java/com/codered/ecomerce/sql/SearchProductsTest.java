@@ -93,7 +93,7 @@ class SearchProductsTest {
             materials.add(Material.COTTON);
             ArrayList<Size> sizes = new ArrayList<>();
             sizes.add(Size.M);
-            Product product = new Product(1, "Jacket", 0, 0, colors, materials, sizes, 31.0) {
+            Product product = new Product(1, "Jacket", 0, 0) {
             };
             products.add(product);
 
