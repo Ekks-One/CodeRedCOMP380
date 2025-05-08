@@ -30,10 +30,10 @@ public class SearchProducts extends SwagConnection {
         System.out.println("Search term: " + search);
         
         ArrayList<Variant> searchResults = new ArrayList<>();
-        NameSearchHelper(search, searchResults);
-        if (search.isEmpty()){
-            return searchResults;
-        }
+        //NameSearchHelper(search, searchResults);
+        //if (search.isEmpty()){
+        //    return searchResults;
+        //}
 
         // Parse enums
         for (Brand B : Brand.values()) {
