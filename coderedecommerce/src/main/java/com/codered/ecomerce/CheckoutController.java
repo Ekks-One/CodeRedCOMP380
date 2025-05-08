@@ -114,117 +114,116 @@ public class CheckoutController extends App implements Initializable {
                 uniqueCartItems.add(variant);
             }
         }
-
+        cartGridPane.getColumnConstraints().clear(); // Clear the column constraints before populating the grid
+        cartGridPane.getRowConstraints().clear(); // Clear the row constraints before populating the grid
         for(Variant variant: uniqueCartItems) {
             
-
+            // Create a new AnchorPane for each product
+            AnchorPane productPane = new AnchorPane();
+            productPane.setStyle("-fx-border-color: black; -fx-padding: 10 10 10 10;");
+            productPane.setPrefWidth(300);
+            productPane.setPrefHeight(150);
+            
         
-        // Create a new AnchorPane for each product
-        AnchorPane productPane = new AnchorPane();
-        productPane.setStyle("-fx-border-color: black; -fx-padding: 10 10 10 10;");
+            //Create ImageView for the product image
+            ImageView productImageView = new ImageView();
+            productImageView.setImage(new Image(getClass().getResource("/com/codered/ecomerce/images/Item 0-1.png").toExternalForm()));
+            productImageView.setFitWidth(100);
+            productImageView.setFitHeight(100);
+            productImageView.setPreserveRatio(true);
+            AnchorPane.setTopAnchor(productImageView, 10.0);
+            AnchorPane.setLeftAnchor(productImageView, 10.0);
 
-        productPane.setPrefSize(200, 150); // Set preferred size for the product pane
-        //Create ImageView for the product image
-        ImageView productImageView = new ImageView();
-        productImageView.setImage(new Image(getClass().getResource("/com/codered/ecomerce/images/Item 0-1.png").toExternalForm()));
-        productImageView.setFitWidth(100);
-        productImageView.setFitHeight(100);
-        productImageView.setPreserveRatio(true);
-        AnchorPane.setTopAnchor(productImageView, 10.0);
-        AnchorPane.setLeftAnchor(productImageView, 10.0);
+            // Create Label for the product name
+            // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
+            Label nameLabel = new Label(products.get(variant.getID()).getName());
+            AnchorPane.setTopAnchor(nameLabel,10.0);
+            AnchorPane.setLeftAnchor(nameLabel, 120.0);
 
-        // Create Label for the product name
-        // To be added once Variants Situation is figured out: products.get(variant.getID()).getName()
-        Label nameLabel = new Label(products.get(variant.getID()).getName());
-        AnchorPane.setTopAnchor(nameLabel,10.0);
-        AnchorPane.setLeftAnchor(nameLabel, 120.0);
+            // Create Label for the product quantity
+            Label quantityLabel = new Label("Quantity: " + CartManager.getItemCount(variant));
+            quantityLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+            AnchorPane.setTopAnchor(quantityLabel, 55.0);
+            AnchorPane.setLeftAnchor(quantityLabel, 120.0);
 
-        // Create Label for the product quantity
-        Label quantityLabel = new Label("Quantity: " + CartManager.getItemCount(variant));
-        quantityLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
-        AnchorPane.setTopAnchor(quantityLabel, 55.0);
-        AnchorPane.setLeftAnchor(quantityLabel, 120.0);
+            // To be added once Variants Situation is figured out: variant.getPrice()
+            Label priceLabel = new Label("$" + variant.getPrice());
+            priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
+            AnchorPane.setTopAnchor(priceLabel,23.0);
+            AnchorPane.setLeftAnchor(priceLabel, 120.0);
 
-        // To be added once Variants Situation is figured out: variant.getPrice()
-        Label priceLabel = new Label("$" + variant.getPrice());
-        priceLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: green;");
-        AnchorPane.setTopAnchor(priceLabel,23.0);
-        AnchorPane.setLeftAnchor(priceLabel, 120.0);
+            //Create Label for the product color
+            Label colorLabel = new Label("Color: " + variant.getColor());
+            colorLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+            AnchorPane.setTopAnchor(colorLabel, 10.0);
+            AnchorPane.setLeftAnchor(colorLabel, 250.0);
 
-        //Create Label for the product color
-        Label colorLabel = new Label("Color: " + variant.getColor());
-        colorLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
-        AnchorPane.setTopAnchor(colorLabel, 10.0);
-        AnchorPane.setLeftAnchor(colorLabel, 250.0);
+            //Create Label for the product size
+            Label sizeLabel = new Label("Size: " + variant.getSize());
+            sizeLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+            AnchorPane.setTopAnchor(sizeLabel, 30.0);
+            AnchorPane.setLeftAnchor(sizeLabel, 250.0);
 
-        //Create Label for the product size
-        Label sizeLabel = new Label("Size: " + variant.getSize());
-        sizeLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
-        AnchorPane.setTopAnchor(sizeLabel, 30.0);
-        AnchorPane.setLeftAnchor(sizeLabel, 250.0);
-
-        //Create Label for material
-        Label materialLabel = new Label("Material: " + variant.getMaterial());
-        materialLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
-        AnchorPane.setTopAnchor(materialLabel, 50.0);
-        AnchorPane.setLeftAnchor(materialLabel, 250.0);
+            //Create Label for material
+            Label materialLabel = new Label("Material: " + variant.getMaterial());
+            materialLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: black;");
+            AnchorPane.setTopAnchor(materialLabel, 50.0);
+            AnchorPane.setLeftAnchor(materialLabel, 250.0);
 
 
-        // Create a "Remove" button
-        Button removeButton = new Button(" - ");
-        removeButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-        AnchorPane.setTopAnchor(removeButton, 70.0);
-        AnchorPane.setLeftAnchor(removeButton, 120.0);
-        // Add an event handler to the "Remove" button
-        removeButton.setOnAction(event -> {   
-            // Remove item form cart
-            CartManager.removeCartItem(variant);
-            // Refresh the GridPane
-            try {
-                populateGridPane();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (cartItems.isEmpty()) {
-                Label emptyCartLabel = new Label("Your cart is empty.");
-                cartGridPane.add(emptyCartLabel, 0, 0);
-            }
-        });
+            // Create a "Remove" button
+            Button removeButton = new Button(" - ");
+            removeButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+            AnchorPane.setTopAnchor(removeButton, 70.0);
+            AnchorPane.setLeftAnchor(removeButton, 120.0);
+            // Add an event handler to the "Remove" button
+            removeButton.setOnAction(event -> {   
+                // Remove item form cart
+                CartManager.removeCartItem(variant);
+                // Refresh the GridPane
+                try {
+                    populateGridPane();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (cartItems.isEmpty()) {
+                    Label emptyCartLabel = new Label("Your cart is empty.");
+                    cartGridPane.add(emptyCartLabel, 0, 0);
+                }
+            });
 
-        // Create a "Remove" button
-        Button addButton = new Button(" + ");
-        addButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
-        AnchorPane.setTopAnchor(addButton, 70.0);
-        AnchorPane.setLeftAnchor(addButton, 140.0);
+            // Create a "Remove" button
+            Button addButton = new Button(" + ");
+            addButton.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+            AnchorPane.setTopAnchor(addButton, 70.0);
+            AnchorPane.setLeftAnchor(addButton, 140.0);
 
-        // Add an event handler to the "Remove" button
-        addButton.setOnAction(event -> {   
-            // Remove item form cart
-            CartManager.addCartItem(variant);
-            // Refresh the GridPane
-            try {
-                populateGridPane();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+            // Add an event handler to the "Remove" button
+            addButton.setOnAction(event -> {   
+                // Remove item form cart
+                CartManager.addCartItem(variant);
+                // Refresh the GridPane
+                try {
+                    populateGridPane();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
-        // Add all elements to the product pane
-        productPane.getChildren().addAll(materialLabel, colorLabel, sizeLabel, quantityLabel, productImageView, nameLabel, priceLabel, removeButton,addButton);
+            // Add all elements to the product pane
+            productPane.getChildren().addAll(materialLabel, colorLabel, sizeLabel, quantityLabel, productImageView, nameLabel, priceLabel, removeButton,addButton);
 
-        // Add the product pane to the grid
-        cartGridPane.add(productPane, col, row);
+            // Add the product pane to the grid
+            cartGridPane.add(productPane, col, row);
         
-        row++;
+            row++;
             if(row > 2) {
-                row = 0;
-                col++; 
+                    row = 0;
+                    col++; 
             }
             if(col > maxCol) {
-                break;
+                    break;
             }
-
-
         }
         totalCost = CartManager.getTotalPrice(); // Get the total cost label from the CartManager
         totalCostLabel.setText(totalCost + ""); // Set the total cost label to the total cost of the cart

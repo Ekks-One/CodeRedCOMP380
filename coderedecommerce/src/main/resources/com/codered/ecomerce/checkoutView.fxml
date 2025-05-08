@@ -107,7 +107,7 @@
               <content>
                 <AnchorPane fx:id="checkoutVBox" prefHeight="562.0">
                      <children>
-                        <GridPane fx:id="cartGridPane" gridLinesVisible="true" layoutX="424.0" layoutY="128.0" prefHeight="414.0" prefWidth="630.0">
+                        <GridPane fx:id="cartGridPane" gridLinesVisible="true" layoutX="443.0" layoutY="149.0" prefHeight="354.0" prefWidth="518.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />

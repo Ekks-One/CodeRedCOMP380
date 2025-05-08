@@ -299,9 +299,29 @@ public class PaymentViewController extends App implements Initializable{
                 "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
                 "Card Type: " + cardType;
 
+                List<Product> products = CentralShoppingSystem.getProducts();
+                List<Variant> cartItems = CartManager.getCartItems();
+
+                StringBuilder cartDetails = new StringBuilder("Order Details:\n");
+                List<Variant> uniqueCartItems = new ArrayList<>();
+                for (Variant variant : cartItems) {
+                    if (!uniqueCartItems.contains(variant)) {
+                    uniqueCartItems.add(variant);
+                    }
+                }
+                    for (Variant variant : uniqueCartItems) {
+                    cartDetails.append("- ")
+                            .append(products.get(variant.getID()).getName()) 
+                            .append(" (Color: ").append(variant.getColor())
+                            .append(", Size: ").append(variant.getSize())
+                            .append(", Material: ").append(variant.getMaterial())
+                            .append(") x").append(CartManager.getItemCount(variant))
+                            .append(" - $").append(variant.getPrice())
+                            .append("\n");
+                }
                 String recipient = customer.getCustomerEmail(); // Recipient email address
                 String subject =  "Order Confirmation";
-                String messageBody = "Thank you for your order!\n\n" + confirmationText;
+                String messageBody = "Thank you for your order!\n\n" + customerInfo + "\n" + cartDetails.toString() + "\nTotal Cost: $" + CartManager.getTotalPrice();
                 
 
 
