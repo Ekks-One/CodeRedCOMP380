@@ -277,42 +277,42 @@ public class PaymentViewController extends App implements Initializable{
             }else{
                 
                 // Test (successful)
-                    System.out.println("Payment Successful! \n" +
-                    "Card Holder Name: " + cardHolderName + "\n" +
-                    "Card Number: " + cardNumber + "\n" +
-                    "Card Security Code: " + cardSecurityCode + "\n" +
-                    "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
-                    "Card Zip Code: " + zipCode + "\n" +
-                    "Card Type: " + cardType);
+                System.out.println("Payment Successful! \n" +
+                "Card Holder Name: " + cardHolderName + "\n" +
+                "Card Number: " + cardNumber + "\n" +
+                "Card Security Code: " + cardSecurityCode + "\n" +
+                "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
+                "Card Zip Code: " + zipCode + "\n" +
+                "Card Type: " + cardType);
 
-                    //Retrieves customer from Customer Class and formats the customer information to be displayed in the alert
-                    String customerInfo = "Customer Name: " + customer.getFname() + " " + customer.getLname() + "\n" +
-                    "Email: " + customer.getCustomerEmail() + "\n" +
-                    "Shipping Address: " + String.join(", ", customer.getShippingAddress()) + "\n\n";
+                //Retrieves customer from Customer Class and formats the customer information to be displayed in the alert
+                String customerInfo = "Customer Name: " + customer.getFname() + " " + customer.getLname() + "\n" +
+                "Email: " + customer.getCustomerEmail() + "\n" +
+                "Shipping Address: " + String.join(", ", customer.getShippingAddress()) + "\n\n";
 
-                    // Combines the customer information and payment details into a single string
-                    // to be displayed in the alert
-                    String confirmationText = customerInfo +
-                    "Card Holder Name: " + cardHolderName + "\n" +
-                    "Card Number: " + cardNumber + "\n" +
-                    "Card Security Code: " + cardSecurityCode + "\n" +
-                    "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
-                    "Card Type: " + cardType;
+                // Combines the customer information and payment details into a single string
+                // to be displayed in the alert
+                String confirmationText = customerInfo +
+                "Card Holder Name: " + cardHolderName + "\n" +
+                "Card Number: " + cardNumber + "\n" +
+                "Card Security Code: " + cardSecurityCode + "\n" +
+                "Card Expiration Date: " + cardDateMonth + "/" + cardDateYear + "\n" +
+                "Card Type: " + cardType;
 
-                    String recipient = customer.getCustomerEmail(); // Recipient email address
-                    String subject =  "Order Confirmation";
-                    String messageBody = "Thank you for your order!\n\n" + confirmationText;
-                    
+                String recipient = customer.getCustomerEmail(); // Recipient email address
+                String subject =  "Order Confirmation";
+                String messageBody = "Thank you for your order!\n\n" + confirmationText;
+                
 
 
-                    EmailSender.sendEmail(recipient, subject, messageBody);
-                    //Display an alert to confirm the order creation containing the payment details, order details
-                    Alert OrderCreatedAlert = new Alert(Alert.AlertType.INFORMATION); // Create an information alert
-                    OrderCreatedAlert.setTitle("Order Created Successfully!");
-                    OrderCreatedAlert.setHeaderText("Order Details");
-                    OrderCreatedAlert.setContentText(confirmationText); // Set the content text
-                    OrderCreatedAlert.showAndWait();
-                    currentVariant.updateStock(productQuantity);
+                EmailSender.sendEmail(recipient, subject, messageBody);
+                //Display an alert to confirm the order creation containing the payment details, order details
+                Alert OrderCreatedAlert = new Alert(Alert.AlertType.INFORMATION); // Create an information alert
+                OrderCreatedAlert.setTitle("Order Created Successfully!");
+                OrderCreatedAlert.setHeaderText("Order Details");
+                OrderCreatedAlert.setContentText(confirmationText); // Set the content text
+                OrderCreatedAlert.showAndWait();
+                currentVariant.updateStock(productQuantity);
             }//end else
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());

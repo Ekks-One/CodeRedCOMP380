@@ -26,6 +26,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -229,13 +230,24 @@ public class CartViewController extends App {
     @FXML
     public void checkoutView(ActionEvent event) throws IOException
     {
-        System.out.println("Taking you to order checkout!");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
-        Parent root = loader.load();
+        CartManager.getInstance();
+        List<Variant> cartItems = CartManager.getCartItems();
+        if(cartItems.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Cart");
+            alert.setHeaderText(null);
+            alert.setContentText("Your cart is empty. Please add items to your cart before proceeding to checkout.");
+            alert.showAndWait();
+        }
+        else {
+            System.out.println("Taking you to order checkout!");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
+            Parent root = loader.load();
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     /**

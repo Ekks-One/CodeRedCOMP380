@@ -48,7 +48,6 @@ public class searchResultsController extends App{
     @FXML private GridPane searchGridPane;
     @FXML private Label searchLabel;
     @FXML private MenuBar menuBar;
-    @FXML private CheckBox shirtCheckBox, shortsCheckBox, pantsCheckBox, sweaterCheckBox, otherCheckBox;
 
     private String searchText;
     private List<Variant> searchResults;
@@ -59,79 +58,10 @@ public class searchResultsController extends App{
         {
             searchResults = new ArrayList<>();
         }
-        //listeners for the checkboxes, the listeners will call the applyFilters method when selected/unselected
-        shirtCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
-        shortsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
-        pantsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
-        sweaterCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
-        otherCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> applyFilters());
-
         //populates the grid pane with the search results
         populateGridPane(searchResults);
     }
 
-    /**
-     * Method to apply filters based on the selected checkboxes.
-     * It filters the search results and updates the grid pane.
-     * @throws IOException if there is an error loading the fxml file
-     */
-    @FXML
-    private void applyFilters()
-    {
-        List<Variant> filteredResults = new ArrayList<>(searchResults);
-
-        try{
-            // Get the selected checkboxes
-            boolean shirtSelected = shirtCheckBox.isSelected();
-            boolean shortsSelected = shortsCheckBox.isSelected();
-            boolean pantsSelected = pantsCheckBox.isSelected();
-            boolean sweaterSelected = sweaterCheckBox.isSelected();
-            boolean otherSelected = otherCheckBox.isSelected();
-
-            // If no checkboxes are selected, show all results
-            if(!shirtSelected && !shortsSelected && !pantsSelected && !sweaterSelected && !otherSelected) {
-                filteredResults = searchResults;
-            }
-
-        // Filter by category based on the selected checkboxes
-        if (shirtCheckBox.isSelected()) {
-            System.out.println("Filtering for Shirts");
-            filteredResults.removeIf(variant -> 
-                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Shirts"));
-
-        }
-        if (shortsCheckBox.isSelected()) {
-            System.out.println("Filtering for shorts");
-            filteredResults.removeIf(variant -> 
-                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Shorts"));
-        }
-        if (pantsCheckBox.isSelected()) {
-            System.out.println("Filtering for pants");
-            filteredResults.removeIf(variant -> 
-                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Pants"));
-        }
-        if (sweaterCheckBox.isSelected()) {
-            System.out.println("Filtering for sweaters");
-            filteredResults.removeIf(variant -> 
-                variant.getCategory() == null || !variant.getCategory().equalsIgnoreCase("Sweater"));
-        }
-        if (otherCheckBox.isSelected()) {
-            System.out.println("Filtering for other");
-            filteredResults.removeIf(variant -> 
-                variant.getCategory() == null || 
-                variant.getCategory().equalsIgnoreCase("Shirt") || 
-                variant.getCategory().equalsIgnoreCase("Shorts") || 
-                variant.getCategory().equalsIgnoreCase("Pants") || 
-                variant.getCategory().equalsIgnoreCase("Sweater"));
-        }
-
-        searchGridPane.getChildren().clear();
-        populateGridPane(filteredResults);
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    }
 
     /// Method to set the search item text in the label
     public void setSearchItem(String searchText) {

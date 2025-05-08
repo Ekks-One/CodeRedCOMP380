@@ -468,12 +468,24 @@ public class ItemViewController extends App {
     }
 
     public void checkoutView(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Checkout Page");
-        stage.show();
+        CartManager.getInstance();
+        List<Variant> cartItems = CartManager.getCartItems();
+        if(cartItems.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty Cart");
+            alert.setHeaderText(null);
+            alert.setContentText("Your cart is empty. Please add items to your cart before proceeding to checkout.");
+            alert.showAndWait();
+        }
+        else {
+            System.out.println("Taking you to order checkout!");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("checkoutView.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     @FXML
