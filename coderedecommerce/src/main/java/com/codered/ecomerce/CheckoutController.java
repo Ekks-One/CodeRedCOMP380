@@ -277,7 +277,7 @@ public class CheckoutController extends App implements Initializable {
     
                 System.out.println("All required fields are filled. Proceeding to load payment view...");
 
-                Customer customer = new Customer(firstName, lastName, address, selectedState, email);
+                Customer customer = new Customer(firstName, lastName, address, city, zipCode, selectedState, email);
                 CustomerManager.setCustomer(customer);
     
                 // Load the payment view
