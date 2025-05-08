@@ -20,7 +20,7 @@ import com.codered.ecomerce.enums.*;
  */
 public class SearchProducts extends SwagConnection {
     private static String search;
-    private static final int limit = 32;
+    private static final int limit = 3200;
 
     private SearchProducts() {}
 
@@ -106,6 +106,7 @@ public class SearchProducts extends SwagConnection {
 
         // Reduce to one variant per product at the end
         searchResults = reduceToOneVariantPerProduct(searchResults);
+        if (searchResults != null){Collections.shuffle(searchResults);}
         return searchResults;
     }
 
