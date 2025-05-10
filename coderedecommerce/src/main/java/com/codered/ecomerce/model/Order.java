@@ -183,12 +183,4 @@ public class Order
     {
         this.orderStatus = orderStatus; // Update the order status
     }
-
-    /**
-     * method to display a summary of the order details
-     */
-    public void sendConfirmationEmail()
-    {
-        //leaving empty for now
-    }
 }

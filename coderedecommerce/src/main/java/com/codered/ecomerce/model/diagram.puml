@@ -1,0 +1,561 @@
+@startuml diagram
+
+package "com.codered.ecomerce.model"
+{
+    class Account 
+    {
+        - customerId: String
+        - password: String
+        - userName: String
+        - email: String
+        - methods: List<PayMethod>
+        --
+        + Account(customerId, password, userName)
+    }
+
+    class CartItem
+    {
+        - Product: product
+        - quantity: int
+        - selectedColor: String
+        - selectedSize: String
+        --
+        + CartItem(product, quantity, selectedColor, selectedSize)
+    }
+
+    class CentralShoppingSystem
+    {
+        - products: ArrayList<Product>
+        - searchResults: ArrayList<Product>
+        - CentralShoppingSystem: instance
+        --
+        - CentralShoppingSystem()
+        + getInstance(): CentralShoppingSystem
+        + main(args: String[])
+        + Browse(search: String): ArrayList<Product>
+        + initializeProducts()
+        + Checkout(orderItems: ArrayList<CartItem>, Payment: payment, Customer: customer)
+    }
+
+    class CreditCard
+    {
+        - cvc: Integer
+        - expire: Integer
+        - name: String
+        - address: String
+    }
+
+    class Customer
+    {
+        - firstName: String
+        - lastName: String
+        - account: Account
+        - id: Integer
+        - shippingAddress: String
+        - emailAddress: String
+        - phoneNumber: String
+        - order: ArrayList<Order>
+        - createdAt: LocalDateTime
+        --
+        + Customer(firstName, lastName, id, emailAddress)
+        + updateInfo(shippingAddress, phoneNumber, emailAddress)
+    }
+
+    class CustomerManager
+    {
+        - currentCustomer: Customer
+
+        + clearCustomer()
+    }
+
+    class EmailSender
+    {
+        - email: String
+        - subject: String
+        - message: String
+        --
+        + EmailSender(email, subject, message)
+        + sendEmail(recipient: String, subject: String, messageBody: String)
+    }
+
+    class Order
+    {
+        - orderID: String
+        - customer: Customer
+        - orderItems: LinknedList<Variant>
+        - OrderStatus: enum
+        - orderCount: Integer
+        - orderDate: LocalDateTime
+        --
+        + Order(customer, orderItems, orderCount, orderDate)
+        + generateOrderID(customer: Customer): String
+    }
+
+    class PayMethod
+    {
+        accountID: Double
+        customerID: Integer
+        type: PaymentType
+    }
+    
+    class Product
+    {
+        - cl: ArrayList<Color>
+        - mt: ArrayList<Material>
+        - sz: ArrayList<Size>
+        - name: String
+        - brandID: Integer
+        - categoryID: Integer
+        - basePrice: Double
+        - variants: ArrayList<Variant>
+        --
+        + Product(id, Name, BrandID, CategoryID, conn: Connection)
+        + fetchVariants(conn: Connection)
+    }
+
+    class Variant
+    {
+        - id: Integer
+        - cl: Color
+        - mt: Material
+        - sz: Size
+        - stock: Integer
+        - price: Double
+        - category: String
+        --
+        + Variant(id, cl, mt, sz, stock, price)
+        + updateStock(change: Integer)
+        + changePrice(newPrice: Double)
+    }
+}
+
+package "com.codered.ecomerce.enums"
+{
+    enum Brand
+    {
+        INIT
+        SUBVERSE
+        PSYPHI
+        EMPRESS
+        CODEX
+        OTA_KUN
+        RIP_N_TONE
+        AZURE_PILL
+        SCARLET_PILL
+        JUST_UNDER_NORMAL
+        --
+        + fromLabel(label: String): Brand
+        + getLabel(): String
+        + close(): void
+    }
+
+    enum Category
+    {
+        INIT
+        T_SHIRT
+        HOODIE
+        JACKET
+        TANK_TOP
+        SWEATER
+        SHIRT
+        VEST
+        LONG_SLEEVE
+        PANTS
+        CROP_TOP
+        SUIT_JACKET
+        DRESS_SHIRT
+        TROUSERS
+        BLAZER
+        DRESS
+        BLOUSE
+        SKIRT
+        GOWN
+        TUNIC
+        CAPE
+        SWEATPANTS
+        YUKATA
+        FLANNEL
+        TURTLENECK
+        SHORTS
+        TOP
+        --
+        + fromLabel(label: String): Category
+        + getLabel(): String
+        + close(): void
+    }
+
+    enum Color
+    {
+        BLUE
+        GREEN
+        RED
+        YELLOW
+        PURPLE
+        PINK
+        SALMON
+        BROWN
+        WHITE
+        BLACK
+        FUCHSIA
+        CORAL_BLUE_NO_5
+        EGG_SHELL
+        NAVY
+        MAJENTA
+        GREY
+        CYAN
+        ORANGE
+        RAINBOW
+        SILVER
+        GOLD
+        SLATE
+        COBALT
+        STEEL
+        GRAPHITE
+        CRIMSON
+        --
+        + close(): void
+    }
+
+    enum Material
+    {
+        LEATHER
+        COTTON
+        LINEN
+        POLYESTER
+        SILK
+        SUADE
+        QUATEROID
+        PLASTIC
+        LED
+        SPANDEX
+        FLEECE
+        DEMIN
+        CANVAS
+        VELVET
+        WOOL
+        FLANNEL
+        --
+        + close(): void
+    }
+
+    enum PaymentType
+    {
+        VISA
+        MASTERCARD
+        PAY_PAL
+        APPLE_PAY
+        DEBIT
+        CASH_APP
+        ZELLE
+    }
+
+    enum Size
+    {
+        M
+        S
+        L
+        XL
+        XS
+        XM
+        XXL
+        XXS
+        XXM
+        XXXL
+        XXXS
+        XXXM
+        --
+        + close(): void
+    }
+}
+
+package "com.codered.ecomerce.sql"
+{
+    class DebugDB
+    {
+        + debugDatabaseCOntents()
+    }
+
+    class QueryInCustomer
+    {
+        + InsertCustomer(customer: Customer)
+        + InsertOrder(order: Order, custId: Integer)
+    }
+
+    class QueryInProduct
+    {
+        changeProductPrice(product: Variant, newPrice: Double, conn: Connection)
+    }
+
+    class QuerySeCustomer
+    {
+        getCustomers(customers: ArrayList<Customer>)
+    }
+
+    class SearchProducts
+    {
+        - search: String
+        - limit: Integer
+        --
+        + SearchProducts()
+        + Search(srh: String): ArrayList<Variant>
+        + CompoundSearchHelper(token: E, searchResults: ArrayList<Variant>)
+        + ReduceToOneVariantPerProduct(variants: ArrayList<Variant>)
+        + NameSearchHelper(token: String, searchResults: ArrayList<Variant>)
+        + levenshteinDistance(s1: String, s2: String): Integer
+        + isFuzzyMatch(productName: String, token: String): Boolean
+        + getProductMap(): HashMap<Integer, Product>: HashMap<Integer, Product>
+    }  
+
+    class SwagConnection
+    {
+        - log: Logger
+        - properties: Properties
+    }  
+}
+
+package "com.codered.ecomerce"
+{
+    class App
+    {
+        - searchResults: ArrayList<Variant>
+        - productQuantity: Integer
+        - currentVariatn: Variant
+        - scene: Scene
+        - primaryRoot: Parent
+        --
+        + getPrimaryRoot(): Parent
+        + getScene(): Scene
+        + start(stage: Stage)
+        + switchScene(fxml: String, event: MouseEvent)
+        + setRoot(fxml: String)
+        + loadFXML(fxml: String): fxmlLoader
+        + search(searchItem: String, event: ActionEvent)
+    }
+
+    class CartViewController
+    {
+        - fnameTextBox: TextField
+        - lnameTextBox: TextField
+        - addressTextBox: TextField
+        - cityTextBox: TextField
+        - zipTextBox: TextField
+        - emailTextBox: TextField
+        - phoneTextBox: TextField
+        - statesChoiceBox: ChoiceBox<String>
+        - checkoutButton: Button
+        - searchTextBox: TextField
+        - cartGridPane: GridPane
+        - menuBar: MenuBar
+        --
+        + populateGridPane()
+        + returnPrimary(event: MouseEvent)
+        + checkoutView(event: ActionEvent)
+        + cartView(event: ActionEvent)
+        + menuSearch(event: ActionEvent)
+        + search(event: ActionEvent)
+    }
+
+    class CheckoutController
+    {
+        - fnameTextBox: TextField
+        - lnameTextBox: TextField
+        - addressTextBox: TextField
+        - cityTextBox: TextField
+        - zipTextBox: TextField
+        - emailTextBox: TextField
+        - phoneTextBox: TextField
+        - statesChoiceBox: ChoiceBox<String>
+        - placeOrderButton: Button
+        - cartViewButton: Button
+        - searchTextBox: TextField
+        - menuBar: MenuBar
+        - cartGridPane: GridPane
+        - totalCostLabel: Label
+        - totalCost: Double
+        --
+        + initialize(location: URL, resources: ResourceBundle)
+        + populateGridPane()
+        + returnPayment(event: ActionEvent)
+        + returnPrimary(event: MouseEvent)
+        + cartView(event: ActionEvent)
+        + getSelectedState(event: ActionEvent)
+        + menuSearch(event: ActionEvent)
+        + search(event: ActionEvent)
+    }
+
+    class itemViewController
+    {
+        - itemNameText: Label
+        - itemPriceText: Label
+        - itemStockText: Label
+        - searchButton: Button
+        - checkoutButton: Button
+        - quantitytextField: TextField
+        - searchTextBox: TextField
+        - productDescriptionBox: TextArea
+        - itemImageView: ImageView
+        - imageStackPane: StackPane
+        - leftAnchorPane: AnchorPane
+        - colorAnchorPane: AnchorPane
+        - menuBar: MenuBar
+        - sizeHBox: HBox
+        - materialHBox: HBox
+        - selectedColor: String
+        - selectedSize: String
+        - selectedMaterial: String
+        - itemName: String
+        - itemID: Integer
+        - productQuantity: Integer
+        - currentVariant: Variant
+        - itemColors: ArrayList<Color>
+        - itemSizes: ArrayList<Size>
+        - itemMaterials: ArrayList<Material>
+        - cartItems: CartManager
+        --
+        + AddtoCart()
+        + createSizeToggleButtons(sizes: ArrayList<Size>)
+        + createColorToggleButtons(colors: ArrayList<Color>)
+        + createMaterialToggleButtons(materials: ArrayList<Material>)
+        + getValidSizesForColor(color: String): validSizes: HashSet<Size>
+        + getValidMaterialsForColor(color: String): validMaterials: HashSet<Material>
+        + getValidMaterialsForColorAndSize(color: String, size: String): validMaterials: HashSet<Material>
+        + returnPrimary(event: MouseEvent)
+        + setVariant(variant: Variant)
+        + addQUantity()
+        + subtractQuantity()
+        + checkoutView(event: ActionEvent)
+        + cartView(event: ActionEvent)
+        + menuSearch(event: ActionEvent)
+        + search(event: ActionEvent)
+    }
+
+    class PaymentViewController
+    {
+        - cardTypeChoiceBox: ChoiceBox<String>
+        - cardDateMonthChoiceBox: ChoiceBox<String>
+        - cardDateYearChoiceBox: ChoiceBox<String>
+        - cartTotal: Label
+        - cardNumtextBox: TextField
+        - securityNumTextBox: TextField
+        - zipCodeTextBox: TextField
+        - cardHolderTextBox: TextField
+        - searchTextBox: TextField
+        - cardNumber: String
+        - cardSecurityCode: String
+        - cardHolderName: String
+        - cardType: String
+        - cardDateMonth: String
+        - cardDateYear: String
+        - zipCode: String
+        - cartGridPane: GridPane
+        - menuBar: MenuBar
+        - totalCost: Double
+        --
+        + populateGridPane()
+        + confirmPayment(event: ActionEvent)
+        + returnPrimary(event: MouseEvent)
+        + search(event: ActionEvent)
+        + menuSearch(event: ActionEvent)
+        + cartView(event: ActionEvent) 
+    }
+
+    class PrimaryController
+    {
+        - searchTextBox: TextField
+        - searchButton: Button
+        - cartViewButton: Button
+        - headerAnchorP: AnchorPane
+        - productGridPane: GridPane
+        - homeTitleCard: ImageView
+        - imageV00: ImageView
+        - imageV01: ImageView
+        - imageV02: ImageView
+        - imageV10: ImageView
+        - imageV11: ImageView
+        - imageV12: ImageView
+        - imageV20: ImageView
+        - imageV21: ImageView
+        - imageV22: ImageView
+        - stackP00: StackPane
+        - stackP01: StackPane
+        - stackP02: StackPane
+        - stackP10: StackPane
+        - stackP11: StackPane
+        - stackP12: StackPane
+        - stackP20: StackPane
+        - stackP21: StackPane
+        - stackP22: StackPane
+        - mensTops: MenuItem
+        - mensBottoms: MenuItem
+        - womensTops: MenuItem
+        - womensBottoms: MenuItem
+        - kidsTops: MenuItem
+        - kidsBottoms: MenuItem
+        - aboutUs: MenuItem
+        - orderMenuItem: MenuItem
+        - menuBar: MenuBar
+        --
+        + search(event: ActionEvent)
+        + returnPrimary(event: MouseEvent)
+        + menuSearch(event: ActionEvent)
+        + itemView(event: MouseEvent)
+        + cartView(event: ActionEvent)
+    }
+
+    class searchResultsController
+    {
+        - searchTextBod: TextField
+        - searchGridPane: GridPane
+        - searchLabel: Label
+        - menuBar: MenuBar
+        - searchText: String
+        - searchResults: ArrayList<Variant>
+        --
+        + returnPrimary(event: MouseEvent)
+        + cartView(event: ActionEvent)
+        + populateGridPane(results: ArrayList<Variant>)
+        + AppendSearch(results: ArrayList<Variant>, search: String)
+        + search(event: ActionEvent)
+        + menuSearch(event: ActionEvent)
+    }
+}
+
+Customer "1" *-- "1" Account
+Customer "1" *-- "*.." Order
+Customer "1" *-- "1" CustomerManager
+Order "1" *-- "0..*" Variant
+Account "1" *-- "0..*" PayMethod
+CartItem "1" *-- "1" Product
+CentralShoppingSystem "1" *-- "0..*" Product
+CentralShoppingSystem "1" *-- "0..*" CartManager
+Product "1" *-- "0..*" Variant
+CartManager "1" *-- "0..*" CartItem
+EmailSender "1" *-- "1" Customer
+CreditCard "1" *-- "1" PayMethod
+Payment "1" *-- "1" PayMethod
+Payment "1" *-- "1" CreditCard
+
+Product "1" *-- "0..*" Brand
+Product "1" *-- "0..*" Category
+Product "1" *-- "0..*" Color
+Product "1" *-- "0..*" Material
+Product "1" *-- "0..*" Size
+Variant "1" *-- "1" Color
+Variant "1" *-- "1" Material
+Variant "1" *-- "1" Size
+PayMethod "1" *-- "1" PaymentType
+
+SwagConnection "1" *-- "1" DebugDB
+SwagConnection "1" *-- "1" QueryInCustomer
+SwagConnection "1" *-- "1" QueryInProduct
+SwagConnection "1" *-- "1" QuerySeCustomer
+SwagConnection "1" *-- "1" SearchProducts
+
+CartViewController <|-- App
+CheckoutController <|-- App
+itemViewController <|-- App
+PaymentViewController <|-- App
+PrimaryController <|-- App
+searchResultsController <|-- App
+
+@enduml
