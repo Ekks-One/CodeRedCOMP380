@@ -27,23 +27,33 @@ This application is a Java project that requires the JavaFX SDK and a connected 
 Setup Instructions
 1. Clone or Download the Project
   a. Clone the project repository from version control (Git) or from the command prompt:
+
     **git clone https://github.com/Ekks-One/CodeRedCOMP380.git**
 
-2. Configure Database
+3. Configure Database
+   
   a. Open SQL server manager studio
+
   b. create the SwagShop database
+  
   c. import database schema and data
 
-3. Configure Application
+5. Configure Application
+   
   a. Locate config.json and update connection details
 
-4. Setup JavaFX
+7. Setup JavaFX
+   
   a. Download the JavaFX SDK from Gluon
+
   b. Add the JavaFX libraries to the classpath
+  
   c. Configure VM options for JavaFX
 
-5. Open project in IDE(VsCode)
+9. Open project in IDE(VsCode)
+    
   a. Configure IDE to use the correct JDK and JavaFX libraries
+  
   b. Run the App.java class as a JavaFX application
 
 Troubleshooting:
