@@ -2,6 +2,7 @@
 Welcome to Code Red Ecommerce
 
 ❗🔴Code Red E-Commerce Platform🔴❗
+
 A multi-step, transactional e-commerce solution built by a group using Java (OOP), JavaFX, and MySQL. The project was engineered for data integrity and user consistency.
 
 🎥 Demonstration Video
@@ -20,6 +21,7 @@ Our product list is dynamic variant handled (where the availability of one optio
 This showcases our team's ability to model complex, real-world retail constraints within a relational database and presetn the data dynamically in the user interface. 
 
 🚀 How to Run the Program (Official Setup)
+
 This application is a Java project that requires the JavaFX SDK and a connected SQL Server instance to run.
 
 Setup Instructions
