@@ -7,7 +7,7 @@ A multi-step, transactional e-commerce solution built by a group using Java (OOP
 
 🎥 Demonstration Video
 Watch a short video demonstrating the Universal Cart System and full application flow.
-www.youtube.com/watch?v=i_61l_JlSxs&feature=youtu.be
+https://www.youtube.com/watch?v=i_61l_JlSxs
 
 
 🟦Demo Description
