@@ -25,38 +25,42 @@ This showcases our team's ability to model complex, real-world retail constraint
 This application is a Java project that requires the JavaFX SDK and a connected SQL Server instance to run.
 
 Setup Instructions
+
 1. Clone or Download the Project
+   
   a. Clone the project repository from version control (Git) or from the command prompt:
 
     **git clone https://github.com/Ekks-One/CodeRedCOMP380.git**
 
 3. Configure Database
    
-  a. Open SQL server manager studio
-
-  b. create the SwagShop database
-  
-  c. import database schema and data
-
-5. Configure Application
-   
-  a. Locate config.json and update connection details
-
-7. Setup JavaFX
-   
-  a. Download the JavaFX SDK from Gluon
-
-  b. Add the JavaFX libraries to the classpath
-  
-  c. Configure VM options for JavaFX
-
-9. Open project in IDE(VsCode)
+      a. Open SQL server manager studio
     
-  a. Configure IDE to use the correct JDK and JavaFX libraries
-  
-  b. Run the App.java class as a JavaFX application
+      b. create the SwagShop database
+      
+      c. import database schema and data
 
-Troubleshooting:
+4. Configure Application
+   
+      a. Locate config.json and update connection details
+
+5. Setup JavaFX
+   
+      a. Download the JavaFX SDK from Gluon
+    
+      b. Add the JavaFX libraries to the classpath
+      
+      c. Configure VM options for JavaFX
+
+6. Open project in IDE(VsCode)
+        
+      a. Configure IDE to use the correct JDK and JavaFX libraries
+      
+      b. Run the App.java class as a JavaFX application
+   
+
+🔧Troubleshooting🔧:
+
 - Database Connection Error : Ensure SQL Server is running and accessible
 - JavaFX Runtime Error : Ensure libraries are correctly added to classpath
 - Missing Dependencies: Ensure all require dependencies are included in the project
