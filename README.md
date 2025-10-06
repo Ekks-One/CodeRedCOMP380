@@ -10,6 +10,7 @@ www.youtube.com/watch?v=i_61l_JlSxs&feature=youtu.be
 
 
 🟦Demo Description
+
 This video showcases the core functionality and system architecture. The demonstration focuses on the Universal Cart System, which Xavier designed and implemented using the Singleton design pattern to ensure only one cart instance exists, preventing state inconsistency and guaranteeing a trustworthy checkout flow.
 
 The demo also runs through the full operational procedure, including product searching, 
